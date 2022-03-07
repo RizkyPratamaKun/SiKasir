@@ -2,10 +2,10 @@ package com.project.sikasir
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import kotlinx.android.synthetic.main.activity_login.*
 
 class loginActivity : AppCompatActivity() {
 
@@ -16,15 +16,13 @@ class loginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         auth = FirebaseAuth.getInstance()
 
-        val buttonLog = findViewById<TextView>(R.id.buttonLogin)
-        val buttonReg = findViewById<TextView>(R.id.buttonRegistrasi)
 
-        buttonLog.setOnClickListener { _ ->
+        buttonLogin.setOnClickListener { _ ->
             startActivity(Intent(this, a2_menu::class.java))
             finish()
             //do what you want after click inside here
         }
-        buttonReg.setOnClickListener { _ ->
+        buttonRegistrasi.setOnClickListener { _ ->
             startActivity(Intent(this, registerActivity::class.java))
             finish()
             //do what you want after click inside here
@@ -37,7 +35,6 @@ class loginActivity : AppCompatActivity() {
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            reload()
         }
 
         fun UpdateUI(currentUser: FirebaseUser?) {

@@ -6,8 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".registerActivity">
 
+    <TextView
+        android:id="@+id/buttonDaftar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/roundedbuttonwhiteborderlightblue"
+        android:fontFamily="@font/actor"
+        android:padding="15dp"
+        android:text="Daftar"
+        android:textAlignment="center"
+        android:textColor="#2196F3"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/tvPasswordReg"
+        app:layout_constraintStart_toStartOf="@+id/tvPasswordReg"
+        app:layout_constraintTop_toBottomOf="@+id/tvPasswordReg" />
+
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/tvPasswordReg"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -15,12 +32,12 @@
         android:hint="Password"
         android:inputType="textPassword"
         android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextEmailAddress"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextEmailAddress"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress" />
+        app:layout_constraintEnd_toEndOf="@+id/tvUsernameReg"
+        app:layout_constraintStart_toStartOf="@+id/tvUsernameReg"
+        app:layout_constraintTop_toBottomOf="@+id/tvUsernameReg" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress"
+        android:id="@+id/tvUsernameReg"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
