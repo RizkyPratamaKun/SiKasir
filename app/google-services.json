@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "710201015480",
+    "project_id": "sikasir-50c28",
+    "storage_bucket": "sikasir-50c28.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:710201015480:android:a19e0420b4011c9ea9884d",
+        "android_client_info": {
+          "package_name": "com.project.sikasir"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "710201015480-ncam7rfe1cknkqcfiibchkt7kf358upj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLqBLiVOgGH9_ZnFTjYVLhPyV9zeTaMPo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "710201015480-ncam7rfe1cknkqcfiibchkt7kf358upj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
