@@ -15,13 +15,10 @@ class registerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-
         auth = FirebaseAuth.getInstance()
 
-
-        buttonDaftar.setOnClickListener { _ ->
+        buttonDaftar.setOnClickListener {
             signUpUser()
-            //do what you want after click inside here
         }
     }
 
@@ -31,7 +28,7 @@ class registerActivity : AppCompatActivity() {
             tvUsernameReg.requestFocus()
             return
         }
-        if (Patterns.EMAIL_ADDRESS.matcher(tvUsernameReg.text.toString()).matches()) {
+        if (!Patterns.EMAIL_ADDRESS.matcher(tvUsernameReg.text.toString()).matches()) {
             tvUsernameReg.error = "Format ID salah"
             tvUsernameReg.requestFocus()
             return
@@ -52,6 +49,10 @@ class registerActivity : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     startActivity(Intent(this, loginActivity::class.java))
                     finish()
+                    Toast.makeText(
+                        baseContext, "Pendaftaran Berhasil.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 } else {
                     // If sign in fails, display a message to the user.
                     Toast.makeText(
