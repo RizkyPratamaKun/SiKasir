@@ -1,7 +1,9 @@
 package com.project.sikasir
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -23,26 +25,25 @@ class registerActivity : AppCompatActivity() {
     }
 
     fun signUpUser() {
-        if (tvUsernameReg.text.toString().isEmpty()) {
-            tvUsernameReg.error = "Tolong Masukan ID Anda"
-            tvUsernameReg.requestFocus()
+        if (etUsernameReg.text.toString().isEmpty()) {
+            etUsernameReg.error = "Tolong Masukan ID Anda"
+            etUsernameReg.requestFocus()
             return
         }
-        if (!Patterns.EMAIL_ADDRESS.matcher(tvUsernameReg.text.toString()).matches()) {
-            tvUsernameReg.error = "Format ID salah"
-            tvUsernameReg.requestFocus()
+        if (!Patterns.EMAIL_ADDRESS.matcher(etUsernameReg.text.toString()).matches()) {
+            etUsernameReg.error = "Format ID salah"
+            etUsernameReg.requestFocus()
             return
-
         }
-        if (tvPasswordReg.text.toString().isEmpty()) {
-            tvPasswordReg.error = "Tolong Masukan Password Anda"
-            tvPasswordReg.requestFocus()
+        if (etPasswordReg.text.toString().isEmpty()) {
+            etPasswordReg.error = "Tolong Masukan Password Anda"
+            etPasswordReg.requestFocus()
             return
         }
 
         auth.createUserWithEmailAndPassword(
-            tvUsernameReg.text.toString(),
-            tvPasswordReg.text.toString()
+            etUsernameReg.text.toString(),
+            etPasswordReg.text.toString()
         )
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
@@ -54,6 +55,7 @@ class registerActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
+                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
                     // If sign in fails, display a message to the user.
                     Toast.makeText(
                         baseContext, "Pendaftaran gagal, coba beberapa saat lagi.",

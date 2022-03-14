@@ -21,25 +21,27 @@
         android:textColor="#2196F3"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/tvPasswordReg"
-        app:layout_constraintStart_toStartOf="@+id/tvPasswordReg"
-        app:layout_constraintTop_toBottomOf="@+id/tvPasswordReg" />
+        app:layout_constraintEnd_toEndOf="@+id/etPasswordReg"
+        app:layout_constraintStart_toStartOf="@+id/etPasswordReg"
+        app:layout_constraintTop_toBottomOf="@+id/etPasswordReg" />
 
     <EditText
-        android:id="@+id/tvPasswordReg"
+        android:id="@+id/etPasswordReg"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
+        android:maxLength="24"
         android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="@+id/tvUsernameReg"
-        app:layout_constraintStart_toStartOf="@+id/tvUsernameReg"
-        app:layout_constraintTop_toBottomOf="@+id/tvUsernameReg" />
+        android:minEms="6"
+        app:layout_constraintEnd_toEndOf="@+id/etUsernameReg"
+        app:layout_constraintStart_toStartOf="@+id/etUsernameReg"
+        app:layout_constraintTop_toBottomOf="@+id/etUsernameReg" />
 
     <EditText
-        android:id="@+id/tvUsernameReg"
+        android:id="@+id/etUsernameReg"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
