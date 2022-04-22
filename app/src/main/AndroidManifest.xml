@@ -2,15 +2,26 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.project.sikasir">
 
+    <!--Permissions for internet-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logoaida"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/logoaida"
         android:supportsRtl="true"
         android:theme="@style/NoActionBar"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".a4_tambahproduk"
+            android:exported="false" />
+        <activity
+            android:name=".a3_kelolaproduk"
+            android:exported="false" />
+
         <meta-data
             android:name="com.google.android.actions"
             android:resource="@xml/network_security_config" />
@@ -19,13 +30,13 @@
             android:name=".registerActivity"
             android:exported="false" />
         <activity
-            android:name=".a1_loading_screen"
+            android:name=".loginActivity"
             android:exported="false" />
         <activity
             android:name=".a2_menu"
             android:exported="false" />
         <activity
-            android:name=".loginActivity"
+            android:name=".a1_loading_screen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,5 +49,5 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
+
 </manifest>
