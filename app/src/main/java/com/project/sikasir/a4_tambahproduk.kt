@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.project.sikasir.dialog.DialogMerk
 import kotlinx.android.synthetic.main.activity_a4tambahproduk.*
 
 class a4_tambahproduk : AppCompatActivity() {
@@ -22,12 +23,13 @@ class a4_tambahproduk : AppCompatActivity() {
                 // The switch enabled
                 edHargaModal.visibility = View.VISIBLE
                 edBarcode.visibility = View.VISIBLE
+                // Show Dialog
+                DialogMerk().show(supportFragmentManager, "Dialog 1")
             } else {
                 // The switch disabled
                 edHargaModal.visibility = View.GONE
                 edBarcode.visibility = View.GONE
             }
         }
-
     }
 }

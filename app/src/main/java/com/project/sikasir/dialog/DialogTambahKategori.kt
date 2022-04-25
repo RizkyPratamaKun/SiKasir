@@ -1,4 +1,4 @@
-package com.project.sikasir.fragment
+package com.project.sikasir.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,8 +10,7 @@ import com.project.sikasir.R
 /**
  * Dibuat oleh RizkyPratama pada 21-Apr-22.
  */
-class dialogClassFragment : DialogFragment() {
-
+class DialogTambahKategori : DialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -19,7 +18,7 @@ class dialogClassFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         dialog!!.window?.setBackgroundDrawableResource(R.drawable.round_corner)
-        return inflater.inflate(R.layout.dialog_produk, container, false)
+        return inflater.inflate(R.layout.dialog_tambah_merk, container, false)
     }
 
     override fun onStart() {
@@ -27,5 +26,6 @@ class dialogClassFragment : DialogFragment() {
         val width = (resources.displayMetrics.widthPixels * 0.85).toInt()
         val height = (resources.displayMetrics.heightPixels * 0.40).toInt()
         dialog!!.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
+
     }
 }

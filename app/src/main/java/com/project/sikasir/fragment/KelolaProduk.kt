@@ -12,23 +12,21 @@ import kotlinx.android.synthetic.main.fragment_kelola_produk.*
 
 class KelolaProduk : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        flTambahProduk.setOnClickListener {
-            val intent = Intent(activity, a4_tambahproduk::class.java)
-            activity?.startActivity(intent)
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_kelola_produk, container, false)
-
     }
 
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        fabTambahProduk.setOnClickListener {
+            activity?.let {
+                val intent = Intent(it, a4_tambahproduk::class.java)
+                it.startActivity(intent)
+            }
+        }
+    }
 }

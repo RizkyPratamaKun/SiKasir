@@ -21,7 +21,7 @@ class a1_loading_screen : AppCompatActivity() {
         // we used the postDelayed(Runnable, time) method
         // to send a message with a delayed time.
         Handler().postDelayed({
-            val intent = Intent(this, a4_tambahproduk::class.java)
+            val intent = Intent(this, a6_transaksi::class.java)
             startActivity(intent)
             finish()
         }, 3000) // 3000 is the delayed time in milliseconds.
