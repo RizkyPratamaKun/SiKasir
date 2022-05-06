@@ -11,20 +11,18 @@ class a1_loading_screen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_a1_load)
 
-        // This is used to hide the status bar and make
-        // the splash screen as a full screen activity.
+        /* Making the loading screen fullscreen. */
         window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
 
-        // we used the postDelayed(Runnable, time) method
-        // to send a message with a delayed time.
+        /* A function that will run the code inside the curly braces after the time specified in
+        milliseconds. */
         Handler().postDelayed({
-            val intent = Intent(this, a6_transaksi::class.java)
+            val intent = Intent(this, a2_menu::class.java)
             startActivity(intent)
             finish()
-        }, 3000) // 3000 is the delayed time in milliseconds.
-
+        }, 3000)
     }
 }

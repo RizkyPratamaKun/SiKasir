@@ -1,6 +1,5 @@
 package com.project.sikasir
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayoutMediator
@@ -12,10 +11,13 @@ class a3_kelolaproduk : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_a3_kelolaproduk)
 
-        //        setSupportActionBar(toolbar)
+        /* The above code is creating an instance of ViewPagerAdapter and assigning it to the
+        viewPagerProduk. */
         viewPagerProduk.adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
 
-        TabLayoutMediator(tabLayoutproduk, viewPagerProduk,
+        /* A function that is used to set the text of the tab layout. */
+        TabLayoutMediator(
+            tabLayoutproduk, viewPagerProduk,
             { tab, position ->
                 when (position) {
                     0 -> {
@@ -27,11 +29,8 @@ class a3_kelolaproduk : AppCompatActivity() {
                 }
             }).attach()
 
-
         tvA3toA2.setOnClickListener { _ ->
-            startActivity(Intent(this, a2_menu::class.java))
             finish()
-            //do what you want after click inside here
         }
 
     }

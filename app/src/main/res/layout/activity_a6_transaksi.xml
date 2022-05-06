@@ -1,23 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     tools:context=".a6_transaksi">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnBottomSheetPersistent"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_60"
-        android:text="Btn Persistent" />
+        android:layout_height="495dp"
+        android:layout_gravity="center|top"
+        android:layout_marginTop="75dp"
+        android:background="#ffffff">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnBottomSheetModal"
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constTopBar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_60"
-        android:layout_marginTop="@dimen/dimen_60"
-        android:text="Btn Modal" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|top"
+        android:background="#ffffff"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
 
-    <include layout="@layout/layout_persistent_bottom_sheet" />
+        <ImageView
+            android:id="@+id/imageView12"
+            android:layout_width="35dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/ivToQR"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/ivToQR"
+            app:layout_constraintTop_toTopOf="@+id/ivToQR"
+            app:srcCompat="@drawable/ic_baseline_save_24" />
+
+        <ImageView
+            android:id="@+id/ivToQR"
+            android:layout_width="35dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/edCariProdukTransaksi"
+            app:layout_constraintEnd_toStartOf="@+id/imageView12"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/edCariProdukTransaksi"
+            app:layout_constraintTop_toTopOf="@+id/edCariProdukTransaksi"
+            app:srcCompat="@drawable/ic_baseline_qr_code_scanner_24" />
+
+        <EditText
+            android:id="@+id/edCariProdukTransaksi"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:drawableLeft="@drawable/ic_baseline_search_24"
+            android:ems="10"
+            android:hint="Cari Produk"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ivToQR"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imageView14"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView14"
+            android:layout_width="35dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/edCariProdukTransaksi"
+            app:layout_constraintEnd_toStartOf="@+id/edCariProdukTransaksi"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/edCariProdukTransaksi"
+            app:srcCompat="@drawable/ic_baseline_menu_24" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include layout="@layout/sheet_bottomtransaksi" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:animateLayoutChanges="true"
+        android:elevation="3dp">
+
+        <Button
+            android:id="@+id/btnTagih"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimen_60"
+            android:layout_marginStart="8dp"
+            android:text="Tagih"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btnSimpanTransaksi"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnSimpanTransaksi"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimen_60"
+            android:layout_marginEnd="8dp"
+            android:cursorVisible="false"
+            android:fontFamily="@font/actor"
+            android:text="Simpan Transaksi"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/btnTagih"
+            app:layout_constraintEnd_toStartOf="@+id/btnTagih"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/btnTagih" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

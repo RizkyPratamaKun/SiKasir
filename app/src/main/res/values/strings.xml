@@ -1,5 +1,14 @@
 <resources>
     <string name="app_name">SiKasir</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="selected_item">Selected item:</string>
+    <string name="navigation_drawer_open" />
+    <string name="navigation_drawer_close" />
+
+    // Creating an array of string.
+    <string-array name="Jabatan">
+        <item>Supervisor</item>
+        <item>Operator</item>
+    </string-array>
+
 </resources>

@@ -30,7 +30,7 @@
         android:shadowRadius="5"
         android:text="Aida Putra"
         android:textAlignment="center"
-        android:textColor="#FF5252"
+        android:textColor="#FF1744"
         android:textSize="45sp"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -19,7 +19,7 @@ class DialogTambahMerk : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         dialog!!.window?.setBackgroundDrawableResource(R.drawable.round_corner)
-        return inflater.inflate(R.layout.dialog_tambah_merk, container, false)
+        return inflater.inflate(R.layout.dialog_tambah, container, false)
     }
 
     override fun onStart() {

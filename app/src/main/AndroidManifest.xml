@@ -4,6 +4,7 @@
     <!-- Permissions for internet -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -14,6 +15,21 @@
         android:supportsRtl="true"
         android:theme="@style/NoActionBar"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".a10_laporan"
+            android:exported="false" />
+        <activity
+            android:name=".a9_tambahpegawai"
+            android:exported="false" />
+        <activity
+            android:name=".a8_pembayarantunai"
+            android:exported="false" />
+        <activity
+            android:name=".ScanBarcodeTransaksi"
+            android:exported="false" />
+        <activity
+            android:name=".a7_pembayaran"
+            android:exported="false" />
         <activity
             android:name=".a6_transaksi"
             android:exported="false" />
@@ -35,6 +51,9 @@
             android:name=".registerActivity"
             android:exported="false" />
         <activity
+            android:name=".ScanBarcodeTambahProduk"
+            android:exported="false" />
+        <activity
             android:name=".loginActivity"
             android:exported="false" />
         <activity
@@ -51,8 +70,8 @@
         </activity>
 
         <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-1892278661027871~2238724297" />
     </application>
 
 </manifest>
