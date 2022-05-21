@@ -1,4 +1,4 @@
-package com.project.sikasir
+package com.project.sikasir.barcode
 
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.budiyev.android.codescanner.*
+import com.project.sikasir.R
+import com.project.sikasir.a4_tambahproduk
 import kotlinx.android.synthetic.main.scan_barcode.*
 
 class ScanBarcodeTambahProduk : AppCompatActivity() {

@@ -1,4 +1,4 @@
-package com.project.sikasir.fragment.adapter
+package com.project.sikasir.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

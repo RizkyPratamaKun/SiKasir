@@ -20,7 +20,7 @@ class a1_loading_screen : AppCompatActivity() {
         /* A function that will run the code inside the curly braces after the time specified in
         milliseconds. */
         Handler().postDelayed({
-            val intent = Intent(this, a2_menu::class.java)
+            val intent = Intent(this, a12_login::class.java)
             startActivity(intent)
             finish()
         }, 3000)

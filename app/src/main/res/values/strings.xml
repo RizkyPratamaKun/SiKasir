@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">SiKasir</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="selected_item">Selected item:</string>
     <string name="navigation_drawer_open" />
     <string name="navigation_drawer_close" />

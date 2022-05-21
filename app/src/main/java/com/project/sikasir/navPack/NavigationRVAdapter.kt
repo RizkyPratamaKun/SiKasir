@@ -39,7 +39,12 @@ class NavigationRVAdapter(
         // To highlight the selected item, show different background color
         if (position == currentPos) {
             /* Setting the background color of the item. */
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.merah_tema))
+            holder.itemView.setBackgroundColor(
+                ContextCompat.getColor(
+                    context,
+                    R.color.merah_tema
+                )
+            )
         } else {
             holder.itemView.setBackgroundColor(
                 ContextCompat.getColor(

@@ -11,11 +11,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:drawableRight="@drawable/ic_baseline_search_24"
         android:ems="10"
-        android:hint="Cari Produk"
+        android:hint="Cari Pegawai"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,15 +62,28 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/reclistpegawai"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/edCariProdukTransaksi3"
+        app:layout_constraintStart_toStartOf="@+id/edCariProdukTransaksi3"
+        app:layout_constraintTop_toBottomOf="@+id/edCariProdukTransaksi3"
+        app:spanCount="3"
+        tools:listitem="@layout/list_pegawai"></androidx.recyclerview.widget.RecyclerView>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabTambahPegawai"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
         android:clickable="true"
         android:contentDescription="@string/fab_transformation_scrim_behavior"
         app:backgroundTint="#40C4FF"
+        app:elevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:rippleColor="#FFFFFF"

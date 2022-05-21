@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.project.sikasir">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Permissions for internet -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -16,6 +15,18 @@
         android:theme="@style/NoActionBar"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".a16_profileactivity"
+            android:exported="false" />
+        <activity
+            android:name=".a15_about"
+            android:exported="false" />
+        <activity
+            android:name=".a14_pengaturan"
+            android:exported="false" />
+        <activity
+            android:name=".a11_riwayattransaksi"
+            android:exported="false" />
+        <activity
             android:name=".a10_laporan"
             android:exported="false" />
         <activity
@@ -25,7 +36,7 @@
             android:name=".a8_pembayarantunai"
             android:exported="false" />
         <activity
-            android:name=".ScanBarcodeTransaksi"
+            android:name=".barcode.ScanBarcodeTransaksi"
             android:exported="false" />
         <activity
             android:name=".a7_pembayaran"
@@ -48,13 +59,13 @@
             android:resource="@xml/network_security_config" />
 
         <activity
-            android:name=".registerActivity"
+            android:name=".a13_register"
             android:exported="false" />
         <activity
-            android:name=".ScanBarcodeTambahProduk"
+            android:name=".barcode.ScanBarcodeTambahProduk"
             android:exported="false" />
         <activity
-            android:name=".loginActivity"
+            android:name=".a12_login"
             android:exported="false" />
         <activity
             android:name=".a2_menu"

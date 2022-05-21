@@ -35,16 +35,16 @@
                 <TextView
                     android:id="@+id/textView30"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_height="0dp"
                     android:fontFamily="@font/amiko_bold"
+                    android:gravity="center|left"
                     android:text="Hak aksses"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="#000000"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/spinner"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/edNamaJabatan"
                     app:layout_constraintTop_toTopOf="@+id/spinner" />
 
                 <TextView
@@ -63,59 +63,23 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:id="@+id/editTextTextPersonName2"
+                    android:id="@+id/edNamaJabatan"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:ems="10"
+                    android:fontFamily="@font/amiko"
                     android:hint="Nama Jabatan"
                     android:inputType="textPersonName"
+                    android:maxLength="50"
                     android:minHeight="48dp"
+                    android:textColor="#3E3E3E"
+                    android:textSize="16sp"
+                    android:typeface="sans"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/textView29"
                     app:layout_constraintTop_toBottomOf="@+id/textView29" />
-
-                <EditText
-                    android:id="@+id/editTextPhone"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:ems="10"
-                    android:hint="No.Handphone(Wajib Diisi)"
-                    android:inputType="phone"
-                    android:minHeight="48dp"
-                    app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName2"
-                    app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName2"
-                    app:layout_constraintTop_toBottomOf="@+id/spinner" />
-
-                <EditText
-                    android:id="@+id/editTextTextEmailAddress"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:ems="10"
-                    android:hint="Alamat Email"
-                    android:inputType="textEmailAddress"
-                    android:minHeight="48dp"
-                    app:layout_constraintEnd_toEndOf="@+id/editTextPhone"
-                    app:layout_constraintStart_toStartOf="@+id/editTextPhone"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextPhone" />
-
-                <EditText
-                    android:id="@+id/editTextNumberPassword"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:ems="10"
-                    android:hint="Pin"
-                    android:inputType="numberPassword"
-                    android:minHeight="48dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/editTextTextEmailAddress"
-                    app:layout_constraintStart_toStartOf="@+id/editTextTextEmailAddress"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress" />
 
                 <Spinner
                     android:id="@+id/spinner"
@@ -129,8 +93,73 @@
                     android:minHeight="48dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/textView30"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2"
+                    app:layout_constraintTop_toBottomOf="@+id/edNamaJabatan"
                     tools:ignore="SpeakableTextPresentCheck" />
+
+                <EditText
+                    android:id="@+id/edHp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:ems="10"
+                    android:fontFamily="@font/amiko"
+                    android:hint="No.Handphone(Wajib Diisi)"
+                    android:inputType="phone"
+                    android:maxLength="14"
+                    android:minHeight="48dp"
+                    android:textColor="#3E3E3E"
+                    android:textSize="16sp"
+                    android:typeface="sans"
+                    app:layout_constraintEnd_toEndOf="@+id/edNamaJabatan"
+                    app:layout_constraintStart_toStartOf="@+id/edNamaJabatan"
+                    app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
+                <EditText
+                    android:id="@+id/edemailpegawai"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:ems="10"
+                    android:fontFamily="@font/amiko"
+                    android:hint="Alamat Email"
+                    android:inputType="textEmailAddress"
+                    android:maxLength="50"
+                    android:minHeight="48dp"
+                    android:textColor="#3E3E3E"
+                    android:textSize="16sp"
+                    android:typeface="sans"
+                    app:layout_constraintEnd_toEndOf="@+id/edHp"
+                    app:layout_constraintStart_toStartOf="@+id/edNamaJabatan"
+                    app:layout_constraintTop_toBottomOf="@+id/edHp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/edemailpegawai"
+                    app:layout_constraintStart_toStartOf="@+id/edemailpegawai"
+                    app:layout_constraintTop_toBottomOf="@+id/edemailpegawai"
+                    app:passwordToggleDrawable="@drawable/show_password_selector"
+                    app:passwordToggleEnabled="true">>
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edpin"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="8dp"
+                        android:background="#FFFFFF"
+                        android:fontFamily="@font/amiko"
+                        android:hint="Pin"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberPassword"
+                        android:maxLength="6"
+                        android:textColor="#3E3E3E"
+                        android:textSize="16sp"
+                        android:typeface="sans" />/>
+                </com.google.android.material.textfield.TextInputLayout>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -141,6 +170,36 @@
                 android:background="#FFFFFF"
                 android:elevation="3dp"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
+
+                <TextView
+                    android:id="@+id/tv_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="@font/amiko_bold"
+                    android:text="Angka"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView2"
+                    app:layout_constraintStart_toEndOf="@+id/textView2"
+                    app:layout_constraintTop_toTopOf="@+id/textView2" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/amiko_bold"
+                    android:text="ID"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/edNamaPegawai"
+                    app:layout_constraintStart_toEndOf="@+id/imageView15"
+                    app:layout_constraintTop_toTopOf="@+id/imageView15" />
 
                 <ImageView
                     android:id="@+id/imageView15"
@@ -161,7 +220,7 @@
                     android:background="@drawable/round_corner_black_outer"
                     android:foregroundGravity="center"
                     app:cardCornerRadius="50dp"
-                    app:cardElevation="24dp"
+                    app:cardElevation="25dp"
                     app:cardMaxElevation="36dp"
                     app:cardUseCompatPadding="false"
                     app:layout_constraintBottom_toBottomOf="@+id/imageView15"
@@ -172,6 +231,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:padding="5dp"
                         app:srcCompat="@drawable/ic_baseline_camera_alt_24" />
 
                 </androidx.cardview.widget.CardView>
@@ -188,8 +248,9 @@
                     android:minHeight="48dp"
                     app:layout_constraintBottom_toBottomOf="@+id/imageView15"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/imageView15"
-                    app:layout_constraintTop_toTopOf="@+id/imageView15" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -203,7 +264,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <Button
-                    android:id="@+id/btnSimpanTransaksi2"
+                    android:id="@+id/btnsimpan_pegawai"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

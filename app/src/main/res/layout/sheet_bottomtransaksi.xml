@@ -11,7 +11,7 @@
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvTitle2"
+        android:id="@+id/title_barang"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -20,11 +20,11 @@
         android:textSize="@dimen/font_size_24"
         android:textStyle="bold"
         android:typeface="serif"
-        app:layout_constraintStart_toEndOf="@+id/tvTitle"
-        app:layout_constraintTop_toTopOf="@+id/tvTitle" />
+        app:layout_constraintStart_toEndOf="@+id/tv_jmlBarang"
+        app:layout_constraintTop_toTopOf="@+id/tv_jmlBarang" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvTitle"
+        android:id="@+id/tv_jmlBarang"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dimen_16"
@@ -47,31 +47,27 @@
         app:srcCompat="@drawable/ic_baseline_drag_handle_24" />
 
     <ImageView
-        android:id="@+id/imageView11"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="128dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="128dp"
-        android:layout_marginBottom="32dp"
+        android:id="@+id/ivkosong"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:scaleType="centerInside"
-        app:layout_constraintBottom_toTopOf="@+id/textView18"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tv_jmlBarang"
         app:srcCompat="@drawable/cartkosong" />
 
     <TextView
-        android:id="@+id/textView18"
+        android:id="@+id/tvkosong"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
         android:fontFamily="@font/bangers"
-        android:text="Keranjang Masih Kosong"
+        android:text="Keranjang Masih Kosong  "
         android:textColor="#DA4453"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/imageView11"
-        app:layout_constraintStart_toStartOf="@+id/imageView11" />
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/ivkosong"
+        app:layout_constraintStart_toStartOf="@+id/ivkosong"
+        app:layout_constraintTop_toBottomOf="@+id/ivkosong" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

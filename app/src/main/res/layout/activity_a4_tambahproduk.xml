@@ -34,7 +34,7 @@
                     android:id="@+id/edKategori"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="32dp"
                     android:ems="10"
                     android:hint="Kategori"
@@ -51,7 +51,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:ems="10"
                     android:hint="Merk"
@@ -66,7 +66,7 @@
                     android:id="@+id/edHargaJual"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:ems="10"
                     android:hint="Harga Jual"
                     android:inputType="number"
@@ -106,6 +106,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/round_corner_black_outer"
+                    android:elevation="2dp"
                     android:foregroundGravity="center"
                     app:cardCornerRadius="50dp"
                     app:cardElevation="24dp"
@@ -140,14 +141,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:layout_marginBottom="16dp"
                     android:ems="10"
                     android:hint="Harga Modal"
                     android:inputType="number"
                     android:minHeight="48dp"
-                    android:visibility="gone"
                     android:windowSoftInputMode="adjustPan"
-                    app:layout_constraintBottom_toTopOf="@+id/edBarcode"
                     app:layout_constraintEnd_toEndOf="@+id/switch1"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="@+id/textView17"
@@ -158,19 +156,18 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="16dp"
                     android:ems="10"
                     android:hint="Kode Produk/Barcode"
                     android:inputType="text"
                     android:minHeight="48dp"
-                    android:visibility="gone"
                     android:windowSoftInputMode="adjustPan"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/edHargaModal"
                     app:layout_constraintEnd_toStartOf="@+id/ivToAddQR"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
                 <TextView
                     android:id="@+id/textView17"
@@ -202,13 +199,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_marginEnd="16dp"
-                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@+id/edBarcode"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/edBarcode"
                     app:layout_constraintTop_toTopOf="@+id/edBarcode"
                     app:srcCompat="@drawable/ic_baseline_qr_code_scanner_24" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="*Opsional"
+                    app:layout_constraintStart_toStartOf="@+id/edHargaModal"
+                    app:layout_constraintTop_toBottomOf="@+id/edHargaModal" />
+
+                <TextView
+                    android:id="@+id/textView18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="*Opsional"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/edHargaModal"
+                    app:layout_constraintTop_toBottomOf="@+id/edBarcode" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
