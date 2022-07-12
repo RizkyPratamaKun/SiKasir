@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/bottomSheet"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottomSheetTransaksi"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/dummybg"
     android:elevation="2dp"
     app:behavior_hideable="false"
-    app:behavior_peekHeight="160dp"
+    app:behavior_peekHeight="35dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -46,28 +47,100 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_drag_handle_24" />
 
-    <ImageView
-        android:id="@+id/ivkosong"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:scaleType="centerInside"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_keranjang_kosong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_jmlBarang"
-        app:srcCompat="@drawable/cartkosong" />
+        app:layout_constraintTop_toTopOf="@+id/rv_keranjang">
 
-    <TextView
-        android:id="@+id/tvkosong"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/bangers"
-        android:text="Keranjang Masih Kosong  "
-        android:textColor="#DA4453"
-        android:textSize="20sp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@+id/ivkosong"
-        app:layout_constraintStart_toStartOf="@+id/ivkosong"
-        app:layout_constraintTop_toBottomOf="@+id/ivkosong" />
+        <ImageView
+            android:id="@+id/ivkosong"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:scaleType="centerInside"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/cartkosong" />
+
+        <TextView
+            android:id="@+id/tvkosong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/bangers"
+            android:text="Keranjang Masih Kosong  "
+            android:textColor="#DA4453"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/ivkosong"
+            app:layout_constraintStart_toStartOf="@+id/ivkosong"
+            app:layout_constraintTop_toBottomOf="@+id/ivkosong" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_keranjang"
+        android:layout_width="0dp"
+        android:layout_height="500dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_barang"
+        tools:listitem="@layout/list_keranjang" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_total"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rv_keranjang">
+
+        <TextView
+            android:id="@+id/tv_jtotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/amiko_bold"
+            android:text="Total"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/tv_jsubtotal"
+            app:layout_constraintTop_toBottomOf="@+id/tv_jsubtotal" />
+
+        <TextView
+            android:id="@+id/tv_total_keranjang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_jtotal"
+            app:layout_constraintEnd_toEndOf="@+id/tv_subtotal_keranjang" />
+
+        <TextView
+            android:id="@+id/tv_jsubtotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/amiko_bold"
+            android:text="Subtotal"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_subtotal_keranjang"
+            app:layout_constraintTop_toTopOf="@+id/tv_subtotal_keranjang" />
+
+        <TextView
+            android:id="@+id/tv_subtotal_keranjang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="25000"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

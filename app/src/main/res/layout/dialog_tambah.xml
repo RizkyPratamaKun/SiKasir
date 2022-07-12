@@ -5,11 +5,24 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/tvsimpankategori"
+        android:id="@+id/tv_hapus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/amiko_bold"
+        android:text="Hapus"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/view2"
+        app:layout_constraintTop_toTopOf="@+id/tv_batal" />
+
+    <TextView
+        android:id="@+id/tvSimpan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="24dp"
         android:fontFamily="@font/amiko_bold"
         android:text="Simpan"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
@@ -17,7 +30,7 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/view2"
-        app:layout_constraintTop_toTopOf="@+id/textView19" />
+        app:layout_constraintTop_toBottomOf="@+id/view2" />
 
     <View
         android:id="@+id/view2"
@@ -25,34 +38,34 @@
         android:layout_height="2dp"
         android:layout_marginTop="16dp"
         android:background="#40C4FF"
-        app:layout_constraintEnd_toEndOf="@+id/edKategoriNama"
-        app:layout_constraintStart_toStartOf="@+id/edKategoriNama"
-        app:layout_constraintTop_toBottomOf="@+id/edKategoriNama" />
+        app:layout_constraintEnd_toEndOf="@+id/edNama"
+        app:layout_constraintStart_toStartOf="@+id/edNama"
+        app:layout_constraintTop_toBottomOf="@+id/edNama" />
 
     <TextView
-        android:id="@+id/textView19"
+        android:id="@+id/tv_batal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:fontFamily="@font/amiko_bold"
         android:text="Batal"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/tvsimpankategori"
-        app:layout_constraintTop_toBottomOf="@+id/view2" />
+        app:layout_constraintEnd_toStartOf="@+id/tvSimpan"
+        app:layout_constraintTop_toTopOf="@+id/tvSimpan" />
 
     <EditText
-        android:id="@+id/edKategoriNama"
+        android:id="@+id/edNama"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/round_corner_edit_text"
+        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 "
         android:ems="10"
         android:hint="Nama"
-        android:inputType="textPersonName"
+        android:inputType="textFilter"
         android:minHeight="48dp"
         android:padding="5dp"
         app:layout_constraintEnd_toEndOf="parent"

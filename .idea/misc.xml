@@ -7,10 +7,12 @@
         <entry key="..\:/Project/SiKasir/app/src/main/res/drawable-xxhdpi/bg_nav_padRB.xml" value="0.3305" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/drawable-xxhdpi/bg_nav_padrb.xml" value="0.356" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/drawable/bgcornertop.xml" value="0.3185" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/drawable/circle.xml" value="0.347" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/drawable/control_switch_background_border.xml" value="0.254" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/drawable/control_switch_background_selector.xml" value="0.254" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/drawable/control_switch_background_selector_middle.xml" value="0.254" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/drawable/dummybg.xml" value="0.356" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/drawable/ic_baseline_done_24.xml" value="0.347" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/drawable/ic_baseline_qr_code_scanner_24.xml" value="0.356" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/drawable/ic_baseline_save_24.xml" value="0.356" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/drawable/pink_out_line.xml" value="0.356" />
@@ -22,48 +24,83 @@
         <entry key="..\:/Project/SiKasir/app/src/main/res/drawable/roundedbuttonwhiteborderlightblue.xml" value="0.356" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/drawable/roundedline.xml" value="0.356" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/drawable/show_password_selector.xml" value="0.3185" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/drawable/spinnertheme.xml" value="0.3485" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/drawable/tab_indicator.xml" value="0.356" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/drawable/toggle_widget_background.xml" value="0.356" />
-        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_a10_laporan.xml" value="0.33" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_a10_laporan.xml" value="0.5" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_a11_login.xml" value="0.3546875" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_a11_riwayattransaksi.xml" value="0.3546875" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_a12_login.xml" value="0.33" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_a12_register.xml" value="0.3546875" />
-        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_a14_pengaturan.xml" value="0.3546875" />
-        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_a15_about.xml" value="0.75" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_a14_pengaturan.xml" value="0.33" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_a15_about.xml" value="0.67" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_a16_profileactivity.xml" value="0.3546875" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_a1_load.xml" value="0.25" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_a2_menu.xml" value="0.5" />
-        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_a3_kelolaproduk.xml" value="0.25" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_a3_kelolaproduk.xml" value="0.5" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_a4_produktambah.xml" value="0.33" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_a4_tambahproduk.xml" value="0.3546875" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_a4inputproduk.xml" value="0.5" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_a4tambahproduk.xml" value="0.25" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_a5_kelolapegawai.xml" value="0.33" />
-        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_a6_transaksi.xml" value="0.25" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_a6_transaksi.xml" value="0.33" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_a7_pembayaran.xml" value="0.5" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_a8_pembayarantunai.xml" value="0.33" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_a8_scan_barcode.xml" value="0.3546875" />
-        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_a9_tambahpegawai.xml" value="0.67" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_a9_tambahpegawai.xml" value="0.33" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_detail_pegawai.xml" value="0.3546875" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_login.xml" value="0.3546875" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_register.xml" value="0.33" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/activity_transaksi_berhasil.xml" value="0.33" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/barcodescan.xml" value="0.3546875" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/dashhboard.xml" value="0.3546875" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/dialog_merk.xml" value="0.3546875" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/dialog_produk.xml" value="0.3546875" />
-        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/dialog_tambah.xml" value="0.25" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/dialog_tambah.xml" value="0.33" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/dialog_tambah_Kategori.xml" value="0.33" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/dialog_tambah_kategori.xml" value="0.3546875" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/dialog_tambah_merk.xml" value="0.3546875" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/dialog_utama.xml" value="0.3546875" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/fragment_demo.xml" value="0.3546875" />
-        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/fragment_kelola_kategori.xml" value="0.5" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/fragment_kategori.xml" value="0.3546875" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/fragment_kelola_kategori.xml" value="0.22" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/fragment_kelola_produk.xml" value="0.25" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/fragment_produk.xml" value="0.3546875" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/fragment_rangkuman.xml" value="0.5" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/laporan_kategori.xml" value="0.5" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/laporan_menu.xml" value="0.3546875" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/laporan_pegawai.xml" value="0.4114583333333333" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/laporan_rangkuman.xml" value="0.3546875" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/layout_persistent_bottom_sheet.xml" value="0.33" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/list_kategori.xml" value="0.3546875" />
-        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/list_pegawai.xml" value="0.22" />
-        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/list_produk.xml" value="0.3546875" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/list_keranjang.xml" value="0.33" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/list_merek.xml" value="0.3546875" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/list_nama.xml" value="0.33" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/list_pegawai.xml" value="0.5" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/list_pegawai_laporan.xml" value="0.75" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/list_produk.xml" value="0.33" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/list_riwayat.xml" value="0.5" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/list_transaksi.xml" value="0.5" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/navdrawer_row.xml" value="0.3546875" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/pegawai_kelola.xml" value="0.3546875" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/pegawai_menu.xml" value="0.3546875" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/pengaturan.xml" value="0.3546875" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/pradashboard_login.xml" value="0.3546875" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/produk_dashboard.xml" value="0.3546875" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/produk_kelola.xml" value="0.3546875" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/profile.xml" value="0.5" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/row_nav_drawer.xml" value="0.1" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/scan_barcode.xml" value="0.21" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/scan_barcode_transaksi.xml" value="0.3546875" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/search_row.xml" value="0.3546875" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/sheet_bottomlogin.xml" value="0.3546875" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/sheet_bottommenu.xml" value="0.3546875" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/sheet_bottomtransaksi.xml" value="0.33" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/students_row.xml" value="0.3546875" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/transaksi_berhasil.xml" value="0.25" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/transaksi_menu.xml" value="0.5" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/transaksi_pembayaran_tunai.xml" value="0.3546875" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/transaksi_riwayat.xml" value="0.3546875" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/user_item.xml" value="0.33" />
       </map>
     </option>
