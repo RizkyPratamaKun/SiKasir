@@ -300,18 +300,7 @@ class kelolaPegawai : AppCompatActivity() {
 
     private fun deletePegawai() {
         reference = FirebaseDatabase.getInstance().reference.child("Pegawai").child(edemailpegawai.text.toString().replace(".", ","))
-
-        reference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    for (userSnapshot in snapshot.children) {
-                        userSnapshot.ref.removeValue()
-                    }
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {}
-        })
+        reference.removeValue()
     }
 
     private fun String.isValidEmail() = Patterns.EMAIL_ADDRESS.matcher(this).matches()

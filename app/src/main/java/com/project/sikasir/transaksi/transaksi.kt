@@ -69,13 +69,14 @@ class transaksi : AppCompatActivity() {
                             val keranjang = snapshot.getValue(classKeranjang::class.java)
 
                             if (keranjang != null) {
-                                //Menambah TextView Barang ketika di Klik
+                                //Set Jumlah di Keranjang
                                 keranjang.Jumlah_Produk = (keranjang.Jumlah_Produk?.toInt()?.plus(1)).toString()
 
                                 //Kalkulasi
                                 val totalString = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
                                     .format((keranjang.Harga!!.replace(".", "").replace("Rp ", "").toDouble() * keranjang.Jumlah_Produk!!.toDouble()))
 
+                                //SetCurrency
                                 keranjang.Total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
 
                                 refKeranjang.child(produk.Nama_Produk!!).setValue(keranjang)
@@ -110,17 +111,6 @@ class transaksi : AppCompatActivity() {
     }
 
     private fun onClick() {
-        btnTagih.setOnClickListener {
-            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
-                val intent = Intent(this, pembayaranTunai::class.java)
-                intent.putExtra("tagihan", btnTagih.text.toString())
-                startActivity(intent)
-                finish()
-            } else {
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-            }
-        }
-
         ivToQR.setOnClickListener {
             startActivity(Intent(this, scanBarcodeTambahTransaksi::class.java))
         }
@@ -214,6 +204,7 @@ class transaksi : AppCompatActivity() {
         refKeranjang.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
+
                     rv_keranjang.visibility = View.VISIBLE
                     cl_keranjang_kosong.visibility = View.GONE
                     keranjangList.clear()
@@ -233,9 +224,19 @@ class transaksi : AppCompatActivity() {
 
                     tv_jmlBarang.text = i.toString()
                     rv_keranjang.adapter = adapterKeranjang(keranjangList)
+
+                    btnTagih.setOnClickListener {
+                        val intent = Intent(this@transaksi, pembayaranTunai::class.java)
+                        intent.putExtra("tagihan", btnTagih.text.toString())
+                        startActivity(intent)
+                        finish()
+                    }
                 } else {
                     cl_keranjang_kosong.visibility = View.VISIBLE
                     rv_keranjang.visibility = View.GONE
+                    btnTagih.setOnClickListener {
+                        Toast.makeText(this@transaksi, "Isi keranjang terlebih dahulu", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
 

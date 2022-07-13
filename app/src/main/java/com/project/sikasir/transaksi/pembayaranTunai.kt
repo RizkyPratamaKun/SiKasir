@@ -36,7 +36,6 @@ class pembayaranTunai : AppCompatActivity() {
         getIdProduk()
         onClick()
         handleEditText()
-
         setText()
     }
 
@@ -56,14 +55,17 @@ class pembayaranTunai : AppCompatActivity() {
         edUangPass.setBackgroundColor(ContextCompat.getColor(baseContext, android.R.color.holo_blue_bright))
         val tagihan: String = intent.getStringExtra("tagihan").toString().replace(",00", "").replace(".", "").replace("Rp ", "")
 
-
+        edUangPass.setOnClickListener {
+            diterima = tagihan
+            tembakData()
+        }
 
         edUangDiterima.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s.toString().isEmpty()) {
-                    edUangPass.setBackgroundColor(ContextCompat.getColor(baseContext, R.color.merah_tema))
+                    edUangPass.setBackgroundColor(ContextCompat.getColor(baseContext, android.R.color.holo_blue_bright))
                     edUangPass.text = "Uang Pas"
                     edUangPass.isEnabled = true
                     edUangPass.isClickable = true

@@ -1,5 +1,6 @@
 package com.project.sikasir.transaksi
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +33,18 @@ class adapterKeranjang(private val listKeranjang: ArrayList<classKeranjang>) : R
         holder.Total.text = Total
 
         holder.itemView.setOnClickListener {
-            println(Nama_Produk + Jumlah_Produk + Harga + Total)
+            val namaProduk = listKeranjang[position].Nama_Produk
+            val jumlahProduk = listKeranjang[position].Jumlah_Produk
+            val harga = listKeranjang[position].Harga
+            val total = listKeranjang[position].Total
+
+            val intent = Intent(holder.itemView.context, kelolaKeranjang::class.java)
+            intent.putExtra("Nama_Produk", namaProduk)
+            intent.putExtra("jumlahProduk", jumlahProduk)
+            intent.putExtra("harga", harga)
+            intent.putExtra("total", total)
+
+            holder.itemView.context.startActivity(intent)
         }
     }
 

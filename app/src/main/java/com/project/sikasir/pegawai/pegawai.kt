@@ -23,11 +23,6 @@ class pegawai : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.pegawai_menu)
-        //RecyclerView
-        rv_pegawai.layoutManager = GridLayoutManager(this, 2)
-        rv_pegawai.setHasFixedSize(true)
-        pegawaiList = arrayListOf<classPegawai>()
-
         //Set
         getDataPegawai()
         onClick()
@@ -55,6 +50,10 @@ class pegawai : AppCompatActivity() {
     }
 
     private fun getDataPegawai() {
+        rv_pegawai.layoutManager = GridLayoutManager(this, 2)
+        rv_pegawai.setHasFixedSize(true)
+        pegawaiList = arrayListOf<classPegawai>()
+
         dbref = FirebaseDatabase.getInstance().getReference("Pegawai")
         dbref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
