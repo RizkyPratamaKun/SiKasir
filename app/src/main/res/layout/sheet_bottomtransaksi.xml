@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bottomSheetTransaksi"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/dummybg"
     android:elevation="2dp"
     app:behavior_hideable="false"
@@ -48,6 +48,38 @@
         app:srcCompat="@drawable/ic_baseline_drag_handle_24" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rv_keranjang">
+
+        <TextView
+            android:id="@+id/tv_jsubtotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/amiko_bold"
+            android:text="Total"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_subtotal_keranjang"
+            app:layout_constraintTop_toTopOf="@+id/tv_subtotal_keranjang" />
+
+        <TextView
+            android:id="@+id/tv_subtotal_keranjang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="25000"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_keranjang_kosong"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -84,63 +116,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_keranjang"
         android:layout_width="0dp"
-        android:layout_height="500dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_barang"
         tools:listitem="@layout/list_keranjang" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_total"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rv_keranjang">
-
-        <TextView
-            android:id="@+id/tv_jtotal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/amiko_bold"
-            android:text="Total"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@+id/tv_jsubtotal"
-            app:layout_constraintTop_toBottomOf="@+id/tv_jsubtotal" />
-
-        <TextView
-            android:id="@+id/tv_total_keranjang"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_jtotal"
-            app:layout_constraintEnd_toEndOf="@+id/tv_subtotal_keranjang" />
-
-        <TextView
-            android:id="@+id/tv_jsubtotal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:fontFamily="@font/amiko_bold"
-            android:text="Subtotal"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_subtotal_keranjang"
-            app:layout_constraintTop_toTopOf="@+id/tv_subtotal_keranjang" />
-
-        <TextView
-            android:id="@+id/tv_subtotal_keranjang"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:text="25000"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -34,16 +34,16 @@ import com.project.sikasir.produk.produk.classProduk
 import com.project.sikasir.produk.viewpager.viewPagerMenu
 import kotlinx.android.synthetic.main.sheet_bottomtransaksi.*
 import kotlinx.android.synthetic.main.transaksi_menu.*
+import java.text.NumberFormat
+import java.util.*
 
 class transaksi : AppCompatActivity() {
-    //FIREBASE
     private lateinit var refPegawai: DatabaseReference
 
     private var USERNAME_KEY = "username_key"
     private var username_key = ""
     private var username_key_new = ""
 
-    //arrayGet
     private lateinit var dataKategori: ArrayList<classKategori>
     val keranjangList = ArrayList<classKeranjang>()
     val produkList = ArrayList<classProduk>()
@@ -53,10 +53,44 @@ class transaksi : AppCompatActivity() {
         adapterSearchTransaksi(produkList)
     }
 
-    //Nav
     private lateinit var adapterRV: NavigationRVAdapter
     lateinit var drawerLayout: DrawerLayout
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
+
+    private val trasaksiListener = object : adapterTransaksi.TransaksiListener {
+        override fun AddToCart(produk: classProduk) {
+
+            val refKeranjang = FirebaseDatabase.getInstance().getReference("Keranjang")
+
+            produk.Nama_Produk?.let {
+                refKeranjang.child(it).addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()) {
+                            val keranjang = snapshot.getValue(classKeranjang::class.java)
+
+                            if (keranjang != null) {
+                                //Menambah TextView Barang ketika di Klik
+                                keranjang.Jumlah_Produk = (keranjang.Jumlah_Produk?.toInt()?.plus(1)).toString()
+
+                                //Kalkulasi
+                                val totalString = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
+                                    .format((keranjang.Harga!!.replace(".", "").replace("Rp ", "").toDouble() * keranjang.Jumlah_Produk!!.toDouble()))
+
+                                keranjang.Total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
+
+                                refKeranjang.child(produk.Nama_Produk!!).setValue(keranjang)
+                            }
+                            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                        } else {
+                            refKeranjang.child(produk.Nama_Produk!!).setValue(classKeranjang(produk.Nama_Produk, produk.Harga_Jual, "1", produk.Harga_Jual))
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {}
+                })
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,15 +104,9 @@ class transaksi : AppCompatActivity() {
         getQR()
         onClick()
 
-        kalkulasi()
-
         if (edCariProdukTransaksi.text.isEmpty()) {
             getProduk()
         }
-    }
-
-    private fun kalkulasi() {
-        tv_total_keranjang.text = tv_subtotal_keranjang.text.toString()
     }
 
     private fun onClick() {
@@ -167,7 +195,7 @@ class transaksi : AppCompatActivity() {
                         }
                     }
                     produkAdapter.submitList(produkList)
-                    rv_transaksi.adapter = adapterTransaksi(produkList)
+                    rv_transaksi.adapter = adapterTransaksi(produkList, trasaksiListener)
                 } else {
                     Toast.makeText(applicationContext, "Data does not exist", Toast.LENGTH_SHORT).show()
                 }
@@ -189,10 +217,21 @@ class transaksi : AppCompatActivity() {
                     rv_keranjang.visibility = View.VISIBLE
                     cl_keranjang_kosong.visibility = View.GONE
                     keranjangList.clear()
+                    var i = 0
+                    var sum = 0
                     for (snapKeranjang in snapshot.children) {
                         val keranjang = snapKeranjang.getValue(classKeranjang::class.java)
                         keranjangList.add(keranjang!!)
+                        sum += Integer.parseInt(snapKeranjang.child("total").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
+                        i += 1
                     }
+                    val totalString = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(sum)
+                    val total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
+
+                    tv_subtotal_keranjang.text = total
+                    btnTagih.text = total
+
+                    tv_jmlBarang.text = i.toString()
                     rv_keranjang.adapter = adapterKeranjang(keranjangList)
                 } else {
                     cl_keranjang_kosong.visibility = View.VISIBLE
@@ -219,7 +258,7 @@ class transaksi : AppCompatActivity() {
                         val kat = snapshot.getValue(classProduk::class.java)
                         produkList.add(kat!!)
                     }
-                    rv_transaksi.adapter = adapterTransaksi(produkList)
+                    rv_transaksi.adapter = adapterTransaksi(produkList, trasaksiListener)
                 } else {
                     cl_produk_kosong.visibility = View.VISIBLE
                     rv_transaksi.visibility = View.GONE
@@ -301,7 +340,6 @@ class transaksi : AppCompatActivity() {
                     }
                 }
                 when (newState) {
-                    BottomSheetBehavior.STATE_EXPANDED -> btnTagih.text = tv_total_keranjang.text.toString()
                     BottomSheetBehavior.STATE_COLLAPSED -> btnTagih.text = tv_jmlBarang.text.toString() + " Barang"
                 }
             }

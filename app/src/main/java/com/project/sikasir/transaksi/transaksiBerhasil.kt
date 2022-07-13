@@ -26,20 +26,21 @@ class transaksiBerhasil : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.transaksi_berhasil)
 
-        //tangkap
+        setAlat()
+        print()
+        onClick()
+    }
+
+    private fun setAlat() {
+        val format: NumberFormat = DecimalFormat("Rp#,###")
+
         val Diterima: String = this.intent.getStringExtra("Diterima").toString()
         val Total_Tagihan: String = this.intent.getStringExtra("Total_Tagihan").toString()
+            .replace(",00", "").replace(".", "").replace("Rp ", "")
         val currentDate: String = this.intent.getStringExtra("Tanggalan").toString()
         val nama: String = this.intent.getStringExtra("Pegawai").toString()
         val jabatan: String = this.intent.getStringExtra("Jabatan").toString()
         val kembalian: String = this.intent.getStringExtra("Kembalian").toString()
-
-        //Set
-        val format: NumberFormat = DecimalFormat("Rp#,###")
-        Printooth.init(this)
-        if (Printooth.hasPairedPrinter())
-            printing = Printooth.printer()
-        initListeners()
 
         tv_tgl.text = currentDate
         tv_jabatan.text = jabatan
@@ -55,11 +56,18 @@ class transaksiBerhasil : AppCompatActivity() {
             tv_kembalian.visibility = View.VISIBLE
             tv_kembalian.text = format.format(kembalian.toDouble())
         }
+    }
 
-        //onClick
+    private fun print() {
+        Printooth.init(this)
+        if (Printooth.hasPairedPrinter())
+            printing = Printooth.printer()
+        initListeners()
+    }
+
+    private fun onClick() {
         button2.setOnClickListener {
-            val intent = Intent(this, transaksi::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, transaksi::class.java))
             finish()
         }
     }

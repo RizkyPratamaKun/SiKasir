@@ -11,7 +11,8 @@ import com.project.sikasir.produk.produk.classProduk
 /**
  * Dibuat oleh RizkyPratama pada 21-Jun-22.
  */
-class adapterTransaksi(private val listTransaksi: ArrayList<classProduk>) : RecyclerView.Adapter<adapterTransaksi.MyViewHolder>() {
+
+class adapterTransaksi(private val listTransaksi: ArrayList<classProduk>, private val transaksiListener: TransaksiListener) : RecyclerView.Adapter<adapterTransaksi.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): adapterTransaksi.MyViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.list_produk, parent, false)
@@ -28,7 +29,7 @@ class adapterTransaksi(private val listTransaksi: ArrayList<classProduk>) : Recy
         holder.Harga_Jual.text = Harga_Jual
 
         holder.itemView.setOnClickListener {
-            println(Nama_Produk)
+            transaksiListener.AddToCart(currentitem)
         }
     }
 
@@ -39,5 +40,9 @@ class adapterTransaksi(private val listTransaksi: ArrayList<classProduk>) : Recy
 
     override fun getItemCount(): Int {
         return listTransaksi.size
+    }
+
+    interface TransaksiListener {
+        fun AddToCart(produk: classProduk)
     }
 }

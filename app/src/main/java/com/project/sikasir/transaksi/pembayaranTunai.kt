@@ -31,26 +31,32 @@ class pembayaranTunai : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.transaksi_pembayaran_tunai)
 
-        //set
-        val format: NumberFormat = DecimalFormat("Rp#,###")
-        edUangPass.setBackgroundColor(ContextCompat.getColor(baseContext, android.R.color.holo_blue_bright))
         getUsernameLocal()
         getIdPegawai()
         getIdProduk()
+        onClick()
+        handleEditText()
 
-        //Tangkap
-        val tagihan: String = intent.getStringExtra("tagihan").toString()
+        setText()
+    }
 
-        tv_tagihan.text = tagihan
-        susuk1.text = tagihan
-        susuk2.text = tagihan
-        susuk3.text = tagihan
-        susuk4.text = tagihan
+    private fun setText() {
+        val tagihanBiasa = intent.getStringExtra("tagihan").toString()
 
-        tvA8toA7.setOnClickListener {
-            startActivity(Intent(this, transaksi::class.java))
-            finish()
-        }
+        tv_tagihan.text = tagihanBiasa
+
+        susuk1.text = tagihanBiasa
+        susuk2.text = tagihanBiasa
+        susuk3.text = tagihanBiasa
+        susuk4.text = tagihanBiasa
+    }
+
+    private fun handleEditText() {
+        val format: NumberFormat = DecimalFormat("Rp#,###")
+        edUangPass.setBackgroundColor(ContextCompat.getColor(baseContext, android.R.color.holo_blue_bright))
+        val tagihan: String = intent.getStringExtra("tagihan").toString().replace(",00", "").replace(".", "").replace("Rp ", "")
+
+
 
         edUangDiterima.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
@@ -58,9 +64,13 @@ class pembayaranTunai : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s.toString().isEmpty()) {
                     edUangPass.setBackgroundColor(ContextCompat.getColor(baseContext, R.color.merah_tema))
-                    edUangPass.text = "Uang Pass"
+                    edUangPass.text = "Uang Pas"
                     edUangPass.isEnabled = true
                     edUangPass.isClickable = true
+                    edUangPass.setOnClickListener {
+                        diterima = tagihan
+                        tembakData()
+                    }
                 } else {
                     if (s.toString().toInt() < tagihan.toInt()) {
                         val kurang = tagihan.toInt() - s.toString().toInt()
@@ -75,21 +85,21 @@ class pembayaranTunai : AppCompatActivity() {
                         edUangPass.isEnabled = true
                         edUangPass.isClickable = true
                         kembalian = k.toString()
+
+                        edUangPass.setOnClickListener {
+                            diterima = edUangDiterima.text.toString()
+                            tembakData()
+                        }
                     }
                 }
             }
         })
+    }
 
-        if (edUangPass.text == "Uang Pass") {
-            edUangPass.setOnClickListener {
-                diterima = tagihan
-                tembakData()
-            }
-        } else {
-            edUangPass.setOnClickListener {
-                diterima = edUangDiterima.text.toString()
-                tembakData()
-            }
+    private fun onClick() {
+        tvA8toA7.setOnClickListener {
+            startActivity(Intent(this, transaksi::class.java))
+            finish()
         }
 
         susuk1.setOnClickListener {
@@ -112,6 +122,7 @@ class pembayaranTunai : AppCompatActivity() {
 
     val sdf = SimpleDateFormat("dd-MM-yyyy hh:mm:ss")
     val waktu = sdf.format(Date())
+
     val ko = SimpleDateFormat("ddMMyyyyhhmmss")
     val kode = ko.format(Date())
 
@@ -126,7 +137,7 @@ class pembayaranTunai : AppCompatActivity() {
 
 
     fun tembakData() {
-        var mediaPlayer = MediaPlayer.create(baseContext, R.raw.mario)
+        val mediaPlayer = MediaPlayer.create(baseContext, R.raw.mario)
         mediaPlayer.start()
 
         val total: String = intent.getStringExtra("tagihan").toString()
@@ -165,6 +176,7 @@ class pembayaranTunai : AppCompatActivity() {
     fun simpanTransaksi() {
         val total: String = intent.getStringExtra("tagihan").toString()
         reference = FirebaseDatabase.getInstance().reference.child("Transaksi").child(kode)
+
         reference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 dataSnapshot.ref.child("Kode_Transaksi").setValue(kode)
