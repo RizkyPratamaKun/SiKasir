@@ -120,6 +120,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout5">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_keranjang_kosong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/rv_pembayaran"
+            app:layout_constraintStart_toStartOf="@+id/rv_pembayaran"
+            app:layout_constraintTop_toTopOf="@+id/rv_pembayaran">
+
+            <ImageView
+                android:id="@+id/ivkosong"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:scaleType="centerInside"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/cartkosong" />
+
+            <TextView
+                android:id="@+id/tvkosong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/bangers"
+                android:text="Keranjang Masih Kosong  "
+                android:textColor="#DA4453"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="@+id/ivkosong"
+                app:layout_constraintStart_toStartOf="@+id/ivkosong"
+                app:layout_constraintTop_toBottomOf="@+id/ivkosong" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <TextView
             android:id="@+id/textView28"
             android:layout_width="wrap_content"
@@ -127,80 +160,25 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/amiko_bold"
-            android:text="Jumlah Lain"
+            android:text="Keranjang Belanja"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="#000000"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/susuk1"
-            style="@style/Widget.AppCompat.Button"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="8dp"
-            android:background="@android:color/transparent"
-            android:text="Susuk1"
-            android:textAlignment="center"
-            android:textColor="#FF3D00"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/susuk2"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView28" />
-
-        <Button
-            android:id="@+id/susuk2"
-            style="@style/Widget.AppCompat.Button"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"
-            android:background="@android:color/transparent"
-            android:text="Susuk2"
-            android:textAlignment="center"
-            android:textColor="#FF3D00"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/susuk1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/susuk1"
-            app:layout_constraintTop_toTopOf="@+id/susuk1" />
-
-        <Button
-            android:id="@+id/susuk3"
-            style="@style/Widget.AppCompat.Button"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="16dp"
-            android:background="@android:color/transparent"
-            android:text="Susuk3"
-            android:textAlignment="center"
-            android:textColor="#FF3D00"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/susuk1"
-            app:layout_constraintStart_toStartOf="@+id/susuk1"
-            app:layout_constraintTop_toBottomOf="@+id/susuk1" />
-
-        <Button
-            android:id="@+id/susuk4"
-            style="@style/Widget.AppCompat.Button"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_pembayaran"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@android:color/transparent"
-            android:text="Susuk4"
-            android:textAlignment="center"
-            android:textColor="#FF3D00"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/susuk3"
-            app:layout_constraintEnd_toEndOf="@+id/susuk2"
-            app:layout_constraintStart_toStartOf="@+id/susuk2"
-            app:layout_constraintTop_toTopOf="@+id/susuk3" />
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView28"
+            tools:listitem="@layout/list_keranjang">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

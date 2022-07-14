@@ -1,7 +1,6 @@
 package com.project.sikasir.transaksi
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -31,10 +30,20 @@ class kelolaKeranjang : AppCompatActivity() {
             kali(tv_jumlah_keranjang.text.toString().toInt() * harga.replace(".", "").replace("Rp ", "").toInt())
         }
         minus.setOnClickListener {
-            display(tv_jumlah_keranjang.text.toString().toInt() - 1)
-            kali(tv_jumlah_keranjang.text.toString().toInt() * harga.replace(".", "").replace("Rp ", "").toInt())
+            if (tv_jumlah_keranjang.text.toString().toInt() <= 0) {
+                hapusKeranjang()
+            } else {
+                display(tv_jumlah_keranjang.text.toString().toInt() - 1)
+                kali(tv_jumlah_keranjang.text.toString().toInt() * harga.replace(".", "").replace("Rp ", "").toInt())
+            }
         }
+
         cl_hapus.setOnClickListener { hapusKeranjang() }
+        btn_simpan.setOnClickListener {
+            if (tv_jumlah_keranjang.text.toString().toInt() == 0) {
+                hapusKeranjang()
+            }
+        }
 
     }
 
@@ -54,7 +63,6 @@ class kelolaKeranjang : AppCompatActivity() {
             .setCancelable(false)
             .setPositiveButton("Ya") { dialog, id ->
                 deleteKeranjang()
-                startActivity(Intent(this, transaksi::class.java))
                 Toast.makeText(this, "Data berhasil dihapus", Toast.LENGTH_SHORT).show()
                 finish()
             }

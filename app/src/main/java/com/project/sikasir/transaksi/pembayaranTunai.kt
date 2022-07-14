@@ -7,9 +7,11 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.database.*
 import com.project.sikasir.R
 import kotlinx.android.synthetic.main.transaksi_pembayaran_tunai.*
@@ -25,34 +27,29 @@ class pembayaranTunai : AppCompatActivity() {
     var diterima = ""
     var kembalian = ""
 
+    val keranjangList = ArrayList<classKeranjang>()
+
     private lateinit var reference: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.transaksi_pembayaran_tunai)
 
+        tv_judul.setOnClickListener {
+            println(keranjangList)
+        }
+
         getUsernameLocal()
         getIdPegawai()
-        getIdProduk()
         onClick()
         handleEditText()
-        setText()
-    }
-
-    private fun setText() {
-        val tagihanBiasa = intent.getStringExtra("tagihan").toString()
-
-        tv_tagihan.text = tagihanBiasa
-
-        susuk1.text = tagihanBiasa
-        susuk2.text = tagihanBiasa
-        susuk3.text = tagihanBiasa
-        susuk4.text = tagihanBiasa
+        getKeranjang()
     }
 
     private fun handleEditText() {
         val format: NumberFormat = DecimalFormat("Rp#,###")
         edUangPass.setBackgroundColor(ContextCompat.getColor(baseContext, android.R.color.holo_blue_bright))
+
         val tagihan: String = intent.getStringExtra("tagihan").toString().replace(",00", "").replace(".", "").replace("Rp ", "")
 
         edUangPass.setOnClickListener {
@@ -103,23 +100,6 @@ class pembayaranTunai : AppCompatActivity() {
             startActivity(Intent(this, transaksi::class.java))
             finish()
         }
-
-        susuk1.setOnClickListener {
-            diterima = susuk1.text.toString()
-            tembakData()
-        }
-        susuk2.setOnClickListener {
-            diterima = susuk2.text.toString()
-            tembakData()
-        }
-        susuk3.setOnClickListener {
-            diterima = susuk3.text.toString()
-            tembakData()
-        }
-        susuk4.setOnClickListener {
-            diterima = susuk4.text.toString()
-            tembakData()
-        }
     }
 
     val sdf = SimpleDateFormat("dd-MM-yyyy hh:mm:ss")
@@ -160,7 +140,21 @@ class pembayaranTunai : AppCompatActivity() {
         username_key_new = sharedPreference.getString(username_key, "").toString()
     }
 
-    fun simpanDetailTransaksi() {
+    private fun getIdPegawai() {
+        reference = FirebaseDatabase.getInstance().reference.child("Pegawai").child(username_key_new)
+        reference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                namaPegawai = dataSnapshot.child("Nama_Pegawai").value.toString()
+                jabatanPegawai = dataSnapshot.child("Nama_Jabatan").value.toString()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+
+            }
+        })
+    }
+
+    private fun simpanDetailTransaksi() {
         reference = FirebaseDatabase.getInstance().reference.child("DetailTransaksi").child(kode)
         reference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -175,9 +169,9 @@ class pembayaranTunai : AppCompatActivity() {
         })
     }
 
-    fun simpanTransaksi() {
-        val total: String = intent.getStringExtra("tagihan").toString()
+    private fun simpanTransaksi() {
         reference = FirebaseDatabase.getInstance().reference.child("Transaksi").child(kode)
+        val total: String = intent.getStringExtra("tagihan").toString()
 
         reference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -194,29 +188,46 @@ class pembayaranTunai : AppCompatActivity() {
         })
     }
 
-    private fun getIdPegawai() {
-        reference = FirebaseDatabase.getInstance().reference.child("Pegawai").child(username_key_new)
-        reference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                namaPegawai = dataSnapshot.child("Nama_Pegawai").value.toString()
-                jabatanPegawai = dataSnapshot.child("Nama_Jabatan").value.toString()
+    private fun getKeranjang() {
+        rv_pembayaran.layoutManager = GridLayoutManager(this, 1)
+        rv_pembayaran.setHasFixedSize(true)
+
+        val refKeranjang = FirebaseDatabase.getInstance().getReference("Keranjang")
+
+        refKeranjang.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+
+                    rv_pembayaran.visibility = View.VISIBLE
+                    cl_keranjang_kosong.visibility = View.GONE
+                    keranjangList.clear()
+
+                    var i = 0
+                    var sum = 0
+
+                    for (snapKeranjang in snapshot.children) {
+                        //DataKeranjang
+                        val keranjang = snapKeranjang.getValue(classKeranjang::class.java)
+                        keranjangList.add(keranjang!!)
+                        //Total Harga di Keranjang
+                        sum += Integer.parseInt(snapKeranjang.child("total").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
+                        //total barang di keranjang
+                        i += 1
+                    }
+                    val totalString = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(sum)
+                    val total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
+
+                    tv_tagihan.text = total
+                    rv_pembayaran.adapter = adapterKeranjang(keranjangList)
+                } else {
+                    startActivity(Intent(this@pembayaranTunai, transaksi::class.java))
+                    finish()
+                    cl_keranjang_kosong.visibility = View.VISIBLE
+                    rv_pembayaran.visibility = View.GONE
+                }
             }
 
-            override fun onCancelled(databaseError: DatabaseError) {
-
-            }
-        })
-    }
-
-    private fun getIdProduk() {
-        reference = FirebaseDatabase.getInstance().reference.child("Produk").child(username_key_new)
-        reference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                namaProduk = dataSnapshot.child("Nama_Produk").value.toString()
-                harga_jual = dataSnapshot.child("Harga_Jual").value.toString()
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
+            override fun onCancelled(error: DatabaseError) {}
         })
     }
 }

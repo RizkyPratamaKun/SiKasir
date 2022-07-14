@@ -195,7 +195,7 @@ class transaksi : AppCompatActivity() {
         })
     }
 
-    fun getKeranjang() {
+    private fun getKeranjang() {
         rv_keranjang.layoutManager = GridLayoutManager(this, 1)
         rv_keranjang.setHasFixedSize(true)
 
@@ -204,16 +204,18 @@ class transaksi : AppCompatActivity() {
         refKeranjang.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
-
                     rv_keranjang.visibility = View.VISIBLE
                     cl_keranjang_kosong.visibility = View.GONE
                     keranjangList.clear()
                     var i = 0
                     var sum = 0
                     for (snapKeranjang in snapshot.children) {
+                        //DataKeranjang
                         val keranjang = snapKeranjang.getValue(classKeranjang::class.java)
                         keranjangList.add(keranjang!!)
+                        //Total Harga di Keranjang
                         sum += Integer.parseInt(snapKeranjang.child("total").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
+                        //total barang di keranjang
                         i += 1
                     }
                     val totalString = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(sum)
@@ -295,7 +297,7 @@ class transaksi : AppCompatActivity() {
         })
     }
 
-    fun bottomSheetBehavior() {
+    private fun bottomSheetBehavior() {
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetTransaksi)
         bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {}
@@ -345,7 +347,6 @@ class transaksi : AppCompatActivity() {
                 }
             }
         })
-
     }
 
     fun getNamaPegawai() {
