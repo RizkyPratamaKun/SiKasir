@@ -1,4 +1,4 @@
-package com.project.sikasir.transaksi
+package com.project.sikasir.transaksi.transaksi
 
 import android.view.LayoutInflater
 import android.view.View
@@ -14,12 +14,12 @@ import com.project.sikasir.produk.produk.classProduk
 
 class adapterTransaksi(private val listTransaksi: ArrayList<classProduk>, private val transaksiListener: TransaksiListener) : RecyclerView.Adapter<adapterTransaksi.MyViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): adapterTransaksi.MyViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.list_produk, parent, false)
-        return adapterTransaksi.MyViewHolder(itemView)
+        return MyViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: adapterTransaksi.MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentitem = listTransaksi[position]
 
         val Nama_Produk = currentitem.Nama_Produk

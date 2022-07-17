@@ -38,6 +38,8 @@ import com.project.sikasir.navPack.NavigationRVAdapter
 import com.project.sikasir.navPack.RecyclerTouchListener
 import com.project.sikasir.pegawai.pegawai
 import com.project.sikasir.produk.viewpager.viewPagerMenu
+import com.project.sikasir.transaksi.riwayat.riwayatTransaksi
+import com.project.sikasir.transaksi.transaksi.transaksi
 import kotlinx.android.synthetic.main.pengaturan.*
 
 class pengaturan : AppCompatActivity() {

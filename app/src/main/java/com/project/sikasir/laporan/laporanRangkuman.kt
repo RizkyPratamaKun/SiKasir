@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.database.*
 import com.project.sikasir.R
-import com.project.sikasir.transaksi.adapterRiwayat
-import com.project.sikasir.transaksi.classRiwayat
+import com.project.sikasir.transaksi.riwayat.adapterRiwayat
+import com.project.sikasir.transaksi.riwayat.classRiwayat
 import kotlinx.android.synthetic.main.laporan_rangkuman.*
 
 class laporanRangkuman : AppCompatActivity() {

@@ -1,4 +1,4 @@
-package com.project.sikasir.transaksi
+package com.project.sikasir.transaksi.riwayat
 
 import android.content.Context
 import android.content.Intent
@@ -22,6 +22,8 @@ import com.project.sikasir.navPack.NavigationRVAdapter
 import com.project.sikasir.navPack.RecyclerTouchListener
 import com.project.sikasir.pegawai.pegawai
 import com.project.sikasir.produk.viewpager.viewPagerMenu
+import com.project.sikasir.transaksi.pengaturan
+import com.project.sikasir.transaksi.transaksi.transaksi
 import kotlinx.android.synthetic.main.transaksi_riwayat.*
 
 class riwayatTransaksi : AppCompatActivity() {

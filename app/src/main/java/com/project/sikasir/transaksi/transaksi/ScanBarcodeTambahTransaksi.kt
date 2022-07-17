@@ -1,4 +1,4 @@
-package com.project.sikasir.transaksi
+package com.project.sikasir.transaksi.transaksi
 
 import android.content.Intent
 import android.content.pm.PackageManager

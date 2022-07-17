@@ -12,8 +12,7 @@ import com.project.sikasir.R
  */
 class adapterMerek(
     private val listMerek: ArrayList<classMerek>
-) :
-        RecyclerView.Adapter<adapterMerek.MyViewHolder>() {
+) : RecyclerView.Adapter<adapterMerek.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.list_produk_row, parent, false)

@@ -40,7 +40,6 @@ class onClickMerek : DialogFragment() {
             navigateToBackStack()
         }
 
-        //RecyclerView
         view.rv_utama.layoutManager = GridLayoutManager(activity, 1)
         view.rv_utama.setHasFixedSize(true)
         dataMerek = arrayListOf<classMerek>()
@@ -49,7 +48,7 @@ class onClickMerek : DialogFragment() {
     }
 
     private fun getMerek() {
-        var dbref = FirebaseDatabase.getInstance().getReference("Merek")
+        val dbref = FirebaseDatabase.getInstance().getReference("Merek")
         dbref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {

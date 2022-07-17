@@ -23,8 +23,8 @@ import com.project.sikasir.navPack.RecyclerTouchListener
 import com.project.sikasir.pegawai.pegawai
 import com.project.sikasir.produk.viewpager.viewPagerMenu
 import com.project.sikasir.transaksi.pengaturan
-import com.project.sikasir.transaksi.riwayatTransaksi
-import com.project.sikasir.transaksi.transaksi
+import com.project.sikasir.transaksi.riwayat.riwayatTransaksi
+import com.project.sikasir.transaksi.transaksi.transaksi
 import kotlinx.android.synthetic.main.laporan_menu.*
 
 class laporan : AppCompatActivity() {

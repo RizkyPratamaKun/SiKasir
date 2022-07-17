@@ -1,4 +1,4 @@
-package com.project.sikasir.transaksi
+package com.project.sikasir.transaksi.pembayaran
 
 import android.content.Context
 import android.content.Intent
@@ -14,6 +14,10 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.database.*
 import com.project.sikasir.R
+import com.project.sikasir.transaksi.keranjang.adapterKeranjang
+import com.project.sikasir.transaksi.keranjang.classKeranjang
+import com.project.sikasir.transaksi.transaksi.transaksi
+import com.project.sikasir.transaksi.transaksi.transaksiBerhasil
 import kotlinx.android.synthetic.main.transaksi_pembayaran_tunai.*
 import java.text.DecimalFormat
 import java.text.NumberFormat
@@ -27,23 +31,37 @@ class pembayaranTunai : AppCompatActivity() {
     var diterima = ""
     var kembalian = ""
 
+    val waktu = SimpleDateFormat("dd-MM-yyyy hh:mm:ss").format(Date())
+
+    //pegawai
+    var namaPegawai = ""
+    var jabatanPegawai = ""
+
+    //produk
+    var namaProduk = ""
+    var harga_jual = ""
+    var Jumlah_Produk = ""
+
+    val randomNumber: Int = Random().nextInt(10)
+    val kode = SimpleDateFormat("ddMMyyyyhhmmss").format(Date()) + randomNumber
+
     val keranjangList = ArrayList<classKeranjang>()
 
-    private lateinit var reference: DatabaseReference
+    private lateinit var refTransaksi: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.transaksi_pembayaran_tunai)
-
-        tv_judul.setOnClickListener {
-            println(keranjangList)
-        }
 
         getUsernameLocal()
         getIdPegawai()
         onClick()
         handleEditText()
         getKeranjang()
+
+        tv_judul.setOnClickListener {
+            println(kode)
+        }
     }
 
     private fun handleEditText() {
@@ -102,21 +120,6 @@ class pembayaranTunai : AppCompatActivity() {
         }
     }
 
-    val sdf = SimpleDateFormat("dd-MM-yyyy hh:mm:ss")
-    val waktu = sdf.format(Date())
-
-    val ko = SimpleDateFormat("ddMMyyyyhhmmss")
-    val kode = ko.format(Date())
-
-    //pegawai
-    var namaPegawai = ""
-    var jabatanPegawai = ""
-
-    //produk
-    var namaProduk = ""
-    var harga_jual = ""
-    var Jumlah_Produk = ""
-
 
     fun tembakData() {
         val mediaPlayer = MediaPlayer.create(baseContext, R.raw.mario)
@@ -141,8 +144,8 @@ class pembayaranTunai : AppCompatActivity() {
     }
 
     private fun getIdPegawai() {
-        reference = FirebaseDatabase.getInstance().reference.child("Pegawai").child(username_key_new)
-        reference.addValueEventListener(object : ValueEventListener {
+        refTransaksi = FirebaseDatabase.getInstance().reference.child("Pegawai").child(username_key_new)
+        refTransaksi.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 namaPegawai = dataSnapshot.child("Nama_Pegawai").value.toString()
                 jabatanPegawai = dataSnapshot.child("Nama_Jabatan").value.toString()
@@ -154,34 +157,15 @@ class pembayaranTunai : AppCompatActivity() {
         })
     }
 
-    private fun simpanDetailTransaksi() {
-        reference = FirebaseDatabase.getInstance().reference.child("DetailTransaksi").child(kode)
-        reference.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                dataSnapshot.ref.child("Detail_Transaksi").setValue(kode)
-                dataSnapshot.ref.child("Tanggal").setValue(waktu)
-                dataSnapshot.ref.child("Produk").setValue(namaProduk)
-                Jumlah_Produk = dataSnapshot.ref.child("Jumlah_Produk").setValue(waktu).toString()
-                dataSnapshot.ref.child("Sub_Total").setValue(Jumlah_Produk.toInt() * harga_jual.toInt())
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }
-
     private fun simpanTransaksi() {
-        reference = FirebaseDatabase.getInstance().reference.child("Transaksi").child(kode)
-        val total: String = intent.getStringExtra("tagihan").toString()
+        refTransaksi = FirebaseDatabase.getInstance().reference.child("Transaksi").child(kode)
 
-        reference.addListenerForSingleValueEvent(object : ValueEventListener {
+        refTransaksi.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                dataSnapshot.ref.child("Kode_Transaksi").setValue(kode)
-                dataSnapshot.ref.child("Tanggal").setValue(waktu)
                 dataSnapshot.ref.child("Pegawai").setValue(namaPegawai)
-                dataSnapshot.ref.child("Total").setValue(total)
+                dataSnapshot.ref.child("Tanggal").setValue(waktu)
 
                 Toast.makeText(this@pembayaranTunai, "Data Berhasil Ditambahkan", Toast.LENGTH_SHORT).show()
-                simpanDetailTransaksi()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -197,28 +181,28 @@ class pembayaranTunai : AppCompatActivity() {
         refKeranjang.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
-
                     rv_pembayaran.visibility = View.VISIBLE
                     cl_keranjang_kosong.visibility = View.GONE
                     keranjangList.clear()
-
                     var i = 0
                     var sum = 0
-
                     for (snapKeranjang in snapshot.children) {
                         //DataKeranjang
                         val keranjang = snapKeranjang.getValue(classKeranjang::class.java)
+
                         keranjangList.add(keranjang!!)
                         //Total Harga di Keranjang
                         sum += Integer.parseInt(snapKeranjang.child("total").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
                         //total barang di keranjang
                         i += 1
                     }
+
                     val totalString = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(sum)
                     val total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
 
                     tv_tagihan.text = total
                     rv_pembayaran.adapter = adapterKeranjang(keranjangList)
+
                 } else {
                     startActivity(Intent(this@pembayaranTunai, transaksi::class.java))
                     finish()

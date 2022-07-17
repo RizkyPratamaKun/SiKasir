@@ -1,4 +1,4 @@
-package com.project.sikasir.transaksi
+package com.project.sikasir.transaksi.keranjang
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -13,12 +13,12 @@ import com.project.sikasir.R
  */
 class adapterKeranjang(private val listKeranjang: ArrayList<classKeranjang>) : RecyclerView.Adapter<adapterKeranjang.MyViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): adapterKeranjang.MyViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.list_keranjang, parent, false)
-        return adapterKeranjang.MyViewHolder(itemView)
+        return MyViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: adapterKeranjang.MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         val currentitem = listKeranjang[position]
 

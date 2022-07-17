@@ -5,7 +5,154 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EAEAEA"
-    tools:context=".transaksi.kelolaKeranjang">
+    tools:context=".transaksi.keranjang.kelolaKeranjang">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_diskon"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#FFFFFF"
+        android:elevation="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout9">
+
+        <EditText
+            android:id="@+id/edDiskonRp"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_marginEnd="8dp"
+            android:ems="10"
+            android:hint="Diskon"
+            android:inputType="number"
+            android:maxLength="20"
+            android:minHeight="48dp"
+            android:visibility="visible"
+            android:windowSoftInputMode="adjustPan"
+            app:currencySymbol="Rp"
+            app:layout_constraintEnd_toStartOf="@+id/toggle"
+            app:layout_constraintStart_toStartOf="@+id/textView17"
+            app:layout_constraintTop_toTopOf="@+id/toggle"
+            app:localeTag="ID"
+            tools:ignore="DuplicateClickableBoundsCheck" />
+
+        <RadioGroup
+            android:id="@+id/toggle"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/control_switch_background_border"
+            android:checkedButton="@+id/tog_rp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView17">
+
+            <RadioButton
+                android:id="@+id/tog_rp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/control_switch_background_selector_middle"
+                android:button="@null"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:text="Rp"
+                android:textColor="@color/control_switch_color_selector" />
+
+            <RadioButton
+                android:id="@+id/tog_persen"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/control_switch_background_selector_middle"
+                android:button="@null"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:text="%"
+                android:textColor="@color/control_switch_color_selector" />
+
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/edNamaDiskon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:ems="10"
+            android:hint="Nama Diskon"
+            android:inputType="textCapSentences"
+            android:minHeight="48dp"
+            android:visibility="visible"
+            android:windowSoftInputMode="adjustPan"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toggle" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/amiko_bold"
+            android:text="Terapkan Diskon"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="#000000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Switch
+            android:id="@+id/switchPembayaran"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:checked="false"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:textColorLink="#40C4FF"
+            app:layout_constraintBottom_toBottomOf="@+id/textView17"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView17" />
+
+        <TextView
+            android:id="@+id/textView25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="*Tidak Wajib Diisi"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/edNamaDiskon"
+            app:layout_constraintTop_toBottomOf="@+id/edNamaDiskon" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/groupDiskon"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="visible"
+            app:constraint_referenced_ids="toggle,edNamaDiskon,textView25,edDiskonRp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView17">
+
+        </androidx.constraintlayout.widget.Group>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout8"
@@ -15,6 +162,36 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_total_keranjang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/amiko"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textColor="#E64A19"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/tv_harga_keranjang"
+            app:layout_constraintTop_toTopOf="@+id/tv_total_judul" />
+
+        <TextView
+            android:id="@+id/tv_total_judul"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/amiko_bold"
+            android:text="Total"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:typeface="sans"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_hargajudulkeranjang"
+            app:layout_constraintTop_toBottomOf="@+id/tv_diskon_judul" />
 
         <View
             android:id="@+id/view3"
@@ -68,22 +245,6 @@
             app:layout_constraintTop_toBottomOf="@+id/imageView23" />
 
         <TextView
-            android:id="@+id/textView36"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
-            android:fontFamily="@font/amiko_bold"
-            android:text="Total"
-            android:textAlignment="center"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:typeface="sans"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tv_hargajudulkeranjang"
-            app:layout_constraintTop_toBottomOf="@+id/view3" />
-
-        <TextView
             android:id="@+id/tv_harga_keranjang"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -97,16 +258,59 @@
             app:layout_constraintTop_toTopOf="@+id/tv_hargajudulkeranjang" />
 
         <TextView
-            android:id="@+id/tv_total_keranjang"
+            android:id="@+id/tv_diskon_keranjang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/amiko"
+            android:text="0"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:typeface="normal"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/tv_harga_keranjang"
+            app:layout_constraintTop_toTopOf="@+id/tv_diskon_judul" />
+
+        <TextView
+            android:id="@+id/tv_diskon_judul"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/amiko_bold"
+            android:text="Diskon"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:typeface="sans"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@+id/tv_hargajudulkeranjang"
+            app:layout_constraintTop_toBottomOf="@+id/tv_sub_total_judul" />
+
+        <TextView
+            android:id="@+id/tv_sub_total_judul"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/amiko_bold"
+            android:paddingBottom="8dp"
+            android:text="Sub-Total"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:typeface="sans"
+            app:layout_constraintStart_toStartOf="@+id/tv_hargajudulkeranjang"
+            app:layout_constraintTop_toBottomOf="@+id/view3" />
+
+        <TextView
+            android:id="@+id/tv_sub_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/amiko"
             android:text="TextView"
             android:textAlignment="center"
-            android:textColor="#E64A19"
+            android:textColor="#1976D2"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/tv_harga_keranjang"
-            app:layout_constraintTop_toTopOf="@+id/textView36" />
+            app:layout_constraintTop_toTopOf="@+id/tv_sub_total_judul" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -192,10 +396,11 @@
         android:id="@+id/cl_hapus"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:background="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout9">
+        app:layout_constraintTop_toBottomOf="@+id/cl_diskon">
 
         <ImageView
             android:id="@+id/imageView24"

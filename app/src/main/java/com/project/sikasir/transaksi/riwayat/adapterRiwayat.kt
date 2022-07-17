@@ -1,4 +1,4 @@
-package com.project.sikasir.transaksi
+package com.project.sikasir.transaksi.riwayat
 
 import android.view.LayoutInflater
 import android.view.View

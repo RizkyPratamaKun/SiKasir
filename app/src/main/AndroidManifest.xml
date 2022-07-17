@@ -21,7 +21,7 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:theme">
         <activity
-            android:name=".transaksi.kelolaKeranjang"
+            android:name=".transaksi.keranjang.kelolaKeranjang"
             android:exported="false"
             android:noHistory="true" />
         <activity
@@ -34,11 +34,11 @@
             android:name=".transaksi.pengaturan"
             android:exported="false" />
         <activity
-            android:name=".transaksi.riwayatTransaksi"
+            android:name=".transaksi.riwayat.riwayatTransaksi"
             android:exported="false"
             android:noHistory="true" />
         <activity
-            android:name=".transaksi.transaksiBerhasil"
+            android:name=".transaksi.transaksi.transaksiBerhasil"
             android:exported="false" />
         <activity
             android:name=".laporan.laporan"
@@ -48,16 +48,16 @@
             android:exported="false"
             android:noHistory="false" />
         <activity
-            android:name=".transaksi.pembayaranTunai"
+            android:name=".transaksi.pembayaran.pembayaranTunai"
             android:exported="false" />
         <activity
-            android:name=".transaksi.scanBarcodeTambahTransaksi"
+            android:name=".transaksi.transaksi.scanBarcodeTambahTransaksi"
             android:exported="false" />
         <activity
-            android:name=".transaksi.pembayaran"
+            android:name=".transaksi.pembayaran.pembayaran"
             android:exported="false" />
         <activity
-            android:name=".transaksi.transaksi"
+            android:name=".transaksi.transaksi.transaksi"
             android:exported="false" />
         <activity
             android:name=".pegawai.pegawai"

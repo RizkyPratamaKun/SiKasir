@@ -1,4 +1,4 @@
-package com.project.sikasir.transaksi
+package com.project.sikasir.transaksi.riwayat
 
 class classRiwayat {
     var Subtotal: String? = null

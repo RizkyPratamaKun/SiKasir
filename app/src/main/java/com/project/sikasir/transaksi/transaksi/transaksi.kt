@@ -1,4 +1,4 @@
-package com.project.sikasir.transaksi
+package com.project.sikasir.transaksi.transaksi
 
 import android.content.Context
 import android.content.Intent
@@ -32,6 +32,11 @@ import com.project.sikasir.pegawai.pegawai
 import com.project.sikasir.produk.kategori.classKategori
 import com.project.sikasir.produk.produk.classProduk
 import com.project.sikasir.produk.viewpager.viewPagerMenu
+import com.project.sikasir.transaksi.keranjang.adapterKeranjang
+import com.project.sikasir.transaksi.keranjang.classKeranjang
+import com.project.sikasir.transaksi.pembayaran.pembayaranTunai
+import com.project.sikasir.transaksi.pengaturan
+import com.project.sikasir.transaksi.riwayat.riwayatTransaksi
 import kotlinx.android.synthetic.main.sheet_bottomtransaksi.*
 import kotlinx.android.synthetic.main.transaksi_menu.*
 import java.text.NumberFormat
@@ -291,6 +296,7 @@ class transaksi : AppCompatActivity() {
                 } else {
                     Toast.makeText(applicationContext, "Kategori Tidak Ada", Toast.LENGTH_SHORT).show()
                 }
+
             }
 
             override fun onCancelled(error: DatabaseError) {}
