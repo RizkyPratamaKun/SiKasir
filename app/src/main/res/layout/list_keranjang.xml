@@ -5,6 +5,42 @@
     android:layout_height="wrap_content">
 
     <TextView
+        android:id="@+id/tv_diskon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/amiko"
+        android:text="diskon"
+        android:textColor="#00E676"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_harga"
+        app:layout_constraintStart_toEndOf="@+id/tv_min_diskon"
+        app:layout_constraintTop_toTopOf="@+id/tv_harga" />
+
+    <TextView
+        android:id="@+id/tv_namaDiskon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/amiko"
+        android:text="diskon"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_harga"
+        app:layout_constraintStart_toEndOf="@+id/tv_diskon"
+        app:layout_constraintTop_toTopOf="@+id/tv_harga" />
+
+    <TextView
+        android:id="@+id/tv_min_diskon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/amiko"
+        android:text="-"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_harga"
+        app:layout_constraintStart_toEndOf="@+id/tv_jumlah"
+        app:layout_constraintTop_toTopOf="@+id/tv_harga" />
+
+    <TextView
         android:id="@+id/tv_jumlah"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

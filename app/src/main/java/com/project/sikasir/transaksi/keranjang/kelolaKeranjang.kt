@@ -6,7 +6,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.RadioButton
-import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.FirebaseDatabase
@@ -22,17 +21,51 @@ class kelolaKeranjang : AppCompatActivity() {
         groupDiskon.visibility = View.GONE
 
         val Nama_Produk: String = intent.getStringExtra("Nama_Produk").toString()
-        val jumlahProduk: String = intent.getStringExtra("jumlahProduk").toString()
-        val harga: String = intent.getStringExtra("harga").toString()
-        val total: String = intent.getStringExtra("total").toString()
+        val jumlahProduk: String = intent.getStringExtra("Jumlah_Produk").toString()
+        val harga: String = intent.getStringExtra("Harga").toString()
+        val subTotal: String = intent.getStringExtra("stot").toString()
+        val nama_Diskon: String = intent.getStringExtra("Nama_Diskon").toString()
+        val diskon: String = intent.getStringExtra("Diskon").toString()
 
         tv_harga_keranjang.text = harga
         tv_jumlah_keranjang.text = jumlahProduk
         tv_namaitem.text = Nama_Produk
-        tv_sub_total.text = total
-        tv_total_keranjang.text = total
+        tv_sub_total.text = subTotal
 
-        switchPembayaran.setOnCheckedChangeListener { buttonView, isChecked ->
+        if (diskon.isEmpty() || diskon == "0" || diskon == "null") {
+            switchPembayaran.isChecked = false
+            tv_sub_total_judul.text = "Total"
+            groupDiskon.visibility = View.GONE
+            tv_diskon_keranjang.visibility = View.GONE
+            tv_diskon_judul.visibility = View.GONE
+            tv_total_judul.visibility = View.GONE
+            tv_total_keranjang.visibility = View.GONE
+            tv_total_keranjang.text = "0"
+        } else {
+            switchPembayaran.isChecked = true
+            tv_sub_total_judul.text = "Sub-total"
+            groupDiskon.visibility = View.VISIBLE
+            tv_diskon_keranjang.visibility = View.VISIBLE
+            tv_diskon_judul.visibility = View.VISIBLE
+            tv_total_judul.visibility = View.VISIBLE
+            tv_total_keranjang.visibility = View.VISIBLE
+
+            edDiskonRp.setText(diskon.replace(",00", "").filter { it.isDigit() })
+            tv_diskon_keranjang.text = diskon
+
+            tv_total_keranjang.text =
+                totalKeranjang(
+                    Integer.parseInt(tv_sub_total.text.toString().replace(",00", "").filter { it.isDigit() })
+                            - Integer.parseInt(tv_diskon_keranjang.text.toString().replace(",00", "").filter { it.isDigit() })
+                ).toString()
+
+
+            if (nama_Diskon.isNotEmpty()) {
+                edNamaDiskon.setText(nama_Diskon)
+            }
+        }
+
+        switchPembayaran.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 tv_sub_total_judul.text = "Sub-total"
                 groupDiskon.visibility = View.VISIBLE
@@ -53,17 +86,6 @@ class kelolaKeranjang : AppCompatActivity() {
         plus.setOnClickListener {
             setjumlahProduk(tv_jumlah_keranjang.text.toString().toInt() + 1)
             subTotal(tv_jumlah_keranjang.text.toString().toInt() * harga.filter { it.isDigit() }.toInt())
-
-            val jumlah = tv_jumlah_keranjang.text.toString()
-            val harga = tv_harga_keranjang.text.toString().filter { it.isDigit() }.toInt()
-            val diskon = edDiskonRp.text.toString().filter { it.isDigit() }.toInt().toString()
-            val stotal = tv_sub_total.text.toString().replace(",00", "").filter { it.isDigit() }.toInt()
-
-            val tDiskon = (jumlah.toInt() * harga) - (Integer.parseInt(diskon) * Integer.parseInt(stotal.toString())) / 100
-
-            totalKeranjang(tDiskon)
-
-            totalDiskon(Integer.parseInt(stotal.toString()) - tDiskon)
         }
 
         minus.setOnClickListener {
@@ -72,77 +94,63 @@ class kelolaKeranjang : AppCompatActivity() {
             } else {
                 setjumlahProduk(tv_jumlah_keranjang.text.toString().toInt() - 1)
                 subTotal(tv_jumlah_keranjang.text.toString().toInt() * harga.filter { it.isDigit() }.toInt())
-
-                val jumlah = tv_jumlah_keranjang.text.toString()
-                val harga = tv_harga_keranjang.text.toString().filter { it.isDigit() }.toInt()
-                val diskon = edDiskonRp.text.toString().filter { it.isDigit() }.toInt().toString()
-                val stotal = tv_sub_total.text.toString().replace(",00", "").filter { it.isDigit() }.toInt()
-
-                val tDiskon = (jumlah.toInt() * harga) - (Integer.parseInt(diskon) * Integer.parseInt(stotal.toString())) / 100
-
-                totalKeranjang(tDiskon)
-
-                totalDiskon(Integer.parseInt(stotal.toString()) - tDiskon)
             }
         }
 
-        toggle.setOnCheckedChangeListener(
-            RadioGroup.OnCheckedChangeListener { group, checkedId ->
-                val radio: RadioButton = findViewById(checkedId)
-                when (radio) {
-                    tog_persen -> {
-                        edDiskonRp.setText("")
+        toggle.setOnCheckedChangeListener { _, checkedId ->
+            val radio: RadioButton = findViewById(checkedId)
+            Toast.makeText(this, "Diskon berdasarkan " + radio.text, Toast.LENGTH_SHORT).show()
 
-                        edDiskonRp.addTextChangedListener(object : TextWatcher {
-                            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-                            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            when (radio) {
+                tog_persen -> {
+                    edDiskonRp.setText("")
+                    edDiskonRp.addTextChangedListener(object : TextWatcher {
+                        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                            val jumlah = tv_jumlah_keranjang.text.toString().toInt()
+                            val harga = tv_harga_keranjang.text.toString().filter { it.isDigit() }.toInt()
+                            val diskon = edDiskonRp.text.toString().filter { it.isDigit() }
+                            val stotal = tv_sub_total.text.toString().replace(",00", "").filter { it.isDigit() }.toInt()
 
-                                if (s.toString().length != 0) {
-                                    if (s.toString().toInt() >= 100) {
-                                        edDiskonRp.error = "Diskon Maksimal 100%"
-                                        edDiskonRp.setText("0")
-                                    } else {
-                                        val jumlah = tv_jumlah_keranjang.text.toString()
-                                        val harga = tv_harga_keranjang.text.toString().filter { it.isDigit() }.toInt()
-                                        val diskon = edDiskonRp.text.toString().filter { it.isDigit() }.toInt().toString()
-                                        val stotal = tv_sub_total.text.toString().replace(",00", "").filter { it.isDigit() }.toInt()
+                            if (diskon.isNotEmpty()) {
 
-                                        val tDiskon = (jumlah.toInt() * harga) - (Integer.parseInt(diskon) * Integer.parseInt(stotal.toString())) / 100
+                                val diskonPersen = (jumlah * harga) - (Integer.parseInt(diskon) * Integer.parseInt(stotal.toString())) / 100 //(jumlah * harga) - (diskon * sub-total)/100
 
-                                        totalKeranjang(tDiskon)
-
-                                        totalDiskon(Integer.parseInt(stotal.toString()) - tDiskon)
-                                    }
-                                } else {
-                                    edDiskonRp.setText("0")
-                                }
+                                totalKeranjang(diskonPersen)
+                                totalDiskon(Integer.parseInt(stotal.toString()) - diskonPersen)
+                            } else {
+                                edDiskonRp.setText("0")
                             }
+                        }
 
-                            override fun afterTextChanged(p0: Editable?) {}
-                        })
-                    }
-                    tog_rp -> {
-                        edDiskonRp.setText("")
+                        override fun afterTextChanged(p0: Editable?) {}
+                    })
+                }
+                tog_rp -> {
+                    edDiskonRp.setText("")
+                    edDiskonRp.addTextChangedListener(object : TextWatcher {
+                        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                            val jumlah = tv_jumlah_keranjang.text.toString().toInt()
+                            val harga = tv_harga_keranjang.text.toString().filter { it.isDigit() }.toInt()
+                            val diskon = edDiskonRp.text.toString().filter { it.isDigit() }
+                            val stotal = tv_sub_total.text.toString().replace(",00", "").filter { it.isDigit() }.toInt()
 
-                        edDiskonRp.addTextChangedListener(object : TextWatcher {
-                            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-                            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                                if (s.toString().length != 0) {
-                                    totalKeranjang(
-                                        tv_jumlah_keranjang.text.toString().toInt() * harga.filter { it.isDigit() }.toInt()
-                                                - Integer.parseInt(edDiskonRp.text.toString().filter { it.isDigit() }.toInt().toString())
-                                    )
-                                } else {
-                                    edDiskonRp.setText("0")
-                                }
+                            if (diskon.isNotEmpty()) {
+                                val diskonRupiah = (jumlah * harga) - Integer.parseInt(diskon) //(jumlah * harga) - diskon
+
+                                totalKeranjang(diskonRupiah)
+                                totalDiskon(Integer.parseInt(stotal.toString()) - diskonRupiah)
+                            } else {
+                                edDiskonRp.setText("0")
                             }
+                        }
 
-                            override fun afterTextChanged(p0: Editable?) {}
-                        })
-                    }
+                        override fun afterTextChanged(p0: Editable?) {}
+                    })
                 }
             }
-        )
+        }
 
         cl_hapus.setOnClickListener { hapusKeranjang() }
 
@@ -153,7 +161,14 @@ class kelolaKeranjang : AppCompatActivity() {
                 hapusKeranjang()
             } else {
                 Toast.makeText(this, "Keranjang berhasil diubah", Toast.LENGTH_SHORT).show()
-                updateData(Nama_Produk, tv_jumlah_keranjang.text.toString(), tv_sub_total.text.toString())
+                updateData(
+                    Nama_Produk,
+                    harga,
+                    tv_jumlah_keranjang.text.toString(),
+                    edNamaDiskon.text.toString(),
+                    tv_diskon_keranjang.text.toString(),
+                    tv_total_keranjang.text.toString()
+                )
                 finish()
             }
         }
@@ -199,12 +214,33 @@ class kelolaKeranjang : AppCompatActivity() {
         alert.show()
     }
 
-    private fun updateData(Nama_Produk: String, jumlahProduk: String, Total: String) {
+    private fun updateData(Nama_Produk: String, Harga: String, jumlah_Produk: String, nama_Diskon: String, diskon: String, total: String) {
+
         val reference = FirebaseDatabase.getInstance().getReference("Keranjang")
 
         val keranjang = mapOf<String, String>(
-            "jumlah_Produk" to jumlahProduk,
-            "total" to Total
+            "nama_Produk" to Nama_Produk,
+            "harga" to Harga,
+            "jumlah_Produk" to jumlah_Produk,
+            "nama_Diskon" to nama_Diskon,
+            "diskon" to diskon,
+            "total" to total
+        )
+
+        reference.child(Nama_Produk).updateChildren(keranjang)
+    }
+
+    private fun Transajs(Nama_Produk: String, Harga: String, jumlah_Produk: String, nama_Diskon: String, diskon: String, total: String) {
+
+        val reference = FirebaseDatabase.getInstance().getReference("Keranjang")
+
+        val keranjang = mapOf<String, String>(
+            "nama_Produk" to Nama_Produk,
+            "harga" to Harga,
+            "jumlah_Produk" to jumlah_Produk,
+            "nama_Diskon" to nama_Diskon,
+            "diskon" to diskon,
+            "total" to total
         )
 
         reference.child(Nama_Produk).updateChildren(keranjang)

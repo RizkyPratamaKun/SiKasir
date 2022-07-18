@@ -22,27 +22,51 @@ class adapterKeranjang(private val listKeranjang: ArrayList<classKeranjang>) : R
 
         val currentitem = listKeranjang[position]
 
-        val Nama_Produk = currentitem.Nama_Produk
-        val Jumlah_Produk = currentitem.Jumlah_Produk
-        val Harga = currentitem.Harga
-        val Total = currentitem.Total
+        val Nama_Produk = currentitem.nama_Produk
+        val Jumlah_Produk = currentitem.jumlah_Produk
+        val Harga = currentitem.harga
+        val Total = currentitem.total
+        val Diskon = currentitem.diskon
+        val Nama_Diskon = currentitem.nama_Diskon
+
+        if (Diskon.isNullOrEmpty() || Diskon == "0") {
+            holder.minDiskon.visibility = View.GONE
+            holder.Diskon.visibility = View.GONE
+            holder.namaDiskon.visibility = View.GONE
+        } else {
+            holder.Diskon.text = Diskon
+            if (Nama_Diskon.isNullOrEmpty()) {
+                holder.namaDiskon.text = "(Diskon)"
+            } else {
+                "(Diskon $Nama_Diskon)".also { holder.namaDiskon.text = it }
+            }
+        }
 
         holder.Nama.text = Nama_Produk
         holder.Jumlah_Produk.text = Jumlah_Produk
         holder.Harga.text = Harga
-        holder.Total.text = Total
+
+        if (Total.isNullOrEmpty()) {
+            holder.Total.text = Harga
+        } else {
+            holder.Total.text = Total
+        }
 
         holder.itemView.setOnClickListener {
-            val namaProduk = listKeranjang[position].Nama_Produk
-            val jumlahProduk = listKeranjang[position].Jumlah_Produk
-            val harga = listKeranjang[position].Harga
-            val total = listKeranjang[position].Total
+            val Nama_Produk = listKeranjang[position].nama_Produk
+            val Jumlah_Produk = listKeranjang[position].jumlah_Produk
+            val Harga = listKeranjang[position].harga
+            val subtotal = listKeranjang[position].total
+            val Diskon = listKeranjang[position].diskon
+            val Nama_Diskon = listKeranjang[position].nama_Diskon
 
             val intent = Intent(holder.itemView.context, kelolaKeranjang::class.java)
-            intent.putExtra("Nama_Produk", namaProduk)
-            intent.putExtra("jumlahProduk", jumlahProduk)
-            intent.putExtra("harga", harga)
-            intent.putExtra("total", total)
+            intent.putExtra("Nama_Produk", Nama_Produk)
+            intent.putExtra("Jumlah_Produk", Jumlah_Produk)
+            intent.putExtra("Harga", Harga)
+            intent.putExtra("stot", subtotal)
+            intent.putExtra("Diskon", Diskon)
+            intent.putExtra("Nama_Diskon", Nama_Diskon)
 
             holder.itemView.context.startActivity(intent)
         }
@@ -52,6 +76,9 @@ class adapterKeranjang(private val listKeranjang: ArrayList<classKeranjang>) : R
         val Nama: TextView = itemView.findViewById(R.id.tv_nama)
         val Harga: TextView = itemView.findViewById(R.id.tv_harga)
         val Jumlah_Produk: TextView = itemView.findViewById(R.id.tv_jumlah)
+        val minDiskon: TextView = itemView.findViewById(R.id.tv_min_diskon)
+        val Diskon: TextView = itemView.findViewById(R.id.tv_diskon)
+        val namaDiskon: TextView = itemView.findViewById(R.id.tv_namaDiskon)
         val Total: TextView = itemView.findViewById(R.id.tv_total)
     }
 

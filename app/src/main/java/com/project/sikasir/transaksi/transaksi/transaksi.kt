@@ -74,15 +74,15 @@ class transaksi : AppCompatActivity() {
                             val keranjang = snapshot.getValue(classKeranjang::class.java)
 
                             if (keranjang != null) {
-                                //Set Jumlah di Keranjang
-                                keranjang.Jumlah_Produk = (keranjang.Jumlah_Produk?.toInt()?.plus(1)).toString()
+                                //Set Jumlah barang di Keranjang
+                                keranjang.jumlah_Produk = (keranjang.jumlah_Produk?.toInt()?.plus(1)).toString()
 
                                 //Kalkulasi
                                 val totalString = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
-                                    .format((keranjang.Harga!!.replace(".", "").replace("Rp ", "").toDouble() * keranjang.Jumlah_Produk!!.toDouble()))
+                                    .format((keranjang.harga!!.replace(".", "").replace("Rp ", "").toDouble() * keranjang.jumlah_Produk!!.toDouble()))
 
                                 //SetCurrency
-                                keranjang.Total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
+                                keranjang.total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
 
                                 refKeranjang.child(produk.Nama_Produk!!).setValue(keranjang)
                             }
@@ -116,9 +116,7 @@ class transaksi : AppCompatActivity() {
     }
 
     private fun onClick() {
-        ivToQR.setOnClickListener {
-            startActivity(Intent(this, scanBarcodeTambahTransaksi::class.java))
-        }
+        ivToQR.setOnClickListener { startActivity(Intent(this, scanBarcodeTambahTransaksi::class.java)) }
 
         edCariProdukTransaksi.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
@@ -213,17 +211,19 @@ class transaksi : AppCompatActivity() {
                     cl_keranjang_kosong.visibility = View.GONE
                     keranjangList.clear()
                     var i = 0
-                    var sum = 0
-                    for (snapKeranjang in snapshot.children) {
+                    var totalKeranjang = 0
+                    for (Keranjang in snapshot.children) {
                         //DataKeranjang
-                        val keranjang = snapKeranjang.getValue(classKeranjang::class.java)
+                        val keranjang = Keranjang.getValue(classKeranjang::class.java)
                         keranjangList.add(keranjang!!)
                         //Total Harga di Keranjang
-                        sum += Integer.parseInt(snapKeranjang.child("total").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
+                        if (Keranjang.child("total").exists()) {
+                            totalKeranjang += Integer.parseInt(Keranjang.child("total").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
+                        }
                         //total barang di keranjang
                         i += 1
                     }
-                    val totalString = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(sum)
+                    val totalString = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(totalKeranjang)
                     val total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
 
                     tv_subtotal_keranjang.text = total

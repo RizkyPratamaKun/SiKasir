@@ -13,10 +13,7 @@ class adapterRiwayat(private val listClassRiwayat: ArrayList<classRiwayat>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
-        val itemView = LayoutInflater.from(parent.context).inflate(
-            R.layout.list_riwayat,
-            parent, false
-        )
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.list_riwayat, parent, false)
         return MyViewHolder(itemView)
 
     }
