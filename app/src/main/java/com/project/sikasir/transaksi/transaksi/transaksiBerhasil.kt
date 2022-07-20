@@ -21,6 +21,7 @@ import com.mazenrashed.printooth.utilities.PrintingCallback
 import com.project.sikasir.R
 import com.project.sikasir.transaksi.keranjang.adapterKeranjang
 import com.project.sikasir.transaksi.keranjang.classKeranjang
+import com.project.sikasir.transaksi.pembayaran.classTransaksi
 import kotlinx.android.synthetic.main.transaksi_berhasil.*
 import java.text.NumberFormat
 import java.util.*
@@ -29,7 +30,8 @@ class transaksiBerhasil : AppCompatActivity() {
 
     private var printing: Printing? = null
     val keranjangList = java.util.ArrayList<classKeranjang>()
-
+    lateinit var currentDate: String
+    lateinit var nama: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.transaksi_berhasil)
@@ -43,8 +45,8 @@ class transaksiBerhasil : AppCompatActivity() {
     private fun setAlat() {
         val Diterima: String = this.intent.getStringExtra("Diterima").toString()
         val Total_Tagihan: String = this.intent.getStringExtra("Total_Tagihan").toString().replace(",00", "").replace(".", "").replace("Rp ", "")
-        val currentDate: String = this.intent.getStringExtra("Tanggalan").toString()
-        val nama: String = this.intent.getStringExtra("Pegawai").toString()
+        currentDate = this.intent.getStringExtra("Tanggalan").toString()
+        nama = this.intent.getStringExtra("Pegawai").toString()
         val jabatan: String = this.intent.getStringExtra("Jabatan").toString()
         val kembalian: String = this.intent.getStringExtra("Kembalian").toString()
 
@@ -219,19 +221,24 @@ class transaksiBerhasil : AppCompatActivity() {
 
         val refKeranjang = FirebaseDatabase.getInstance().getReference("Keranjang")
 
-        refKeranjang.addValueEventListener(object : ValueEventListener {
+        refKeranjang.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     rv_complete.visibility = View.VISIBLE
                     cl_keranjang_kosong.visibility = View.GONE
                     keranjangList.clear()
-                    var i = 0
+
                     var totalKeranjang = 0
                     var diskon = 0
+                    val refTransaksi = FirebaseDatabase.getInstance().getReference("Transaksi")
+
+                    val classtransaksi = classTransaksi(currentDate, nama)
+
                     for (Keranjang in snapshot.children) {
                         //DataKeranjang
                         val keranjang = Keranjang.getValue(classKeranjang::class.java)
                         keranjangList.add(keranjang!!)
+                        classtransaksi.produk.add(keranjang)
                         //Total Harga di Keranjang
                         if (Keranjang.child("total").exists()) {
                             totalKeranjang += Integer.parseInt(Keranjang.child("total").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
@@ -240,9 +247,8 @@ class transaksiBerhasil : AppCompatActivity() {
                         if (Keranjang.child("diskon").exists()) {
                             diskon += Integer.parseInt(Keranjang.child("diskon").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
                         }
-                        //total barang di keranjang
-                        i += 1
                     }
+
                     val totalString = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(totalKeranjang)
                     val total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
                     val diskonString = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(diskon)
@@ -254,6 +260,8 @@ class transaksiBerhasil : AppCompatActivity() {
 
                     rv_complete.adapter = adapterKeranjang(keranjangList)
 
+                    //push dari class transaksi ke firebase
+                    refTransaksi.push().setValue(classtransaksi)
                 } else {
                     startActivity(Intent(this@transaksiBerhasil, transaksi::class.java))
                     finish()

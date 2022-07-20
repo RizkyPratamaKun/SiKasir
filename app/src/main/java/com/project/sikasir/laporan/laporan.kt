@@ -14,6 +14,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.*
 import com.project.sikasir.R
+import com.project.sikasir.laporan.pegawai.laporanPegawai
 import com.project.sikasir.menu.aboutMe
 import com.project.sikasir.menu.dashboard
 import com.project.sikasir.navPack.ClickListener

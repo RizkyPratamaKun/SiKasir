@@ -1,4 +1,4 @@
-package com.project.sikasir.laporan
+package com.project.sikasir.laporan.riwayat
 
 import android.view.LayoutInflater
 import android.view.View

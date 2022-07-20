@@ -18,13 +18,13 @@ import com.project.sikasir.transaksi.keranjang.adapterKeranjang
 import com.project.sikasir.transaksi.keranjang.classKeranjang
 import com.project.sikasir.transaksi.transaksi.transaksi
 import com.project.sikasir.transaksi.transaksi.transaksiBerhasil
-import kotlinx.android.synthetic.main.transaksi_pembayaran_tunai.*
+import kotlinx.android.synthetic.main.transaksi_pembayaran.*
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class pembayaranTunai : AppCompatActivity() {
+class pembayaran : AppCompatActivity() {
     private var USERNAME_KEY = "username_key"
     private var username_key = ""
     private var username_key_new = ""
@@ -46,7 +46,7 @@ class pembayaranTunai : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.transaksi_pembayaran_tunai)
+        setContentView(R.layout.transaksi_pembayaran)
         getIdPegawai()
         onClick()
         uangDiterima()
@@ -152,7 +152,7 @@ class pembayaranTunai : AppCompatActivity() {
                 dataSnapshot.ref.child("Pegawai").setValue(namaPegawai)
                 dataSnapshot.ref.child("Tanggal").setValue(waktu)
 
-                Toast.makeText(this@pembayaranTunai, "Data Berhasil Ditambahkan", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@pembayaran, "Data Berhasil Ditambahkan", Toast.LENGTH_SHORT).show()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -203,7 +203,7 @@ class pembayaranTunai : AppCompatActivity() {
                     rv_pembayaran.adapter = adapterKeranjang(keranjangList)
 
                 } else {
-                    startActivity(Intent(this@pembayaranTunai, transaksi::class.java))
+                    startActivity(Intent(this@pembayaran, transaksi::class.java))
                     finish()
                     cl_keranjang_kosong.visibility = View.VISIBLE
                     rv_pembayaran.visibility = View.GONE

@@ -35,7 +35,7 @@ class adapterPegawai(private val listPegawai: ArrayList<classPegawai>) :
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val Nama: TextView = itemView.findViewById(R.id.tv_listnama)
         val Banner: TextView = itemView.findViewById(R.id.tv_nmjabatan)
-        val Jabatan: TextView = itemView.findViewById(R.id.tv_jabatan)
+        val Jabatan: TextView = itemView.findViewById(R.id.tv_l_jabatan)
         val Foto: ImageView = itemView.findViewById(R.id.iv_detail_pegawai)
         val FotoKosong: ImageView = itemView.findViewById(R.id.iv_kosong_pegawai)
     }

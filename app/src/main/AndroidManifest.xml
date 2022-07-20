@@ -48,7 +48,7 @@
             android:exported="false"
             android:noHistory="false" />
         <activity
-            android:name=".transaksi.pembayaran.pembayaranTunai"
+            android:name=".transaksi.pembayaran.pembayaran"
             android:exported="false" />
         <activity
             android:name=".transaksi.transaksi.scanBarcodeTambahTransaksi"
@@ -72,7 +72,7 @@
             android:exported="false"
             android:noHistory="true" />
         <activity
-            android:name=".laporan.laporanPegawai"
+            android:name=".laporan.pegawai.laporanPegawai"
             android:exported="false" />
         <activity
             android:name=".laporan.laporanKategori"

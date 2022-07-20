@@ -73,7 +73,7 @@ class adapterKeranjang(private val listKeranjang: ArrayList<classKeranjang>) : R
     }
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val Nama: TextView = itemView.findViewById(R.id.tv_nama)
+        val Nama: TextView = itemView.findViewById(R.id.tv_l_nama)
         val Harga: TextView = itemView.findViewById(R.id.tv_harga)
         val Jumlah_Produk: TextView = itemView.findViewById(R.id.tv_jumlah)
         val minDiskon: TextView = itemView.findViewById(R.id.tv_min_diskon)

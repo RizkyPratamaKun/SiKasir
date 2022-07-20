@@ -17,38 +17,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/btnsimpan_pegawai"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:fontFamily="@font/actor"
-            android:text="Simpan"
-            android:textColor="#000000"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_judul"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_judul" />
-
         <TextView
             android:id="@+id/tv_judul"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
             android:fontFamily="@font/amiko_bold"
-            android:text="Pembayaran"
+            android:gravity="center"
+            android:text="Tunai"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="#000000"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/tvA7toA6"
-            app:layout_constraintStart_toEndOf="@+id/tvA7toA6"
-            app:layout_constraintTop_toTopOf="@+id/tvA7toA6" />
+            app:layout_constraintBottom_toBottomOf="@+id/tvA8toA7"
+            app:layout_constraintStart_toEndOf="@+id/tvA8toA7"
+            app:layout_constraintTop_toTopOf="@+id/tvA8toA7" />
 
         <TextView
-            android:id="@+id/tvA7toA6"
+            android:id="@+id/tvA8toA7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -65,147 +50,208 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#FFFFFF"
+        android:elevation="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
+
+        <EditText
+            android:id="@+id/edUangDiterima"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:ems="10"
+            android:hint="Uang yang diterima"
+            android:inputType="numberDecimal"
+            android:maxLength="9"
+            android:minHeight="48dp"
+            android:textColorHint="#757575"
+            app:layout_constraintBottom_toTopOf="@+id/edUangPass"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/edUangPass"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:text="Uang Pas"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/edUangDiterima"
+            app:layout_constraintStart_toStartOf="@+id/edUangDiterima"
+            app:layout_constraintTop_toBottomOf="@+id/edUangDiterima" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
+        android:background="#FFFFFF"
+        android:elevation="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView24">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout5">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:id="@+id/cl_total"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/blue_round_thin"
+            android:padding="4dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout2"
-                android:layout_width="0dp"
-                android:layout_height="283dp"
-                android:background="#FFFFFF"
-                android:elevation="2dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteY="222dp">
-
-                <TextView
-                    android:id="@+id/textView26"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/amiko_bold"
-                    android:text="Pilih Pembayaran"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cvTunai"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView26">
-
-                    <TextView
-                        android:id="@+id/textView22"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center|left"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:fontFamily="@font/amiko_bold"
-                        android:text="Tunai"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:id="@+id/imageView13"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center|right"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginRight="16dp"
-                        android:layout_marginBottom="16dp"
-                        app:srcCompat="@drawable/ic_baseline_chevron_right_24" />
-                </androidx.cardview.widget.CardView>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tv_jsubtotal3"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="#FFFFFF"
-                android:elevation="2dp"
+                android:fontFamily="@font/amiko_bold"
+                android:gravity="center"
+                android:text="Sub Total"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_sub_sheet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="25000"
+                android:textAlignment="center"
+                android:textColor="#00B0FF"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/tv_jsubtotal3"
+                app:layout_constraintTop_toBottomOf="@+id/tv_jsubtotal3" />
+
+            <TextView
+                android:id="@+id/tv_jsubtotal2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/amiko_bold"
+                android:gravity="center"
+                android:text="Diskon"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_diskon_sheet"
+                app:layout_constraintEnd_toEndOf="@+id/tv_jsubtotal"
+                app:layout_constraintHorizontal_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/tv_diskon_sheet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="25000"
+                android:textAlignment="center"
+                android:textColor="#00E676"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/tv_subtotal_keranjang"
+                app:layout_constraintEnd_toEndOf="@+id/tv_subtotal_keranjang" />
+
+            <TextView
+                android:id="@+id/tv_jsubtotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/amiko_bold"
+                android:gravity="center"
+                android:text="Total"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@+id/tv_subtotal_keranjang"
+                app:layout_constraintTop_toTopOf="@+id/tv_subtotal_keranjang" />
+
+            <TextView
+                android:id="@+id/tv_subtotal_keranjang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="25000"
+                android:textAlignment="center"
+                android:textColor="#FF3D00"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_keranjang_kosong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/rv_pembayaran"
+            app:layout_constraintStart_toStartOf="@+id/rv_pembayaran"
+            app:layout_constraintTop_toTopOf="@+id/rv_pembayaran">
+
+            <ImageView
+                android:id="@+id/ivkosong"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:scaleType="centerInside"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/cartkosong" />
 
-                <ImageView
-                    android:id="@+id/imageView9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/textView21"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
-
-                <TextView
-                    android:id="@+id/textView21"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:fontFamily="@font/actor"
-                    android:text="Haput Transaksi"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/imageView9"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/imageView9"
-                    app:layout_constraintTop_toTopOf="@+id/imageView9" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
+            <TextView
+                android:id="@+id/tvkosong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/bangers"
+                android:text="Keranjang Masih Kosong  "
+                android:textColor="#DA4453"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="@+id/ivkosong"
+                app:layout_constraintStart_toStartOf="@+id/ivkosong"
+                app:layout_constraintTop_toBottomOf="@+id/ivkosong" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
 
-    <TextView
-        android:id="@+id/textView23"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/amiko"
-        android:text="Total Tagihan"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout4" />
+        <TextView
+            android:id="@+id/textView28"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/amiko_bold"
+            android:text="Keranjang Belanja"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="#000000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView24"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/amiko_bold"
-        android:text="Rp100.000"
-        android:textAlignment="center"
-        android:textColor="#00B0FF"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/textView23"
-        app:layout_constraintStart_toStartOf="@+id/textView23"
-        app:layout_constraintTop_toBottomOf="@+id/textView23" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_pembayaran"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/cl_total"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView28"
+            tools:listitem="@layout/list_keranjang">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
