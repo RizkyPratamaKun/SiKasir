@@ -53,12 +53,10 @@ class kelolaKeranjang : AppCompatActivity() {
             edDiskonRp.setText(diskon.replace(",00", "").filter { it.isDigit() })
             tv_diskon_keranjang.text = diskon
 
-            tv_total_keranjang.text =
-                totalKeranjang(
-                    Integer.parseInt(tv_sub_total.text.toString().replace(",00", "").filter { it.isDigit() })
-                            - Integer.parseInt(tv_diskon_keranjang.text.toString().replace(",00", "").filter { it.isDigit() })
-                ).toString()
-
+            totalKeranjang(
+                Integer.parseInt(tv_sub_total.text.toString().replace(",00", "").filter { it.isDigit() })
+                        - Integer.parseInt(tv_diskon_keranjang.text.toString().replace(",00", "").filter { it.isDigit() })
+            )
 
             if (nama_Diskon.isNotEmpty()) {
                 edNamaDiskon.setText(nama_Diskon)
@@ -104,6 +102,7 @@ class kelolaKeranjang : AppCompatActivity() {
             when (radio) {
                 tog_persen -> {
                     edDiskonRp.setText("")
+
                     edDiskonRp.addTextChangedListener(object : TextWatcher {
                         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
                         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -215,22 +214,6 @@ class kelolaKeranjang : AppCompatActivity() {
     }
 
     private fun updateData(Nama_Produk: String, Harga: String, jumlah_Produk: String, nama_Diskon: String, diskon: String, total: String) {
-
-        val reference = FirebaseDatabase.getInstance().getReference("Keranjang")
-
-        val keranjang = mapOf<String, String>(
-            "nama_Produk" to Nama_Produk,
-            "harga" to Harga,
-            "jumlah_Produk" to jumlah_Produk,
-            "nama_Diskon" to nama_Diskon,
-            "diskon" to diskon,
-            "total" to total
-        )
-
-        reference.child(Nama_Produk).updateChildren(keranjang)
-    }
-
-    private fun Transajs(Nama_Produk: String, Harga: String, jumlah_Produk: String, nama_Diskon: String, diskon: String, total: String) {
 
         val reference = FirebaseDatabase.getInstance().getReference("Keranjang")
 

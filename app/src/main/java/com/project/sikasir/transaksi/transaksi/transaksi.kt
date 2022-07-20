@@ -9,7 +9,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -53,7 +52,7 @@ class transaksi : AppCompatActivity() {
     val keranjangList = ArrayList<classKeranjang>()
     val produkList = ArrayList<classProduk>()
 
-    lateinit var dataSpinStringKategori: ArrayList<String>
+    lateinit var dataSpinKategori: ArrayList<String>
     private val produkAdapter: adapterSearchTransaksi by lazy {
         adapterSearchTransaksi(produkList)
     }
@@ -212,6 +211,7 @@ class transaksi : AppCompatActivity() {
                     keranjangList.clear()
                     var i = 0
                     var totalKeranjang = 0
+                    var diskon = 0
                     for (Keranjang in snapshot.children) {
                         //DataKeranjang
                         val keranjang = Keranjang.getValue(classKeranjang::class.java)
@@ -220,13 +220,24 @@ class transaksi : AppCompatActivity() {
                         if (Keranjang.child("total").exists()) {
                             totalKeranjang += Integer.parseInt(Keranjang.child("total").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
                         }
-                        //total barang di keranjang
+                        //Total Diskon di Keranjang
+                        if (Keranjang.child("diskon").exists()) {
+                            diskon += Integer.parseInt(Keranjang.child("diskon").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
+                        }
+                        //Total barang di keranjang
                         i += 1
                     }
                     val totalString = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(totalKeranjang)
                     val total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
+                    val diskonString = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(diskon)
+                    val disk = diskonString.substring(0, 2) + " " + diskonString.substring(2, diskonString.length)
+                    val subs = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(totalKeranjang + diskon)
+                    val subst = subs.substring(0, 2) + " " + subs.substring(2, subs.length)
 
+                    tv_sub_sheet.text = subst
+                    tv_diskon_sheet.text = disk
                     tv_subtotal_keranjang.text = total
+
                     btnTagih.text = total
 
                     tv_jmlBarang.text = i.toString()
@@ -251,7 +262,7 @@ class transaksi : AppCompatActivity() {
         })
     }
 
-    fun getProduk() {
+    private fun getProduk() {
         rv_transaksi.layoutManager = GridLayoutManager(this, 2)
         rv_transaksi.setHasFixedSize(true)
         val refProduk = FirebaseDatabase.getInstance().getReference("Produk")
@@ -271,32 +282,6 @@ class transaksi : AppCompatActivity() {
                     cl_produk_kosong.visibility = View.VISIBLE
                     rv_transaksi.visibility = View.GONE
                 }
-            }
-
-            override fun onCancelled(error: DatabaseError) {}
-        })
-    }
-
-    fun getKategori() {
-        dataKategori = arrayListOf<classKategori>()
-        val dbref = FirebaseDatabase.getInstance().getReference("Kategori")
-
-        dbref.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    for (snapshot in snapshot.children) {
-                        val dataset = snapshot.child("Nama_Kategori").getValue(String::class.java)
-                        if (dataset != null) {
-                            dataSpinStringKategori.add(dataset)
-                        }
-                    }
-                    val arrayAdapter = ArrayAdapter(this@transaksi, android.R.layout.simple_spinner_item, dataSpinStringKategori)
-                    arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    spinKategori.adapter = arrayAdapter
-                } else {
-                    Toast.makeText(applicationContext, "Kategori Tidak Ada", Toast.LENGTH_SHORT).show()
-                }
-
             }
 
             override fun onCancelled(error: DatabaseError) {}

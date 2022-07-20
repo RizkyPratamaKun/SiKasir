@@ -29,7 +29,7 @@ class adapterKeranjang(private val listKeranjang: ArrayList<classKeranjang>) : R
         val Diskon = currentitem.diskon
         val Nama_Diskon = currentitem.nama_Diskon
 
-        if (Diskon.isNullOrEmpty() || Diskon == "0") {
+        if (Diskon.isNullOrEmpty() || Diskon.replace(",00", "").filter { it.isDigit() } == "0") {
             holder.minDiskon.visibility = View.GONE
             holder.Diskon.visibility = View.GONE
             holder.namaDiskon.visibility = View.GONE

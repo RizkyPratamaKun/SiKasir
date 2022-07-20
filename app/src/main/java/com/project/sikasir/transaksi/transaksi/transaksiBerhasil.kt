@@ -5,6 +5,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.mazenrashed.printooth.Printooth
 import com.mazenrashed.printooth.data.printable.Printable
 import com.mazenrashed.printooth.data.printable.RawPrintable
@@ -14,13 +19,16 @@ import com.mazenrashed.printooth.ui.ScanningActivity
 import com.mazenrashed.printooth.utilities.Printing
 import com.mazenrashed.printooth.utilities.PrintingCallback
 import com.project.sikasir.R
+import com.project.sikasir.transaksi.keranjang.adapterKeranjang
+import com.project.sikasir.transaksi.keranjang.classKeranjang
 import kotlinx.android.synthetic.main.transaksi_berhasil.*
-import java.text.DecimalFormat
 import java.text.NumberFormat
+import java.util.*
 
 class transaksiBerhasil : AppCompatActivity() {
 
     private var printing: Printing? = null
+    val keranjangList = java.util.ArrayList<classKeranjang>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,24 +37,31 @@ class transaksiBerhasil : AppCompatActivity() {
         setAlat()
         print()
         onClick()
+        getKeranjang()
     }
 
     private fun setAlat() {
-        val format: NumberFormat = DecimalFormat("Rp#,###")
-
         val Diterima: String = this.intent.getStringExtra("Diterima").toString()
-        val Total_Tagihan: String = this.intent.getStringExtra("Total_Tagihan").toString()
-            .replace(",00", "").replace(".", "").replace("Rp ", "")
+        val Total_Tagihan: String = this.intent.getStringExtra("Total_Tagihan").toString().replace(",00", "").replace(".", "").replace("Rp ", "")
         val currentDate: String = this.intent.getStringExtra("Tanggalan").toString()
         val nama: String = this.intent.getStringExtra("Pegawai").toString()
         val jabatan: String = this.intent.getStringExtra("Jabatan").toString()
         val kembalian: String = this.intent.getStringExtra("Kembalian").toString()
 
+/*        val a1 = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(Diterima)
+        val a = a1.substring(0, 2) + " " + a1.substring(2, a1.length)
+        val b1 = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(kembalian)
+        val b = b1.substring(0, 2) + " " + b1.substring(2, b1.length)*/
+
+        println(Diterima + " " + kembalian)
+
         tv_tgl.text = currentDate
         tv_jabatan.text = jabatan
         tv_namapegawai.text = nama
-        tv_diterima.text = format.format(Diterima.toDouble())
-        tv_totaltagihan.text = format.format(Total_Tagihan.toDouble())
+
+/*
+        tv_diterima.text = a
+*/
 
         if (Total_Tagihan == Diterima) {
             textView42.visibility = View.GONE
@@ -54,7 +69,7 @@ class transaksiBerhasil : AppCompatActivity() {
         } else {
             textView42.visibility = View.VISIBLE
             tv_kembalian.visibility = View.VISIBLE
-            tv_kembalian.text = format.format(kembalian.toDouble())
+/*            tv_kembalian.text = b*/
         }
     }
 
@@ -196,5 +211,58 @@ class transaksiBerhasil : AppCompatActivity() {
                 .setNewLinesAfter(1)
                 .build()
         )
+    }
+
+    private fun getKeranjang() {
+        rv_complete.layoutManager = GridLayoutManager(this, 1)
+        rv_complete.setHasFixedSize(true)
+
+        val refKeranjang = FirebaseDatabase.getInstance().getReference("Keranjang")
+
+        refKeranjang.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    rv_complete.visibility = View.VISIBLE
+                    cl_keranjang_kosong.visibility = View.GONE
+                    keranjangList.clear()
+                    var i = 0
+                    var totalKeranjang = 0
+                    var diskon = 0
+                    for (Keranjang in snapshot.children) {
+                        //DataKeranjang
+                        val keranjang = Keranjang.getValue(classKeranjang::class.java)
+                        keranjangList.add(keranjang!!)
+                        //Total Harga di Keranjang
+                        if (Keranjang.child("total").exists()) {
+                            totalKeranjang += Integer.parseInt(Keranjang.child("total").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
+                        }
+                        //Total Diskon di Keranjang
+                        if (Keranjang.child("diskon").exists()) {
+                            diskon += Integer.parseInt(Keranjang.child("diskon").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
+                        }
+                        //total barang di keranjang
+                        i += 1
+                    }
+                    val totalString = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(totalKeranjang)
+                    val total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
+                    val diskonString = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(diskon)
+                    val disk = diskonString.substring(0, 2) + " " + diskonString.substring(2, diskonString.length)
+                    val subs = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(totalKeranjang + diskon)
+                    val subst = subs.substring(0, 2) + " " + subs.substring(2, subs.length)
+
+                    tv_totaltagihan.text = total
+
+                    rv_complete.adapter = adapterKeranjang(keranjangList)
+
+                } else {
+                    startActivity(Intent(this@transaksiBerhasil, transaksi::class.java))
+                    finish()
+                    cl_keranjang_kosong.visibility = View.VISIBLE
+                    rv_complete.visibility = View.GONE
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
     }
 }

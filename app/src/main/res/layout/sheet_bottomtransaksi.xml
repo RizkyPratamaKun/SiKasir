@@ -49,21 +49,71 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_total"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rv_keranjang">
+
+        <TextView
+            android:id="@+id/tv_jsubtotal3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/amiko_bold"
+            android:gravity="center"
+            android:text="Sub Total"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_sub_sheet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="25000"
+            android:textAlignment="center"
+            android:textColor="#00B0FF"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_jsubtotal3"
+            app:layout_constraintTop_toBottomOf="@+id/tv_jsubtotal3" />
+
+        <TextView
+            android:id="@+id/tv_jsubtotal2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/amiko_bold"
+            android:gravity="center"
+            android:text="Total Diskon"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_diskon_sheet"
+            app:layout_constraintEnd_toEndOf="@+id/tv_jsubtotal"
+            app:layout_constraintHorizontal_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/tv_diskon_sheet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="25000"
+            android:textAlignment="center"
+            android:textColor="#00E676"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_subtotal_keranjang"
+            app:layout_constraintEnd_toEndOf="@+id/tv_subtotal_keranjang" />
 
         <TextView
             android:id="@+id/tv_jsubtotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="8dp"
             android:fontFamily="@font/amiko_bold"
+            android:gravity="center"
             android:text="Total"
             android:textAlignment="center"
             android:textSize="16sp"
@@ -76,9 +126,10 @@
             android:layout_height="wrap_content"
             android:text="25000"
             android:textAlignment="center"
+            android:textColor="#FF3D00"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

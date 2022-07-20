@@ -37,11 +37,6 @@ class pembayaranTunai : AppCompatActivity() {
     var namaPegawai = ""
     var jabatanPegawai = ""
 
-    //produk
-    var namaProduk = ""
-    var harga_jual = ""
-    var Jumlah_Produk = ""
-
     val randomNumber: Int = Random().nextInt(10)
     val kode = SimpleDateFormat("ddMMyyyyhhmmss").format(Date()) + randomNumber
 
@@ -52,19 +47,13 @@ class pembayaranTunai : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.transaksi_pembayaran_tunai)
-
-        getUsernameLocal()
         getIdPegawai()
         onClick()
-        handleEditText()
+        uangDiterima()
         getKeranjang()
-
-        tv_judul.setOnClickListener {
-            println(kode)
-        }
     }
 
-    private fun handleEditText() {
+    private fun uangDiterima() {
         val format: NumberFormat = DecimalFormat("Rp#,###")
         edUangPass.setBackgroundColor(ContextCompat.getColor(baseContext, android.R.color.holo_blue_bright))
 
@@ -138,17 +127,15 @@ class pembayaranTunai : AppCompatActivity() {
         finish()
     }
 
-    fun getUsernameLocal() {
+    private fun getIdPegawai() {
         val sharedPreference: SharedPreferences = getSharedPreferences(USERNAME_KEY, Context.MODE_PRIVATE)
         username_key_new = sharedPreference.getString(username_key, "").toString()
-    }
-
-    private fun getIdPegawai() {
         refTransaksi = FirebaseDatabase.getInstance().reference.child("Pegawai").child(username_key_new)
         refTransaksi.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 namaPegawai = dataSnapshot.child("Nama_Pegawai").value.toString()
                 jabatanPegawai = dataSnapshot.child("Nama_Jabatan").value.toString()
+                println(namaPegawai)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -185,22 +172,34 @@ class pembayaranTunai : AppCompatActivity() {
                     cl_keranjang_kosong.visibility = View.GONE
                     keranjangList.clear()
                     var i = 0
-                    var sum = 0
-                    for (snapKeranjang in snapshot.children) {
+                    var totalKeranjang = 0
+                    var diskon = 0
+                    for (Keranjang in snapshot.children) {
                         //DataKeranjang
-                        val keranjang = snapKeranjang.getValue(classKeranjang::class.java)
-
+                        val keranjang = Keranjang.getValue(classKeranjang::class.java)
                         keranjangList.add(keranjang!!)
                         //Total Harga di Keranjang
-                        sum += Integer.parseInt(snapKeranjang.child("total").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
+                        if (Keranjang.child("total").exists()) {
+                            totalKeranjang += Integer.parseInt(Keranjang.child("total").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
+                        }
+                        //Total Diskon di Keranjang
+                        if (Keranjang.child("diskon").exists()) {
+                            diskon += Integer.parseInt(Keranjang.child("diskon").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
+                        }
                         //total barang di keranjang
                         i += 1
                     }
-
-                    val totalString = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(sum)
+                    val totalString = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(totalKeranjang)
                     val total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
+                    val diskonString = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(diskon)
+                    val disk = diskonString.substring(0, 2) + " " + diskonString.substring(2, diskonString.length)
+                    val subs = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(totalKeranjang + diskon)
+                    val subst = subs.substring(0, 2) + " " + subs.substring(2, subs.length)
 
-                    tv_tagihan.text = total
+                    tv_sub_sheet.text = subst
+                    tv_diskon_sheet.text = disk
+                    tv_subtotal_keranjang.text = total
+
                     rv_pembayaran.adapter = adapterKeranjang(keranjangList)
 
                 } else {
@@ -213,5 +212,21 @@ class pembayaranTunai : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {}
         })
+    }
+
+    private fun Transaksi(Nama_Produk: String, Harga: String, jumlah_Produk: String, nama_Diskon: String, diskon: String, total: String) {
+
+        val reference = FirebaseDatabase.getInstance().getReference("Transaksi")
+
+        val keranjang = mapOf<String, String>(
+            "nama_Produk" to Nama_Produk,
+            "harga" to Harga,
+            "jumlah_Produk" to jumlah_Produk,
+            "nama_Diskon" to nama_Diskon,
+            "diskon" to diskon,
+            "total" to total
+        )
+
+        reference.child(kode).setValue(keranjang)
     }
 }
