@@ -9,6 +9,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -33,7 +35,7 @@ import com.project.sikasir.produk.produk.classProduk
 import com.project.sikasir.produk.viewpager.viewPagerMenu
 import com.project.sikasir.transaksi.keranjang.adapterKeranjang
 import com.project.sikasir.transaksi.keranjang.classKeranjang
-import com.project.sikasir.transaksi.pembayaran.pembayaranTunai
+import com.project.sikasir.transaksi.pembayaran.pembayaran
 import com.project.sikasir.transaksi.pengaturan
 import com.project.sikasir.transaksi.riwayat.riwayatTransaksi
 import kotlinx.android.synthetic.main.sheet_bottomtransaksi.*
@@ -104,14 +106,28 @@ class transaksi : AppCompatActivity() {
         getUsernameLocal()
         getNamaPegawai()
         getKeranjang()
+        getQR()
+        getKategori()
+
         bottomSheetBehavior()
         navigation_rv()
-        getQR()
         onClick()
+
+        spinKategori.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                getKategori()
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+            }
+
+        }
 
         if (edCariProdukTransaksi.text.isEmpty()) {
             getProduk()
         }
+
     }
 
     private fun onClick() {
@@ -197,10 +213,28 @@ class transaksi : AppCompatActivity() {
         })
     }
 
+    private fun getKategori() {
+        val refKategori = FirebaseDatabase.getInstance().getReference("Kategori")
+
+        refKategori.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val list = ArrayList<String>()
+
+                for (kategori in snapshot.children) {
+                    kategori.getValue(classKategori::class.java)?.let {
+                        it.Nama_Kategori?.let { it1 -> list.add(it1) }
+                    }
+                }
+                spinKategori.adapter = ArrayAdapter(this@transaksi, android.R.layout.simple_spinner_item, list)
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+    }
+
     private fun getKeranjang() {
         rv_keranjang.layoutManager = GridLayoutManager(this, 1)
         rv_keranjang.setHasFixedSize(true)
-
         val refKeranjang = FirebaseDatabase.getInstance().getReference("Keranjang")
 
         refKeranjang.addValueEventListener(object : ValueEventListener {
@@ -244,7 +278,7 @@ class transaksi : AppCompatActivity() {
                     rv_keranjang.adapter = adapterKeranjang(keranjangList)
 
                     btnTagih.setOnClickListener {
-                        val intent = Intent(this@transaksi, pembayaranTunai::class.java)
+                        val intent = Intent(this@transaksi, pembayaran::class.java)
                         intent.putExtra("tagihan", btnTagih.text.toString())
                         startActivity(intent)
                         finish()
