@@ -6,10 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.mazenrashed.printooth.Printooth
 import com.mazenrashed.printooth.data.printable.Printable
 import com.mazenrashed.printooth.data.printable.RawPrintable
@@ -21,17 +18,20 @@ import com.mazenrashed.printooth.utilities.PrintingCallback
 import com.project.sikasir.R
 import com.project.sikasir.transaksi.keranjang.adapterKeranjang
 import com.project.sikasir.transaksi.keranjang.classKeranjang
-import com.project.sikasir.transaksi.pembayaran.classTransaksi
+import com.project.sikasir.transaksi.pembayaran.classPembayaran
 import kotlinx.android.synthetic.main.transaksi_berhasil.*
 import java.text.NumberFormat
 import java.util.*
 
+
 class transaksiBerhasil : AppCompatActivity() {
 
     private var printing: Printing? = null
-    val keranjangList = java.util.ArrayList<classKeranjang>()
+    val keranjangList = ArrayList<classKeranjang>()
+
     lateinit var currentDate: String
     lateinit var nama: String
+    lateinit var jabatan: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.transaksi_berhasil)
@@ -47,13 +47,8 @@ class transaksiBerhasil : AppCompatActivity() {
         val Total_Tagihan: String = this.intent.getStringExtra("Total_Tagihan").toString().replace(",00", "").replace(".", "").replace("Rp ", "")
         currentDate = this.intent.getStringExtra("Tanggalan").toString()
         nama = this.intent.getStringExtra("Pegawai").toString()
-        val jabatan: String = this.intent.getStringExtra("Jabatan").toString()
+        jabatan = this.intent.getStringExtra("Jabatan").toString()
         val kembalian: String = this.intent.getStringExtra("Kembalian").toString()
-
-/*        val a1 = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(Diterima)
-        val a = a1.substring(0, 2) + " " + a1.substring(2, a1.length)
-        val b1 = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(kembalian)
-        val b = b1.substring(0, 2) + " " + b1.substring(2, b1.length)*/
 
         println(Diterima + " " + kembalian)
 
@@ -229,16 +224,24 @@ class transaksiBerhasil : AppCompatActivity() {
                     keranjangList.clear()
 
                     var totalKeranjang = 0
+                    var modal = 0
                     var diskon = 0
                     val refTransaksi = FirebaseDatabase.getInstance().getReference("Transaksi")
 
-                    val classtransaksi = classTransaksi(currentDate, nama)
+                    val tgl = ServerValue.TIMESTAMP
+
+                    val cPembayaran = classPembayaran(tgl, nama, jabatan)
 
                     for (Keranjang in snapshot.children) {
                         //DataKeranjang
-                        val keranjang = Keranjang.getValue(classKeranjang::class.java)
-                        keranjangList.add(keranjang!!)
-                        classtransaksi.produk.add(keranjang)
+                        val k = Keranjang.getValue(classKeranjang::class.java)
+                        keranjangList.add(k!!)
+                        cPembayaran.produk.add(k)
+
+                        //Total Modal di Keranjang
+                        if (Keranjang.child("total_Modal").exists()) {
+                            modal += Integer.parseInt(Keranjang.child("total_Modal").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
+                        }
                         //Total Harga di Keranjang
                         if (Keranjang.child("total").exists()) {
                             totalKeranjang += Integer.parseInt(Keranjang.child("total").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
@@ -249,24 +252,23 @@ class transaksiBerhasil : AppCompatActivity() {
                         }
                     }
 
-                    val totalString = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(totalKeranjang)
-                    val total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
-                    val diskonString = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(diskon)
-                    val disk = diskonString.substring(0, 2) + " " + diskonString.substring(2, diskonString.length)
-                    val subs = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(totalKeranjang + diskon)
-                    val subst = subs.substring(0, 2) + " " + subs.substring(2, subs.length)
+                    val m = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(modal)
+                    val mod = m.substring(0, 2) + " " + m.substring(2, m.length)
+                    val k = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(totalKeranjang)
+                    val total = k.substring(0, 2) + " " + k.substring(2, k.length)
+                    val d = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(diskon)
+                    val disk = d.substring(0, 2) + " " + d.substring(2, d.length)
 
                     tv_totaltagihan.text = total
-
+                    cPembayaran.diskon = disk
+                    cPembayaran.total = total
+                    cPembayaran.total_Modal = mod
                     rv_complete.adapter = adapterKeranjang(keranjangList)
 
-                    //push dari class transaksi ke firebase
-                    refTransaksi.push().setValue(classtransaksi)
-                } else {
-                    startActivity(Intent(this@transaksiBerhasil, transaksi::class.java))
-                    finish()
-                    cl_keranjang_kosong.visibility = View.VISIBLE
-                    rv_complete.visibility = View.GONE
+                    //push dari class pembayaran ke firebase
+                    refTransaksi.push().setValue(cPembayaran)
+                    refKeranjang.removeValue()
+                    Toast.makeText(this@transaksiBerhasil, "Transaksi Berhasil", Toast.LENGTH_SHORT).show()
                 }
             }
 

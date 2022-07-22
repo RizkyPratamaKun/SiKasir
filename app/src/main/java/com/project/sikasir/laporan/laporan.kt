@@ -14,7 +14,10 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.*
 import com.project.sikasir.R
+import com.project.sikasir.laporan.kategori.laporanKategori
 import com.project.sikasir.laporan.pegawai.laporanPegawai
+import com.project.sikasir.laporan.rangkuman.laporanRangkuman
+import com.project.sikasir.laporan.ringkasan.ringkasan
 import com.project.sikasir.menu.aboutMe
 import com.project.sikasir.menu.dashboard
 import com.project.sikasir.navPack.ClickListener
@@ -60,16 +63,10 @@ class laporan : AppCompatActivity() {
         getIdPegawai()
 
         //OnClick
-        cvRangkuman.setOnClickListener {
-            val showContent = Intent(applicationContext, laporanRangkuman::class.java)
-            startActivity(showContent)
-        }
-        cvPenjualanPerKategori.setOnClickListener {
-            startActivity(Intent(applicationContext, laporanKategori::class.java))
-        }
-        LaporanPegawai.setOnClickListener {
-            startActivity(Intent(applicationContext, laporanPegawai::class.java))
-        }
+        cvRangkuman.setOnClickListener { startActivity(Intent(applicationContext, laporanRangkuman::class.java)) }
+        cvRingkasanPenjualan.setOnClickListener { startActivity(Intent(applicationContext, ringkasan::class.java)) }
+        cvPenjualanPerKategori.setOnClickListener { startActivity(Intent(applicationContext, laporanKategori::class.java)) }
+        LaporanPegawai.setOnClickListener { startActivity(Intent(applicationContext, laporanPegawai::class.java)) }
 
         //START TOOLBAR
         drawerLayout = findViewById(R.id.drawer_layout)
@@ -185,12 +182,9 @@ class laporan : AppCompatActivity() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            // Checking for fragment count on back stack
             if (supportFragmentManager.backStackEntryCount > 0) {
-                // Go to the previous fragment
                 supportFragmentManager.popBackStack()
             } else {
-                // Exit the app
                 super.onBackPressed()
             }
         }

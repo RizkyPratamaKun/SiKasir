@@ -1,5 +1,6 @@
 package com.project.sikasir.produk.kategori
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.project.sikasir.R
+import com.project.sikasir.produk.produk.kelolaProduk
 import kotlinx.android.synthetic.main.dialog_utama.*
 import kotlinx.android.synthetic.main.dialog_utama.view.*
 
@@ -58,17 +60,43 @@ class onClickKategori : DialogFragment() {
         requireActivity().supportFragmentManager.popBackStack()
     }
 
+    private val kategoriListener = object : adapterSelectKategori.TransaksiListener {
+        override fun addtoKategori(kategori: classKategori) {
+
+            val refKeranjang = FirebaseDatabase.getInstance().getReference("Kategori")
+
+            kategori.Nama_Kategori?.let {
+                refKeranjang.child(it).addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()) {
+                            val kat = snapshot.getValue(classKategori::class.java)
+                            val nama = kat!!.Nama_Kategori
+
+                            val intent = Intent(context, kelolaProduk::class.java)
+                            intent.putExtra("namaKategori", nama)
+                            startActivity(intent)
+
+                            navigateToBackStack()
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {}
+                })
+            }
+        }
+    }
+
     private fun getKategori() {
-        var dbref = FirebaseDatabase.getInstance().getReference("Kategori")
+        val dbref = FirebaseDatabase.getInstance().getReference("Kategori")
         dbref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     dataKategori.clear()
-                    for (snapshot in snapshot.children) {
-                        val kat = snapshot.getValue(classKategori::class.java)
+                    for (snap in snapshot.children) {
+                        val kat = snap.getValue(classKategori::class.java)
                         dataKategori.add(kat!!)
                     }
-                    rv_utama.adapter = adapterSelectKategori(dataKategori)
+                    rv_utama.adapter = adapterSelectKategori(dataKategori, kategoriListener)
                 }
             }
 

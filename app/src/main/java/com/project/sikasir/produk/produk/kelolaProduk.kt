@@ -14,17 +14,14 @@ import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.project.sikasir.R
-import com.project.sikasir.produk.kategori.onClickKategori
-import com.project.sikasir.produk.merek.onClickMerek
 import com.project.sikasir.produk.scanBarcodeTambahProduk
-import com.project.sikasir.produk.viewpager.viewPagerMenu
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.produk_kelola.*
+
 
 class kelolaProduk : AppCompatActivity() {
     private lateinit var reference: DatabaseReference
     private lateinit var storage: StorageReference
-
     private var PHOTO_MAX: Int = 1
     private lateinit var photo_location: Uri
 
@@ -34,125 +31,144 @@ class kelolaProduk : AppCompatActivity() {
 
         //Tangkap
         val QR: String = intent.getStringExtra("DataQR").toString()
+        val edit: String = intent.getStringExtra("Edit").toString()
 
         //Set
         onClick()
         setSwitch()
 
-        val edit: String = intent.getStringExtra("Edit").toString()
-
         if (edit == "true") {
             setEdit()
-            editProduk()
+            btnSimpanProduk.setOnClickListener {
+                editProduk()
+                finish()
+            }
         } else {
             cv_hapus.visibility = View.GONE
-            btnSimpanProduk.setOnClickListener(View.OnClickListener {
+            btnSimpanProduk.setOnClickListener {
                 tambahProduk()
-            })
+                finish()
+            }
         }
+    }
+
+    private fun updateData(Nama_Produk: String, Harga_Jual: String, Merek: String, Kategori: String, Harga_Modal: String, Barcode: String) {
+
+        val reference = FirebaseDatabase.getInstance().getReference("Produk")
+
+        val produk = mapOf<String, String>(
+            "Nama_Produk" to Nama_Produk,
+            "Harga_Jual" to Harga_Jual,
+            "Merek" to Merek,
+            "Kategori" to Kategori,
+            "Harga_Modal" to Harga_Modal,
+            "Barcode" to Barcode
+        )
+
+        reference.child(Nama_Produk).updateChildren(produk)
+    }
+
+    private fun deleteProduk() {
+        reference = FirebaseDatabase.getInstance().reference.child("Produk").child(edNamaProduk.text.toString())
+
+        reference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    for (userSnapshot in snapshot.children) {
+                        userSnapshot.ref.removeValue()
+                    }
+                    Toast.makeText(this@kelolaProduk, "Data berhasil terhapus", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
     }
 
     private fun editProduk() {
         val nama: String = intent.getStringExtra("Nama_Produk").toString()
-        val hJual: String = intent.getStringExtra("Harga_Jual").toString()
-        val kategori: String = intent.getStringExtra("Kategori").toString()
-        val harga_modal: String = intent.getStringExtra("harga_modal").toString()
-        val barcode: String = intent.getStringExtra("Barcode").toString()
-        val merek: String = intent.getStringExtra("Merek").toString()
-        val foto: String = intent.getStringExtra("Foto").toString()
 
-        Picasso.get().load(foto).centerCrop().fit().into(iv_produk)
-        edNamaProduk.setText(nama)
-        edHargaJual.setText(hJual)
-        edKategori.setText(kategori)
-        edHargaModal.setText(harga_modal)
-        edBarcode.setText(barcode)
-        edMerek.setText(merek)
+        val namaProduk: String = edNamaProduk.text.toString()
+        val hargaJual: String = edHargaJual.text.toString()
+        val merek: String = edMerek.text.toString()
+        val kategori: String = edKategori.text.toString()
+        val hargaModal: String = edHargaModal.text.toString()
+        val barcode: String = edBarcode.text.toString()
 
-        if (harga_modal == "null") {
-            harga_modal == ""
-            if (barcode == "null") {
-                barcode == ""
-
-                btnSimpanProduk.setOnClickListener(View.OnClickListener {
-                    val namaProduk: String = edNamaProduk.text.toString()
-                    val hargaJual: String = edHargaJual.text.toString()
-                    val merekEdit: String = edMerek.text.toString()
-                    val kategoriEdit: String = edKategori.text.toString()
-                    val hargaModal: String = edHargaModal.text.toString()
-                    val barcodeEdit: String = edBarcode.text.toString()
-
-                    if (namaProduk.isEmpty()) {
-                        edNamaProduk.error = "Nama Produk tidak boleh kosong"
+        if (namaProduk.isEmpty()) {
+            edNamaProduk.error = "Nama Produk tidak boleh kosong"
+        } else {
+            if (hargaJual.isEmpty()) {
+                edHargaJual.error = "Harga Jual tidak boleh kosong"
+            } else {
+                if (merek.isEmpty()) {
+                    edMerek.error = "Nomor HP tidak boleh kosong"
+                } else {
+                    if (kategori.isEmpty()) {
+                        edKategori.error = "Kategori Harus diisi"
                     } else {
-                        if (hargaJual.isEmpty()) {
-                            edHargaJual.error = "Harga Jual tidak boleh kosong"
-                        } else {
-                            if (merekEdit.isEmpty()) {
-                                edMerek.error = "Nomor HP tidak boleh kosong"
-                            } else {
-                                if (kategoriEdit.isEmpty()) {
-                                    edKategori.error = "Kategori Harus diisi"
-                                } else {
-                                    reference = FirebaseDatabase.getInstance().reference.child("Produk").child(namaProduk)
-                                    reference.addListenerForSingleValueEvent(object : ValueEventListener {
-                                        override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                            dataSnapshot.ref.child("Nama_Produk").setValue(namaProduk)
-                                            dataSnapshot.ref.child("Harga_Jual").setValue(hargaJual)
-                                            dataSnapshot.ref.child("Merek").setValue(merekEdit)
-                                            dataSnapshot.ref.child("Kategori").setValue(kategoriEdit)
-                                            dataSnapshot.ref.child("Harga_Modal").setValue(hargaModal)
-                                            dataSnapshot.ref.child("Barcode").setValue(barcodeEdit)
-                                        }
+                        reference = FirebaseDatabase.getInstance().reference.child("Produk").child(nama)
 
-                                        override fun onCancelled(dataSnapshot: DatabaseError) {}
-                                    })
-                                    Toast.makeText(this, "$namaProduk Berhasil Dirubah", Toast.LENGTH_SHORT).show()
-                                    val intent = Intent(this, viewPagerMenu::class.java)
-                                    startActivity(intent)
+                        reference.addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+
+                                updateData(namaProduk, hargaJual, merek, kategori, hargaModal, barcode)
+
+                                if (select_photo.alpha == 0f) {
+                                    uploadPhoto()
                                 }
                             }
-                        }
+
+                            override fun onCancelled(error: DatabaseError) {}
+                        })
+                        Toast.makeText(this, "$namaProduk Berhasil Dirubah", Toast.LENGTH_SHORT).show()
                     }
-                })
+                }
             }
         }
     }
 
     private fun tambahProduk() {
         val namaProduk: String = edNamaProduk.text.toString()
-        val hJualTambah: String = edHargaJual.text.toString()
-        val merekTambah: String = edMerek.text.toString()
-        val kategoriTambah: String = edKategori.text.toString()
-        val hModal: String = edHargaModal.text.toString()
-        val barcodeTambah: String = edBarcode.text.toString()
+        val hargaJual: String = edHargaJual.text.toString()
+        val merek: String = edMerek.text.toString()
+        val kategori: String = edKategori.text.toString()
+        val hargaModal: String = edHargaModal.text.toString()
+        val barcode: String = edBarcode.text.toString()
 
         if (namaProduk.isEmpty()) {
             edNamaProduk.error = "Nama Produk tidak boleh kosong"
         } else {
-            if (hJualTambah.isEmpty()) {
+            if (hargaJual.isEmpty()) {
                 edHargaJual.error = "Harga Jual tidak boleh kosong"
             } else {
-                if (merekTambah.isEmpty()) {
+                if (merek.isEmpty()) {
                     edMerek.error = "Nomor HP tidak boleh kosong"
                 } else {
-                    if (kategoriTambah.isEmpty()) {
+                    if (kategori.isEmpty()) {
                         edKategori.error = "Kategori Harus diisi"
                     } else {
                         reference = FirebaseDatabase.getInstance().reference.child("Produk").child(namaProduk)
-                        reference.addListenerForSingleValueEvent(object :
-                                ValueEventListener {
+                        reference.addListenerForSingleValueEvent(object : ValueEventListener {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
                                 if (!dataSnapshot.exists()) {
 
-                                    uploadPhoto()
-
+                                    if (select_photo.alpha == 0f) {
+                                        uploadPhoto()
+                                    }
                                     dataSnapshot.ref.child("Nama_Produk").setValue(namaProduk)
-                                    dataSnapshot.ref.child("Harga_Jual").setValue(hJualTambah)
-                                    dataSnapshot.ref.child("Merek").setValue(merekTambah)
-                                    dataSnapshot.ref.child("Kategori").setValue(kategoriTambah)
-                                    dataSnapshot.ref.child("Harga_Modal").setValue(hModal)
-                                    dataSnapshot.ref.child("Barcode").setValue(barcodeTambah)
+                                    dataSnapshot.ref.child("Harga_Jual").setValue(hargaJual)
+                                    dataSnapshot.ref.child("Merek").setValue(merek)
+                                    dataSnapshot.ref.child("Kategori").setValue(kategori)
+
+                                    if (hargaModal.isEmpty()) {
+                                        dataSnapshot.ref.child("Harga_Modal").setValue("0")
+                                    } else {
+                                        dataSnapshot.ref.child("Harga_Modal").setValue(hargaModal)
+                                    }
+
+                                    dataSnapshot.ref.child("Barcode").setValue(barcode)
                                 } else {
                                     val alert = AlertDialog.Builder(this@kelolaProduk)
                                     alert.setTitle("Peringatan")
@@ -165,7 +181,6 @@ class kelolaProduk : AppCompatActivity() {
                             override fun onCancelled(dataSnapshot: DatabaseError) {}
                         })
                         Toast.makeText(this, "$namaProduk Berhasil Ditambahkan", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this, viewPagerMenu::class.java))
                     }
                 }
             }
@@ -173,7 +188,6 @@ class kelolaProduk : AppCompatActivity() {
     }
 
     private fun setEdit() {
-        select_photo.alpha = 0f
         cv_hapus.visibility = View.VISIBLE
         switch1.isChecked = true
         edHargaModal.visibility = View.VISIBLE
@@ -181,6 +195,28 @@ class kelolaProduk : AppCompatActivity() {
         tv_opsional2.visibility = View.VISIBLE
         edBarcode.visibility = View.VISIBLE
         ivToAddQR.visibility = View.VISIBLE
+
+        val nama: String = intent.getStringExtra("Nama_Produk").toString()
+        val hJual: String = intent.getStringExtra("Harga_Jual").toString()
+        val kategori: String = intent.getStringExtra("Kategori").toString()
+        val harga_modal: String = intent.getStringExtra("harga_modal").toString()
+        val barcode: String = intent.getStringExtra("Barcode").toString()
+        val merek: String = intent.getStringExtra("Merek").toString()
+        val foto: String = intent.getStringExtra("Foto").toString()
+
+        if (harga_modal != "null") {
+            edHargaModal.setText(harga_modal)
+        }
+        if (barcode != "null") {
+            edBarcode.setText(barcode)
+        }
+
+        Picasso.get().load(foto).centerCrop().fit().into(iv_produk)
+
+        edNamaProduk.setText(nama)
+        edHargaJual.setText(hJual)
+        edKategori.setText(kategori)
+        edMerek.setText(merek)
     }
 
     private fun setSwitch() {
@@ -207,7 +243,6 @@ class kelolaProduk : AppCompatActivity() {
 
     private fun onClick() {
         val kategori: String = intent.getStringExtra("tambahkategori").toString()
-        val merek: String = intent.getStringExtra("tambahmerek").toString()
 
         switch1.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -243,35 +278,12 @@ class kelolaProduk : AppCompatActivity() {
 
         ivToAddQR.setOnClickListener { startActivity(Intent(this, scanBarcodeTambahProduk::class.java)) }
 
-        tvA7toA6.setOnClickListener { startActivity(Intent(this, viewPagerMenu::class.java)) }
+        tvA7toA6.setOnClickListener { finish() }
 
-        edMerek.setOnClickListener { onClickMerek().show(supportFragmentManager, merek) }
-
-        edKategori.setOnClickListener { onClickKategori().show(supportFragmentManager, kategori) }
+/*        edKategori.setOnClickListener { onClickKategori().show(supportFragmentManager, kategori) }*/
 
         select_photo.setOnClickListener { findPhoto() }
         cv_btnupload.setOnClickListener { findPhoto() }
-    }
-
-    //Delete  Produk
-    private fun deleteProduk() {
-        reference = FirebaseDatabase.getInstance().reference.child("Produk").child(edNamaProduk.text.toString())
-
-        reference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    for (userSnapshot in snapshot.children) {
-                        userSnapshot.ref.removeValue()
-                    }
-                    Toast.makeText(this@kelolaProduk, "Data berhasil terhapus", Toast.LENGTH_SHORT).show()
-                    val gotoHomeIntent = Intent(this@kelolaProduk, viewPagerMenu::class.java)
-                    startActivity(gotoHomeIntent)
-                    finish()
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {}
-        })
     }
 
     private fun findPhoto() {
@@ -285,7 +297,6 @@ class kelolaProduk : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == PHOTO_MAX && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
-
             photo_location = data.data!!
             Picasso.get().load(photo_location).centerCrop().fit().into(iv_produk)
             select_photo.alpha = 0f

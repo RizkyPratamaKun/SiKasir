@@ -44,7 +44,7 @@
                 app:layout_constraintTop_toTopOf="@+id/tv_opsional2" />
 
             <TextView
-                android:id="@+id/textView53"
+                android:id="@+id/tv_nama"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Rizky Pratama"
@@ -53,11 +53,11 @@
                 android:textSize="34sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textView52"
-                app:layout_constraintTop_toBottomOf="@+id/textView52" />
+                app:layout_constraintStart_toStartOf="@+id/tv_devjudul"
+                app:layout_constraintTop_toBottomOf="@+id/tv_devjudul" />
 
             <ImageView
-                android:id="@+id/imageView29"
+                android:id="@+id/iv_gambar"
                 android:layout_width="wrap_content"
                 android:layout_height="150dp"
                 android:layout_marginTop="8dp"
@@ -81,7 +81,7 @@
                 app:layout_constraintTop_toTopOf="@+id/tv_backabout" />
 
             <TextView
-                android:id="@+id/textView52"
+                android:id="@+id/tv_devjudul"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/actor"
@@ -91,7 +91,7 @@
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/tv_backabout"
-                app:layout_constraintTop_toBottomOf="@+id/imageView29" />
+                app:layout_constraintTop_toBottomOf="@+id/iv_gambar" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

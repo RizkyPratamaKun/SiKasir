@@ -21,6 +21,9 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:theme">
         <activity
+            android:name=".laporan.ringkasan.ringkasan"
+            android:exported="false" />
+        <activity
             android:name=".transaksi.keranjang.kelolaKeranjang"
             android:exported="false"
             android:noHistory="true" />
@@ -54,9 +57,6 @@
             android:name=".transaksi.transaksi.scanBarcodeTambahTransaksi"
             android:exported="false" />
         <activity
-            android:name=".transaksi.pembayaran.pembayaran"
-            android:exported="false" />
-        <activity
             android:name=".transaksi.transaksi.transaksi"
             android:exported="false" />
         <activity
@@ -66,19 +66,19 @@
         <activity
             android:name=".produk.produk.kelolaProduk"
             android:exported="false"
-            android:noHistory="true" />
+            android:noHistory="false" />
         <activity
             android:name=".produk.viewpager.viewPagerMenu"
             android:exported="false"
-            android:noHistory="true" />
+            android:noHistory="false" />
         <activity
             android:name=".laporan.pegawai.laporanPegawai"
             android:exported="false" />
         <activity
-            android:name=".laporan.laporanKategori"
+            android:name=".laporan.kategori.laporanKategori"
             android:exported="false" />
         <activity
-            android:name=".laporan.laporanRangkuman"
+            android:name=".laporan.rangkuman.laporanRangkuman"
             android:exported="false" />
 
         <meta-data

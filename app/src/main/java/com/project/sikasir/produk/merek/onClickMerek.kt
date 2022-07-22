@@ -75,4 +75,5 @@ class onClickMerek : DialogFragment() {
         requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
         requireActivity().supportFragmentManager.popBackStack()
     }
+
 }

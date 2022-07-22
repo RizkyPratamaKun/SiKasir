@@ -21,47 +21,42 @@
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/constraintLayout13"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
                 android:background="#FFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout6">
 
-                <EditText
-                    android:id="@+id/edKategori"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="32dp"
-                    android:ems="10"
-                    android:hint="Kategori"
-                    android:focusableInTouchMode="false"
-                    android:minHeight="48dp"
-                    android:inputType="text"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/edNamaProduk"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@+id/edNamaProduk"
-                    app:layout_constraintTop_toBottomOf="@+id/edMerek"
-                    app:layout_constraintVertical_bias="1.0" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_form"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="#FFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout13">
 
                 <EditText
-                    android:id="@+id/edMerek"
+                    android:id="@+id/edNamaProduk"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:ems="10"
-                    android:focusableInTouchMode="false"
-                    android:hint="Merek"
+                    android:layout_marginEnd="16dp"
+                    android:ems="30"
+                    android:hint="Nama Produk"
                     android:inputType="text"
                     android:minHeight="48dp"
-                    app:layout_constraintEnd_toEndOf="@+id/edHargaJual"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@+id/edHargaJual"
-                    app:layout_constraintTop_toBottomOf="@+id/edHargaJual" />
+                    android:windowSoftInputMode="adjustPan"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cv_btnupload" />
 
                 <com.cottacush.android.currencyedittext.CurrencyEditText
                     android:id="@+id/edHargaJual"
@@ -80,26 +75,41 @@
                     app:localeTag="ID" />
 
                 <EditText
-                    android:id="@+id/edNamaProduk"
+                    android:id="@+id/edMerek"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:ems="30"
-                    android:hint="Nama Produk"
+                    android:ems="10"
+                    android:focusableInTouchMode="true"
+                    android:hint="Merek"
                     android:inputType="text"
                     android:minHeight="48dp"
-                    android:windowSoftInputMode="adjustPan"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cv_btnupload" />
+                    app:layout_constraintEnd_toEndOf="@+id/edHargaJual"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/edHargaJual"
+                    app:layout_constraintTop_toBottomOf="@+id/edHargaJual" />
+
+                <EditText
+                    android:id="@+id/edKategori"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:ems="10"
+                    android:focusableInTouchMode="true"
+                    android:hint="Kategori"
+                    android:inputType="text"
+                    android:minHeight="48dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/edNamaProduk"
+                    app:layout_constraintStart_toStartOf="@+id/edNamaProduk"
+                    app:layout_constraintTop_toBottomOf="@+id/edMerek" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/iv_produk"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="24dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintStart_toStartOf="parent"
@@ -142,6 +152,7 @@
                         android:layout_gravity="center"
                         app:srcCompat="@drawable/ic_baseline_camera_alt_24" />
                 </androidx.cardview.widget.CardView>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -152,7 +163,7 @@
                 android:background="#FFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
+                app:layout_constraintTop_toBottomOf="@+id/cl_form">
 
                 <TextView
                     android:id="@+id/textView17"

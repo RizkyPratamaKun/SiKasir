@@ -14,56 +14,56 @@
         android:textAlignment="viewEnd"
         android:textSize="12sp"
         android:typeface="monospace"
-        app:layout_constraintBottom_toBottomOf="@+id/kd_riwayat"
-        app:layout_constraintEnd_toEndOf="@+id/status_transaksi"
-        app:layout_constraintStart_toEndOf="@+id/kd_riwayat"
-        app:layout_constraintTop_toBottomOf="@+id/status_transaksi" />
+        app:layout_constraintBottom_toBottomOf="@+id/riwayat_tv_jabatan"
+        app:layout_constraintEnd_toEndOf="@+id/riwayat_tv_harga"
+        app:layout_constraintStart_toEndOf="@+id/riwayat_tv_jabatan"
+        app:layout_constraintTop_toTopOf="@+id/riwayat_tv_jabatan" />
 
     <TextView
-        android:id="@+id/status_transaksi"
+        android:id="@+id/riwayat_tv_harga"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/amiko_bold"
-        android:text="Tunai"
+        android:text="Rp.0"
         android:textColor="#00E676"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/tv_tanggal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_subtotal" />
+        app:layout_constraintTop_toTopOf="@+id/riwayat_tv_nama" />
 
     <ImageView
         android:id="@+id/imageView20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/kd_riwayat"
+        app:layout_constraintBottom_toBottomOf="@+id/riwayat_tv_jabatan"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_subtotal"
+        app:layout_constraintTop_toTopOf="@+id/riwayat_tv_nama"
         app:srcCompat="@drawable/ic_baseline_assignment_24" />
 
     <TextView
-        android:id="@+id/tv_subtotal"
+        android:id="@+id/riwayat_tv_nama"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/amiko_bold"
-        android:text="Rp2.500"
+        android:text="Abe"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/kd_riwayat"
+        app:layout_constraintBottom_toTopOf="@+id/riwayat_tv_jabatan"
         app:layout_constraintStart_toEndOf="@+id/imageView20"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/kd_riwayat"
+        android:id="@+id/riwayat_tv_jabatan"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/amiko"
         android:lineSpacingExtra="8sp"
-        android:text="kode_riwayat"
+        android:text="jabatan"
         android:textAlignment="viewStart"
         android:textAllCaps="false"
         android:textSize="12sp"
@@ -72,6 +72,6 @@
         app:layout_constraintEnd_toStartOf="@+id/tv_tanggal"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/imageView20"
-        app:layout_constraintStart_toStartOf="@+id/tv_subtotal"
-        app:layout_constraintTop_toBottomOf="@+id/tv_subtotal" />
+        app:layout_constraintStart_toStartOf="@+id/riwayat_tv_nama"
+        app:layout_constraintTop_toBottomOf="@+id/riwayat_tv_nama" />
 </androidx.constraintlayout.widget.ConstraintLayout>

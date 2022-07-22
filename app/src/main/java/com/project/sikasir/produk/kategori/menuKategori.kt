@@ -42,7 +42,7 @@ class menuKategori : Fragment() {
     }
 
     fun getKategori() {
-        var dbref = FirebaseDatabase.getInstance().getReference("Kategori")
+        val dbref = FirebaseDatabase.getInstance().getReference("Kategori")
         dbref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {

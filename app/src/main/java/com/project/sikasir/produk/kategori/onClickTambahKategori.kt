@@ -29,9 +29,10 @@ class onClickTambahKategori : DialogFragment() {
 
         //Tangkap
         val bundle = arguments
-        val Edit = bundle!!.getString("Edit").toString()
-        val Nama_Kategori = bundle.getString("Nama_Kategori").toString()
-        if (Edit == "false") {
+        val ed = bundle?.getString("Edit").toString()
+        val Nama_Kategori = bundle?.getString("Nama_Kategori").toString()
+
+        if (ed == "null") {
             view.tv_hapus.visibility = View.GONE
             view.tv_batal.visibility = View.GONE
         } else {
@@ -39,16 +40,9 @@ class onClickTambahKategori : DialogFragment() {
             view.tv_hapus.visibility = View.VISIBLE
         }
 
-        //OnClick
-        view.tv_hapus.setOnClickListener {
-            deleteKategori()
-        }
-        view.tv_batal.setOnClickListener {
-            navigateToBackStack()
-        }
-        view.tvSimpan.setOnClickListener {
-            simpanKategori()
-        }
+        view.tv_hapus.setOnClickListener { deleteKategori() }
+        view.tv_batal.setOnClickListener { navigateToBackStack() }
+        view.tvSimpan.setOnClickListener { simpanKategori() }
 
         return view
     }

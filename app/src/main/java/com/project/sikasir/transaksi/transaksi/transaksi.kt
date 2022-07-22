@@ -9,7 +9,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -30,7 +29,6 @@ import com.project.sikasir.navPack.NavigationItemModel
 import com.project.sikasir.navPack.NavigationRVAdapter
 import com.project.sikasir.navPack.RecyclerTouchListener
 import com.project.sikasir.pegawai.pegawai
-import com.project.sikasir.produk.kategori.classKategori
 import com.project.sikasir.produk.produk.classProduk
 import com.project.sikasir.produk.viewpager.viewPagerMenu
 import com.project.sikasir.transaksi.keranjang.adapterKeranjang
@@ -50,11 +48,9 @@ class transaksi : AppCompatActivity() {
     private var username_key = ""
     private var username_key_new = ""
 
-    private lateinit var dataKategori: ArrayList<classKategori>
     val keranjangList = ArrayList<classKeranjang>()
     val produkList = ArrayList<classProduk>()
 
-    lateinit var dataSpinKategori: ArrayList<String>
     private val produkAdapter: adapterSearchTransaksi by lazy {
         adapterSearchTransaksi(produkList)
     }
@@ -75,22 +71,36 @@ class transaksi : AppCompatActivity() {
                             val keranjang = snapshot.getValue(classKeranjang::class.java)
 
                             if (keranjang != null) {
-                                //Set Jumlah barang di Keranjang
+                                //qty
                                 keranjang.jumlah_Produk = (keranjang.jumlah_Produk?.toInt()?.plus(1)).toString()
 
-                                //Kalkulasi
+                                //harga_jual * qty
                                 val totalString = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
                                     .format((keranjang.harga!!.replace(".", "").replace("Rp ", "").toDouble() * keranjang.jumlah_Produk!!.toDouble()))
-
-                                //SetCurrency
                                 keranjang.total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
+
+                                //harga_modal * qty
+                                val totalModal = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
+                                    .format((keranjang.harga_Modal!!.replace(".", "").replace("Rp ", "").toDouble() * keranjang.jumlah_Produk!!.toDouble()))
+                                keranjang.total_Modal = totalModal.substring(0, 2) + " " + totalModal.substring(2, totalModal.length)
 
                                 refKeranjang.child(produk.Nama_Produk!!).setValue(keranjang)
                             }
-                            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
                         } else {
-                            refKeranjang.child(produk.Nama_Produk!!).setValue(classKeranjang(produk.Nama_Produk, produk.Harga_Jual, "1", produk.Harga_Jual))
+                            refKeranjang.child(produk.Nama_Produk!!).setValue(
+                                classKeranjang(
+                                    produk.Nama_Produk,
+                                    produk.Harga_Jual,
+                                    produk.Harga_Modal,
+                                    jumlah_Produk = "1",
+                                    nama_Diskon = "",
+                                    diskon = "0",
+                                    total_Modal = produk.Harga_Modal,
+                                    total = produk.Harga_Jual
+                                )
+                            )
                         }
+                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
                     }
 
                     override fun onCancelled(error: DatabaseError) {}
@@ -113,16 +123,38 @@ class transaksi : AppCompatActivity() {
         navigation_rv()
         onClick()
 
+/*
         spinKategori.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                getKategori()
-            }
-
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val text = spinKategori.selectedItem.toString()
+                rv_transaksi.layoutManager = GridLayoutManager(this@transaksi, 2)
+                rv_transaksi.setHasFixedSize(true)
 
+                val refProduk = FirebaseDatabase.getInstance().getReference("Produk")
+
+                refProduk.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()) {
+                            rv_transaksi.visibility = View.VISIBLE
+                            cl_produk_kosong.visibility = View.GONE
+                            produkList.clear()
+                            for (snapshot in snapshot.children) {
+                                val kat = snapshot.getValue(classProduk::class.java)
+                                produkList.add(kat!!)
+                            }
+                            rv_transaksi.adapter = adapterTransaksi(produkList, trasaksiListener)
+                        } else {
+                            cl_produk_kosong.visibility = View.VISIBLE
+                            rv_transaksi.visibility = View.GONE
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {}
+                })
             }
-
         }
+*/
 
         if (edCariProdukTransaksi.text.isEmpty()) {
             getProduk()
@@ -185,7 +217,6 @@ class transaksi : AppCompatActivity() {
             if (supportFragmentManager.backStackEntryCount > 0) {
                 supportFragmentManager.popBackStack()
             } else {
-                // Exit the app
                 super.onBackPressed()
             }
         }
@@ -214,15 +245,17 @@ class transaksi : AppCompatActivity() {
     }
 
     private fun getKategori() {
-        val refKategori = FirebaseDatabase.getInstance().getReference("Kategori")
+        val refKategori = FirebaseDatabase.getInstance().getReference("Produk")
 
         refKategori.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val list = ArrayList<String>()
 
                 for (kategori in snapshot.children) {
-                    kategori.getValue(classKategori::class.java)?.let {
-                        it.Nama_Kategori?.let { it1 -> list.add(it1) }
+                    kategori.getValue(classProduk::class.java)?.let {
+                        it.Kategori?.let { it1 ->
+                            list.add(it1)
+                        }
                     }
                 }
                 spinKategori.adapter = ArrayAdapter(this@transaksi, android.R.layout.simple_spinner_item, list)
@@ -299,6 +332,7 @@ class transaksi : AppCompatActivity() {
     private fun getProduk() {
         rv_transaksi.layoutManager = GridLayoutManager(this, 2)
         rv_transaksi.setHasFixedSize(true)
+
         val refProduk = FirebaseDatabase.getInstance().getReference("Produk")
 
         refProduk.addValueEventListener(object : ValueEventListener {
@@ -374,7 +408,7 @@ class transaksi : AppCompatActivity() {
         })
     }
 
-    fun getNamaPegawai() {
+    private fun getNamaPegawai() {
         refPegawai = FirebaseDatabase.getInstance().reference.child("Pegawai").child(username_key_new)
         refPegawai.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -386,7 +420,7 @@ class transaksi : AppCompatActivity() {
         })
     }
 
-    fun navigation_rv() {
+    private fun navigation_rv() {
         navigation_layout.visibility = View.VISIBLE
         drawerLayout = findViewById(R.id.drawer_layout)
         setSupportActionBar(activity_main_toolbar)

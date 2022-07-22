@@ -14,18 +14,16 @@ class viewPagerMenu : AppCompatActivity() {
 
         viewPagerProduk.adapter = viewpageradapter(supportFragmentManager, lifecycle)
 
-        TabLayoutMediator(
-            tabLayoutproduk, viewPagerProduk,
-            { tab, position ->
-                when (position) {
-                    0 -> {
-                        tab.text = "Kelola Produk"
-                    }
-                    1 -> {
-                        tab.text = "Kelola Kategori"
-                    }
+        TabLayoutMediator(tabLayoutproduk, viewPagerProduk) { tab, position ->
+            when (position) {
+                0 -> {
+                    tab.text = "Kelola Produk"
                 }
-            }).attach()
+                1 -> {
+                    tab.text = "Kelola Kategori"
+                }
+            }
+        }.attach()
 
         tvA3toA2.setOnClickListener { _ ->
             finish()

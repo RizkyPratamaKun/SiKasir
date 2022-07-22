@@ -25,17 +25,19 @@ class produk : Fragment() {
         view.fabTambahProduk.setOnClickListener {
             startActivity(Intent(activity, kelolaProduk::class.java))
         }
+
         view.rv_pegawai.layoutManager = GridLayoutManager(activity, 1)
         view.rv_pegawai.setHasFixedSize(true)
         getProduk()
         return view
     }
 
-    fun getProduk() {
+    private fun getProduk() {
         listProduk = arrayListOf()
         val dbref = FirebaseDatabase.getInstance().getReference("Produk")
         dbref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                listProduk.clear()
                 if (snapshot.exists()) {
                     for (snap in snapshot.children) {
                         val produk = snap.getValue(classProduk::class.java)

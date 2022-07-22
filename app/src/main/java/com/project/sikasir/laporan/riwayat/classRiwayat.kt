@@ -1,7 +1,8 @@
 package com.project.sikasir.laporan.riwayat
 
-class classRiwayat {
-    var subtotal: String? = null
-    var kode_riwayat: String? = null
-    var tanggal: String? = null
-}
+data class classRiwayat(
+    var tanggal: Long? = null,
+    var namaPegawai: String? = null,
+    var jabatan: String? = null,
+    var total: String? = null
+)

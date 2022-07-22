@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".laporan.laporanRangkuman">
+    tools:context=".laporan.rangkuman.laporanRangkuman">
 
     <TextView
         android:id="@+id/tvA3toA3"
@@ -88,20 +88,6 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/textView32"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:text="Lihat Detail"
-                        android:textColor="#FF3D00"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView31" />
-
-                    <TextView
                         android:id="@+id/textView19"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -120,12 +106,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
                         android:fontFamily="@font/amiko_bold"
                         android:lineSpacingExtra="10sp"
                         android:text="Nama_produk"
                         android:textAlignment="viewStart"
                         android:textSize="20sp"
                         android:typeface="sans"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/textView19"
                         app:layout_constraintTop_toBottomOf="@+id/textView19" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -146,21 +134,8 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/tv_kategoridetail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:text="Lihat Detail"
-                        android:textColor="#FF3D00"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_kategori_nama" />
+                    android:layout_height="match_parent"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/tv_kategori"
@@ -181,12 +156,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
                         android:fontFamily="@font/amiko_bold"
                         android:lineSpacingExtra="10sp"
                         android:text="Nama_Kategori"
                         android:textAlignment="viewStart"
                         android:textSize="20sp"
                         android:typeface="sans"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/tv_kategori"
                         app:layout_constraintTop_toBottomOf="@+id/tv_kategori" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -197,7 +174,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 app:cardElevation="2dp"
                 app:cardMaxElevation="5dp"
@@ -208,20 +185,6 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/totaltransaksi_detail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:text="Lihat Detail"
-                        android:textColor="#FF3D00"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/totaltransaksi_nama" />
 
                     <TextView
                         android:id="@+id/totaltransaksi_judul"
@@ -242,12 +205,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
                         android:fontFamily="@font/amiko_bold"
                         android:lineSpacingExtra="10sp"
                         android:text="0"
                         android:textAlignment="viewStart"
                         android:textSize="20sp"
                         android:typeface="sans"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/totaltransaksi_judul"
                         app:layout_constraintTop_toBottomOf="@+id/totaltransaksi_judul" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -271,27 +236,13 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/totalkeuntungan_detail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:text="Lihat Detail"
-                        android:textColor="#FF3D00"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/keuntungan_nama" />
-
-                    <TextView
                         android:id="@+id/keuntungan_judul"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:fontFamily="@font/amiko_bold"
-                        android:text="Total Keuntungan"
+                        android:text="Total Penjualan"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                         android:textColor="#000000"
                         android:textStyle="bold"
@@ -303,12 +254,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
                         android:fontFamily="@font/amiko_bold"
                         android:lineSpacingExtra="10sp"
-                        android:text="Rp74.000"
+                        android:text="0"
                         android:textAlignment="viewStart"
+                        android:textColor="#00B0FF"
                         android:textSize="20sp"
                         android:typeface="sans"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/keuntungan_judul"
                         app:layout_constraintTop_toBottomOf="@+id/keuntungan_judul" />
 

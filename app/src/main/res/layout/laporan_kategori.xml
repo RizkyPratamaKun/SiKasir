@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EAEAEA"
-    tools:context=".laporan.laporanKategori">
+    tools:context=".laporan.kategori.laporanKategori">
 
     <TextView
         android:id="@+id/tvA3toA"
@@ -122,7 +122,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/tv_qty"
+                        android:id="@+id/tv_omset"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/amiko_bold"
@@ -165,11 +165,11 @@
                         android:textSize="12sp"
                         app:layout_constraintEnd_toStartOf="@+id/textView51"
                         app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/imageView19"
+                        app:layout_constraintStart_toEndOf="@+id/iv_logo_laporan_pegawai"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                        android:id="@+id/imageView19"
+                        android:id="@+id/iv_logo_laporan_pegawai"
                         android:layout_width="50dp"
                         android:layout_height="0dp"
                         android:layout_marginStart="16dp"

@@ -85,11 +85,11 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/tv_qty"
+                        android:id="@+id/tv_omset"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/amiko_bold"
-                        android:text="Rp32.000"
+                        android:text="0"
                         android:textColor="#0288D1"
                         app:layout_constraintStart_toStartOf="@+id/textView16"
                         app:layout_constraintTop_toBottomOf="@+id/textView16" />
@@ -112,7 +112,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
                         android:fontFamily="@font/amiko_bold"
-                        android:text="1"
+                        android:text="0"
                         android:textColor="#0288D1"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/textView51"
@@ -128,11 +128,11 @@
                         android:textSize="12sp"
                         app:layout_constraintEnd_toStartOf="@+id/textView51"
                         app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/imageView19"
+                        app:layout_constraintStart_toEndOf="@+id/iv_logo_laporan_pegawai"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                        android:id="@+id/imageView19"
+                        android:id="@+id/iv_logo_laporan_pegawai"
                         android:layout_width="50dp"
                         android:layout_height="0dp"
                         android:layout_marginStart="16dp"

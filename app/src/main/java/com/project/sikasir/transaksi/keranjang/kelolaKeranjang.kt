@@ -30,7 +30,12 @@ class kelolaKeranjang : AppCompatActivity() {
         tv_harga_keranjang.text = harga
         tv_jumlah_keranjang.text = jumlahProduk
         tv_namaitem.text = Nama_Produk
-        tv_sub_total.text = subTotal
+
+        if (subTotal == "null") {
+            tv_sub_total.text = harga
+        } else {
+            tv_sub_total.text = subTotal
+        }
 
         if (diskon.isEmpty() || diskon == "0" || diskon == "null") {
             switchPembayaran.isChecked = false

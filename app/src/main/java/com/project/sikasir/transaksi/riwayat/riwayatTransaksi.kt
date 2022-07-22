@@ -10,10 +10,16 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.project.sikasir.R
 import com.project.sikasir.laporan.laporan
+import com.project.sikasir.laporan.riwayat.adapterRiwayat
+import com.project.sikasir.laporan.riwayat.classRiwayat
 import com.project.sikasir.menu.aboutMe
 import com.project.sikasir.menu.dashboard
 import com.project.sikasir.navPack.ClickListener
@@ -29,10 +35,11 @@ import kotlinx.android.synthetic.main.transaksi_riwayat.*
 class riwayatTransaksi : AppCompatActivity() {
     lateinit var drawerLayout: DrawerLayout
     private lateinit var adapter: NavigationRVAdapter
+    val pList = ArrayList<classRiwayat>()
 
-    //FIREBASE
-    private lateinit var dataRiwayat: ArrayList<classRiwayat>
-    private lateinit var dbref: DatabaseReference
+    private var USERNAME_KEY = "username_key"
+    private var username_key = ""
+    private var username_key_new = ""
 
     private var items = arrayListOf(
         NavigationItemModel(R.drawable.ic_baseline_home_24, "Beranda"),
@@ -49,7 +56,12 @@ class riwayatTransaksi : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.transaksi_riwayat)
 
-        //START TOOLBAR
+        getRiwayat()
+        nav()
+        getNamaPegawai()
+    }
+
+    private fun nav() {
         navigation_layout.visibility = View.VISIBLE
         drawerLayout = findViewById(R.id.drawer_layout)
         setSupportActionBar(activity_main_toolbar)
@@ -127,10 +139,6 @@ class riwayatTransaksi : AppCompatActivity() {
         }
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
-
-        //Recycleview
-        dataRiwayat = arrayListOf<classRiwayat>()
-        getRiwayatTransaksi()
     }
 
 
@@ -155,22 +163,43 @@ class riwayatTransaksi : AppCompatActivity() {
         }
     }
 
-    //Get Riwayat Transaksi
-    private fun getRiwayatTransaksi() {
-        dbref = FirebaseDatabase.getInstance().getReference("Transaksi")
-        dbref.addValueEventListener(object : ValueEventListener {
+    private fun getRiwayat() {
+        rv_riwayat.layoutManager = GridLayoutManager(this, 1)
+        rv_riwayat.setHasFixedSize(true)
+
+        val refProduk = FirebaseDatabase.getInstance().getReference("Transaksi")
+
+        refProduk.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+
                 if (snapshot.exists()) {
-                    dataRiwayat.clear()
-                    for (userSnapshot in snapshot.children) {
-                        val riwayat = userSnapshot.getValue(classRiwayat::class.java)
-                        dataRiwayat.add(riwayat!!)
+                    pList.clear()
+                    var i = 0
+                    for (snap in snapshot.children) {
+                        i += 1
+                        val t = snap.getValue(classRiwayat::class.java)
+
+/*                        tot += Integer.parseInt(snap.child("total").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))*/
+                        println(snap.child("total"))
+                        pList.add(t!!)
                     }
-                    rv_riwayat.adapter = adapterRiwayat(dataRiwayat)
+                    rv_riwayat.adapter = adapterRiwayat(pList)
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {}
+        })
+    }
+
+    fun getNamaPegawai() {
+        val refPegawai = FirebaseDatabase.getInstance().reference.child("Pegawai").child(username_key_new)
+        refPegawai.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                tv_namaakun.text = dataSnapshot.child("Nama_Pegawai").value.toString()
+                tv_nmjabatan.text = dataSnapshot.child("Nama_Jabatan").value.toString()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
 }

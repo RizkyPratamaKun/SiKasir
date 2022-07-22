@@ -26,13 +26,13 @@ class adapterKategori(private val listClassKategori: ArrayList<classKategori>) :
 
         holder.itemView.setOnClickListener {
             val manager = (holder.itemView.context as FragmentActivity).supportFragmentManager
+
             //Bundle (adapter to DialogFragment)
             val bundle = Bundle()
             val dialogFragment = onClickTambahKategori()
-            //Tembak
+
             bundle.putString("Nama_Kategori", currentitem.Nama_Kategori)
             bundle.putString("Edit", "true")
-            //GO
             dialogFragment.arguments = bundle
             dialogFragment.show(manager, "dialog_event")
         }

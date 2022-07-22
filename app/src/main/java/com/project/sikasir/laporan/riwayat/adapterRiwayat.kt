@@ -22,20 +22,20 @@ class adapterRiwayat(private val listClassRiwayat: ArrayList<classRiwayat>) :
 
         val currentitem = listClassRiwayat[position]
 
-        holder.subtotal.text = currentitem.subtotal
-        holder.kd_riwayat.text = currentitem.kode_riwayat
-        holder.tanggal.text = currentitem.tanggal
+        holder.nama.text = currentitem.namaPegawai
+        holder.jabatan.text = currentitem.jabatan
+        holder.harga.text = currentitem.total
+        holder.tanggal.text = currentitem.tanggal.toString()
     }
 
     override fun getItemCount(): Int {
         return listClassRiwayat.size
     }
 
-
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val subtotal: TextView = itemView.findViewById(R.id.tv_subtotal)
-        val kd_riwayat: TextView = itemView.findViewById(R.id.kd_riwayat)
-        val status: TextView = itemView.findViewById(R.id.status_transaksi)
+        val nama: TextView = itemView.findViewById(R.id.riwayat_tv_nama)
+        val jabatan: TextView = itemView.findViewById(R.id.riwayat_tv_jabatan)
+        val harga: TextView = itemView.findViewById(R.id.riwayat_tv_harga)
         val tanggal: TextView = itemView.findViewById(R.id.tv_tanggal)
     }
 }

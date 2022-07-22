@@ -1,4 +1,4 @@
-package com.project.sikasir.laporan
+package com.project.sikasir.laporan.kategori
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

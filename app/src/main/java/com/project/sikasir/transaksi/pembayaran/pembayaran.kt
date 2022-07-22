@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
@@ -141,21 +140,6 @@ class pembayaran : AppCompatActivity() {
             override fun onCancelled(databaseError: DatabaseError) {
 
             }
-        })
-    }
-
-    private fun simpanTransaksi() {
-        refTransaksi = FirebaseDatabase.getInstance().reference.child("Transaksi").child(kode)
-
-        refTransaksi.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                dataSnapshot.ref.child("Pegawai").setValue(namaPegawai)
-                dataSnapshot.ref.child("Tanggal").setValue(waktu)
-
-                Toast.makeText(this@pembayaran, "Data Berhasil Ditambahkan", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
 

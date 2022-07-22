@@ -139,6 +139,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            android:visibility="gone"
                             app:layout_constraintEnd_toEndOf="@+id/cvPenjualanPerKategori"
                             app:layout_constraintStart_toStartOf="@+id/cvPenjualanPerKategori"
                             app:layout_constraintTop_toBottomOf="@+id/cvPenjualanPerKategori">
@@ -172,6 +173,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            android:visibility="gone"
                             app:layout_constraintEnd_toEndOf="@+id/cvRingkasanPenjualan"
                             app:layout_constraintStart_toStartOf="@+id/cvRingkasanPenjualan"
                             app:layout_constraintTop_toBottomOf="@+id/cvRingkasanPenjualan">
@@ -207,8 +209,8 @@
                             android:layout_marginTop="5dp"
                             android:layout_marginBottom="16dp"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="@+id/cvPenjualanPerMerk"
-                            app:layout_constraintStart_toStartOf="@+id/cvPenjualanPerMerk"
+                            app:layout_constraintEnd_toEndOf="@+id/cvRangkuman"
+                            app:layout_constraintStart_toStartOf="@+id/cvRangkuman"
                             app:layout_constraintTop_toBottomOf="@+id/cvPenjualanPerMerk">
 
                             <TextView
@@ -273,6 +275,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            android:visibility="gone"
                             app:layout_constraintEnd_toEndOf="@+id/cvPenjualanPerProduk"
                             app:layout_constraintStart_toStartOf="@+id/cvPenjualanPerProduk"
                             app:layout_constraintTop_toBottomOf="@+id/cvPenjualanPerProduk">

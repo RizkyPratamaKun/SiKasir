@@ -6,17 +6,16 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.project.sikasir.R
-import com.project.sikasir.listview.classPegawai
 
 /**
  * Dibuat oleh RizkyPratama pada 08-May-22.
  */
-class adapterLaporanPegawai(private val listPegawai: ArrayList<classPegawai>) :
+class adapterLaporanPegawai(private val listPegawai: ArrayList<classLapPegawai>) :
         RecyclerView.Adapter<adapterLaporanPegawai.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.laporan_pegawai, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.list_pegawai_laporan, parent, false)
 
         return MyViewHolder(itemView)
     }
@@ -27,19 +26,18 @@ class adapterLaporanPegawai(private val listPegawai: ArrayList<classPegawai>) :
     }
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val Nama: TextView = itemView.findViewById(R.id.tv_l_nama)
-        val Jabatan: TextView = itemView.findViewById(R.id.tv_l_jabatan)
-        val transaksi: TextView = itemView.findViewById(R.id.tv_l_total)
-        val jumlah: TextView = itemView.findViewById(R.id.tv_l_jml)
+        val Nama: TextView = itemView.findViewById(R.id.tv_s_nama)
+        val Jabatan: TextView = itemView.findViewById(R.id.tv_s_jabatan)
+        val Omset: TextView = itemView.findViewById(R.id.tv_s_total)
+        val Jumlah_Transaksi: TextView = itemView.findViewById(R.id.tv_s_jml)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentitem = listPegawai[position]
 
-        holder.Nama.text = currentitem.Nama_Pegawai
-        holder.Jabatan.text = currentitem.Nama_Jabatan
-        holder.transaksi.text = currentitem.Nama_Jabatan
-        holder.jumlah.text = currentitem.Nama_Jabatan
+        holder.Nama.text = currentitem.namaPegawai
+        holder.Jabatan.text = currentitem.jabatan
+        holder.Omset.text = currentitem.omset
 
     }
 }
