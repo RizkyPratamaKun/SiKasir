@@ -36,19 +36,22 @@ class transaksiBerhasil : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.transaksi_berhasil)
 
-        setAlat()
-        print()
-        onClick()
+        set()/*
+        button2.setOnClickListener {
+            startActivity(Intent(this, transaksi::class.java))
+            finish()
+        }*/
         getKeranjang()
     }
 
-    private fun setAlat() {
+    private fun set() {
         val Diterima: String = this.intent.getStringExtra("Diterima").toString()
         val Total_Tagihan: String = this.intent.getStringExtra("Total_Tagihan").toString().replace(",00", "").replace(".", "").replace("Rp ", "")
 
         currentDate = this.intent.getStringExtra("Tanggalan").toString()
         nama = this.intent.getStringExtra("Pegawai").toString()
         jabatan = this.intent.getStringExtra("Jabatan").toString()
+
         val kembalian: String = this.intent.getStringExtra("Kembalian").toString()
 
         println(Diterima + " " + kembalian)
@@ -57,9 +60,7 @@ class transaksiBerhasil : AppCompatActivity() {
         tv_jabatan.text = jabatan
         tv_namapegawai.text = nama
 
-/*
-        tv_diterima.text = a
-*/
+        tv_diterima.text = Diterima
 
         if (Total_Tagihan == Diterima) {
             textView42.visibility = View.GONE
@@ -67,7 +68,7 @@ class transaksiBerhasil : AppCompatActivity() {
         } else {
             textView42.visibility = View.VISIBLE
             tv_kembalian.visibility = View.VISIBLE
-/*            tv_kembalian.text = b*/
+/*       tv_kembalian.text = */
         }
     }
 
@@ -76,13 +77,6 @@ class transaksiBerhasil : AppCompatActivity() {
         if (Printooth.hasPairedPrinter())
             printing = Printooth.printer()
         initListeners()
-    }
-
-    private fun onClick() {
-        button2.setOnClickListener {
-            startActivity(Intent(this, transaksi::class.java))
-            finish()
-        }
     }
 
     private fun initListeners() {
