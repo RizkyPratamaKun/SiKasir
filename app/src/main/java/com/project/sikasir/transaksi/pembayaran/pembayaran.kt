@@ -32,7 +32,7 @@ class pembayaran : AppCompatActivity() {
 
     val waktu = SimpleDateFormat("dd-MMM").format(Date())
 
-    var namaPegawai = ""
+    var emailPegawai = ""
     var jabatanPegawai = ""
 
     val keranjangList = ArrayList<classKeranjang>()
@@ -108,7 +108,7 @@ class pembayaran : AppCompatActivity() {
         intent.putExtra("Diterima", diterima)
         intent.putExtra("Total_Tagihan", total)
         intent.putExtra("Tanggalan", waktu)
-        intent.putExtra("Pegawai", namaPegawai)
+        intent.putExtra("Pegawai", emailPegawai)
         intent.putExtra("Jabatan", jabatanPegawai)
         intent.putExtra("Kembalian", kembalian)
         startActivity(intent)
@@ -121,14 +121,12 @@ class pembayaran : AppCompatActivity() {
         refTransaksi = FirebaseDatabase.getInstance().reference.child("Pegawai").child(username_key_new)
         refTransaksi.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                namaPegawai = dataSnapshot.child("Nama_Pegawai").value.toString()
+                emailPegawai = dataSnapshot.child("Email_Pegawai").value.toString()
                 jabatanPegawai = dataSnapshot.child("Nama_Jabatan").value.toString()
-                println(namaPegawai)
+                println(emailPegawai)
             }
 
-            override fun onCancelled(databaseError: DatabaseError) {
-
-            }
+            override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
 

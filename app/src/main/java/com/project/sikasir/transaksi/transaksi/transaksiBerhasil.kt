@@ -239,7 +239,7 @@ class transaksiBerhasil : AppCompatActivity() {
                         cPembayaran.produk.add(k)
 
                         //Total Modal di Keranjang
-                        if (Keranjang.child("total_Modal").exists()) {
+                        if (Keranjang.child("total_Modal").exists() && Keranjang.child("total_Modal").toString() == "Rp") {
                             modal += Integer.parseInt(Keranjang.child("total_Modal").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
                         }
                         //Total Harga di Keranjang

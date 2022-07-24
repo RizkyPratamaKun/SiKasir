@@ -66,7 +66,7 @@ class aboutMe : AppCompatActivity() {
 
                             println("pembayaran")
                             if (pembayaran != null) {
-                                println(pembayaran.namaPegawai!!.count())
+                                println(pembayaran.emailPegawai!!.count())
                                 Log.i("Cases", "M case count: " + snapshot.childrenCount)
                             }
                         }

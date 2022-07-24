@@ -4,7 +4,7 @@ import com.project.sikasir.transaksi.keranjang.classKeranjang
 
 data class classPembayaran(
     var tanggal: MutableMap<String, String>,
-    var namaPegawai: String? = null,
+    var emailPegawai: String? = null,
     var jabatan: String? = null,
     var total: String? = null,
     var diskon: String? = null,
