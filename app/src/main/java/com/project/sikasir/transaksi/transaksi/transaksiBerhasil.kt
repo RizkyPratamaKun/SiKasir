@@ -45,6 +45,7 @@ class transaksiBerhasil : AppCompatActivity() {
     private fun setAlat() {
         val Diterima: String = this.intent.getStringExtra("Diterima").toString()
         val Total_Tagihan: String = this.intent.getStringExtra("Total_Tagihan").toString().replace(",00", "").replace(".", "").replace("Rp ", "")
+
         currentDate = this.intent.getStringExtra("Tanggalan").toString()
         nama = this.intent.getStringExtra("Pegawai").toString()
         jabatan = this.intent.getStringExtra("Jabatan").toString()
@@ -221,6 +222,7 @@ class transaksiBerhasil : AppCompatActivity() {
                 if (snapshot.exists()) {
                     rv_complete.visibility = View.VISIBLE
                     cl_keranjang_kosong.visibility = View.GONE
+
                     keranjangList.clear()
 
                     var totalKeranjang = 0
@@ -228,9 +230,7 @@ class transaksiBerhasil : AppCompatActivity() {
                     var diskon = 0
                     val refTransaksi = FirebaseDatabase.getInstance().getReference("Transaksi")
 
-                    val tgl = ServerValue.TIMESTAMP
-
-                    val cPembayaran = classPembayaran(tgl, nama, jabatan)
+                    val cPembayaran = classPembayaran(ServerValue.TIMESTAMP, nama, jabatan)
 
                     for (Keranjang in snapshot.children) {
                         //DataKeranjang

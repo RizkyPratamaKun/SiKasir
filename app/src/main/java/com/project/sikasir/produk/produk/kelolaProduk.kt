@@ -52,17 +52,18 @@ class kelolaProduk : AppCompatActivity() {
         }
     }
 
-    private fun updateData(Nama_Produk: String, Harga_Jual: String, Merek: String, Kategori: String, Harga_Modal: String, Barcode: String) {
+    private fun updateData(Nama_Produk: String, Harga_Jual: String, Merek: String, Kategori: String, Harga_Modal: String, Barcode: String, Stok: String) {
 
         val reference = FirebaseDatabase.getInstance().getReference("Produk")
 
         val produk = mapOf<String, String>(
-            "Nama_Produk" to Nama_Produk,
-            "Harga_Jual" to Harga_Jual,
-            "Merek" to Merek,
-            "Kategori" to Kategori,
-            "Harga_Modal" to Harga_Modal,
-            "Barcode" to Barcode
+            "nama_Produk" to Nama_Produk,
+            "harga_Jual" to Harga_Jual,
+            "merek" to Merek,
+            "kategori" to Kategori,
+            "harga_Modal" to Harga_Modal,
+            "barcode" to Barcode,
+            "stok" to Stok
         )
 
         reference.child(Nama_Produk).updateChildren(produk)
@@ -95,6 +96,7 @@ class kelolaProduk : AppCompatActivity() {
         val kategori: String = edKategori.text.toString()
         val hargaModal: String = edHargaModal.text.toString()
         val barcode: String = edBarcode.text.toString()
+        val stok: String = edStok.text.toString()
 
         if (namaProduk.isEmpty()) {
             edNamaProduk.error = "Nama Produk tidak boleh kosong"
@@ -108,21 +110,25 @@ class kelolaProduk : AppCompatActivity() {
                     if (kategori.isEmpty()) {
                         edKategori.error = "Kategori Harus diisi"
                     } else {
-                        reference = FirebaseDatabase.getInstance().reference.child("Produk").child(nama)
+                        if (stok.isEmpty()) {
+                            edStok.error = "Stok Harus diisi"
+                        } else {
+                            reference = FirebaseDatabase.getInstance().reference.child("Produk").child(nama)
 
-                        reference.addValueEventListener(object : ValueEventListener {
-                            override fun onDataChange(snapshot: DataSnapshot) {
+                            reference.addValueEventListener(object : ValueEventListener {
+                                override fun onDataChange(snapshot: DataSnapshot) {
 
-                                updateData(namaProduk, hargaJual, merek, kategori, hargaModal, barcode)
+                                    updateData(namaProduk, hargaJual, merek, kategori, hargaModal, barcode, stok)
 
-                                if (select_photo.alpha == 0f) {
-                                    uploadPhoto()
+                                    if (select_photo.alpha == 0f) {
+                                        uploadPhoto()
+                                    }
                                 }
-                            }
 
-                            override fun onCancelled(error: DatabaseError) {}
-                        })
-                        Toast.makeText(this, "$namaProduk Berhasil Dirubah", Toast.LENGTH_SHORT).show()
+                                override fun onCancelled(error: DatabaseError) {}
+                            })
+                            Toast.makeText(this, "$namaProduk Berhasil Dirubah", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             }
@@ -136,6 +142,7 @@ class kelolaProduk : AppCompatActivity() {
         val kategori: String = edKategori.text.toString()
         val hargaModal: String = edHargaModal.text.toString()
         val barcode: String = edBarcode.text.toString()
+        val stok: String = edStok.text.toString()
 
         if (namaProduk.isEmpty()) {
             edNamaProduk.error = "Nama Produk tidak boleh kosong"
@@ -149,38 +156,43 @@ class kelolaProduk : AppCompatActivity() {
                     if (kategori.isEmpty()) {
                         edKategori.error = "Kategori Harus diisi"
                     } else {
-                        reference = FirebaseDatabase.getInstance().reference.child("Produk").child(namaProduk)
-                        reference.addListenerForSingleValueEvent(object : ValueEventListener {
-                            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                if (!dataSnapshot.exists()) {
+                        if (stok.isEmpty()) {
+                            edStok.error = "Stok Harus diisi"
+                        } else {
+                            reference = FirebaseDatabase.getInstance().reference.child("Produk").child(namaProduk)
+                            reference.addListenerForSingleValueEvent(object : ValueEventListener {
+                                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                    if (!dataSnapshot.exists()) {
 
-                                    if (select_photo.alpha == 0f) {
-                                        uploadPhoto()
-                                    }
-                                    dataSnapshot.ref.child("Nama_Produk").setValue(namaProduk)
-                                    dataSnapshot.ref.child("Harga_Jual").setValue(hargaJual)
-                                    dataSnapshot.ref.child("Merek").setValue(merek)
-                                    dataSnapshot.ref.child("Kategori").setValue(kategori)
+                                        if (select_photo.alpha == 0f) {
+                                            uploadPhoto()
+                                        }
+                                        dataSnapshot.ref.child("nama_Produk").setValue(namaProduk)
+                                        dataSnapshot.ref.child("harga_Jual").setValue(hargaJual)
+                                        dataSnapshot.ref.child("merek").setValue(merek)
+                                        dataSnapshot.ref.child("kategori").setValue(kategori)
+                                        dataSnapshot.ref.child("stok").setValue(stok)
 
-                                    if (hargaModal.isEmpty()) {
-                                        dataSnapshot.ref.child("Harga_Modal").setValue("0")
+                                        if (hargaModal.isEmpty()) {
+                                            dataSnapshot.ref.child("harga_Modal").setValue("0")
+                                        } else {
+                                            dataSnapshot.ref.child("harga_Modal").setValue(hargaModal)
+                                        }
+
+                                        dataSnapshot.ref.child("barcode").setValue(barcode)
                                     } else {
-                                        dataSnapshot.ref.child("Harga_Modal").setValue(hargaModal)
+                                        val alert = AlertDialog.Builder(this@kelolaProduk)
+                                        alert.setTitle("Peringatan")
+                                        alert.setMessage("Data Sudah Ada!")
+                                        alert.setPositiveButton("OK", null)
+                                        alert.show()
                                     }
-
-                                    dataSnapshot.ref.child("Barcode").setValue(barcode)
-                                } else {
-                                    val alert = AlertDialog.Builder(this@kelolaProduk)
-                                    alert.setTitle("Peringatan")
-                                    alert.setMessage("Data Sudah Ada!")
-                                    alert.setPositiveButton("OK", null)
-                                    alert.show()
                                 }
-                            }
 
-                            override fun onCancelled(dataSnapshot: DatabaseError) {}
-                        })
-                        Toast.makeText(this, "$namaProduk Berhasil Ditambahkan", Toast.LENGTH_SHORT).show()
+                                override fun onCancelled(dataSnapshot: DatabaseError) {}
+                            })
+                            Toast.makeText(this, "$namaProduk Berhasil Ditambahkan", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             }
@@ -203,6 +215,7 @@ class kelolaProduk : AppCompatActivity() {
         val barcode: String = intent.getStringExtra("Barcode").toString()
         val merek: String = intent.getStringExtra("Merek").toString()
         val foto: String = intent.getStringExtra("Foto").toString()
+        val stok: String = intent.getStringExtra("Stok").toString()
 
         if (harga_modal != "null") {
             edHargaModal.setText(harga_modal)
@@ -217,6 +230,7 @@ class kelolaProduk : AppCompatActivity() {
         edHargaJual.setText(hJual)
         edKategori.setText(kategori)
         edMerek.setText(merek)
+        edStok.setText(stok)
     }
 
     private fun setSwitch() {
@@ -242,8 +256,6 @@ class kelolaProduk : AppCompatActivity() {
     }
 
     private fun onClick() {
-        val kategori: String = intent.getStringExtra("tambahkategori").toString()
-
         switch1.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 // The switch enabled

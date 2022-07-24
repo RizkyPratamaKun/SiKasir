@@ -30,14 +30,10 @@ class pembayaran : AppCompatActivity() {
     var diterima = ""
     var kembalian = ""
 
-    val waktu = SimpleDateFormat("dd-MM-yyyy hh:mm:ss").format(Date())
+    val waktu = SimpleDateFormat("dd-MMM").format(Date())
 
-    //pegawai
     var namaPegawai = ""
     var jabatanPegawai = ""
-
-    val randomNumber: Int = Random().nextInt(10)
-    val kode = SimpleDateFormat("ddMMyyyyhhmmss").format(Date()) + randomNumber
 
     val keranjangList = ArrayList<classKeranjang>()
 
@@ -47,9 +43,10 @@ class pembayaran : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.transaksi_pembayaran)
         getIdPegawai()
-        onClick()
         uangDiterima()
         getKeranjang()
+
+        tvA8toA7.setOnClickListener { finish() }
     }
 
     private fun uangDiterima() {
@@ -60,7 +57,7 @@ class pembayaran : AppCompatActivity() {
 
         edUangPass.setOnClickListener {
             diterima = tagihan
-            tembakData()
+            passData()
         }
 
         edUangDiterima.addTextChangedListener(object : TextWatcher {
@@ -74,7 +71,7 @@ class pembayaran : AppCompatActivity() {
                     edUangPass.isClickable = true
                     edUangPass.setOnClickListener {
                         diterima = tagihan
-                        tembakData()
+                        passData()
                     }
                 } else {
                     if (s.toString().toInt() < tagihan.toInt()) {
@@ -93,7 +90,7 @@ class pembayaran : AppCompatActivity() {
 
                         edUangPass.setOnClickListener {
                             diterima = edUangDiterima.text.toString()
-                            tembakData()
+                            passData()
                         }
                     }
                 }
@@ -101,15 +98,7 @@ class pembayaran : AppCompatActivity() {
         })
     }
 
-    private fun onClick() {
-        tvA8toA7.setOnClickListener {
-            startActivity(Intent(this, transaksi::class.java))
-            finish()
-        }
-    }
-
-
-    fun tembakData() {
+    private fun passData() {
         val mediaPlayer = MediaPlayer.create(baseContext, R.raw.mario)
         mediaPlayer.start()
 
@@ -196,21 +185,5 @@ class pembayaran : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {}
         })
-    }
-
-    private fun Transaksi(Nama_Produk: String, Harga: String, jumlah_Produk: String, nama_Diskon: String, diskon: String, total: String) {
-
-        val reference = FirebaseDatabase.getInstance().getReference("Transaksi")
-
-        val keranjang = mapOf<String, String>(
-            "nama_Produk" to Nama_Produk,
-            "harga" to Harga,
-            "jumlah_Produk" to jumlah_Produk,
-            "nama_Diskon" to nama_Diskon,
-            "diskon" to diskon,
-            "total" to total
-        )
-
-        reference.child(kode).setValue(keranjang)
     }
 }

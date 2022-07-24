@@ -16,15 +16,15 @@ class adapterSearchTransaksi(val listTransaksi: ArrayList<classProduk>) : ListAd
         }
 
         override fun areContentsTheSame(oldItem: classProduk, newItem: classProduk): Boolean {
-            return oldItem.Nama_Produk == newItem.Nama_Produk
+            return oldItem.nama_Produk == newItem.nama_Produk
         }
     }
 
     // An innerclass that maps data with the available views
     inner class MyHolder(private val binding: ListProdukBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(produk: classProduk?) {
-            binding.tvListnama.text = produk?.Nama_Produk.toString()
-            binding.tvListharga.text = produk?.Harga_Jual.toString()
+            binding.tvListnama.text = produk?.nama_Produk.toString()
+            binding.tvListharga.text = produk?.harga_Jual.toString()
         }
     }
 
@@ -36,7 +36,7 @@ class adapterSearchTransaksi(val listTransaksi: ArrayList<classProduk>) : ListAd
         val currentitem = listTransaksi[position]
 
         holder.itemView.setOnClickListener {
-            println(currentitem.Nama_Produk)
+            println(currentitem.nama_Produk)
         }
     }
 }

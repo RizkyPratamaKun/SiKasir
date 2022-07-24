@@ -26,32 +26,39 @@ class laporanRangkuman : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.laporan_rangkuman)
 
-        //Set
         getRiwayat()
 
-        //onClick
         tvA3toA3.setOnClickListener { startActivity(Intent(this, laporan::class.java)) }
         tvA3toA3.setOnClickListener { finish() }
         transaksi_detail.setOnClickListener { startActivity(Intent(this, riwayatTransaksi::class.java)) }
-
-        tgl()
+        editTextDate.setOnClickListener {
+            tgl()
+        }
     }
 
     private fun tgl() {
-        editTextDate.setOnClickListener {
-            val datePicker = MaterialDatePicker.Builder.dateRangePicker().build()
-            datePicker.show(supportFragmentManager, "DatePicker")
+        val datePicker = MaterialDatePicker.Builder.dateRangePicker().build()
+        datePicker.show(supportFragmentManager, "DatePicker")
 
-            datePicker.addOnPositiveButtonClickListener {
-                editTextDate.setText(datePicker.headerText)
-                Toast.makeText(this, "${datePicker.headerText}", Toast.LENGTH_LONG).show()
-            }
+        editTextDate.isEnabled = false
+        Toast.makeText(this, "tunggu sebentar", Toast.LENGTH_SHORT).show()
 
-            datePicker.addOnNegativeButtonClickListener {
-            }
+        datePicker.addOnPositiveButtonClickListener {
+            val awal = datePicker.selection!!.first
+            val akhir = datePicker.selection!!.second
 
-            datePicker.addOnCancelListener {
-            }
+            editTextDate.setText(datePicker.headerText)
+
+            editTextDate.isEnabled = true
+            Toast.makeText(this, datePicker.headerText, Toast.LENGTH_LONG).show()
+        }
+
+        datePicker.addOnNegativeButtonClickListener {
+            editTextDate.isEnabled = true
+        }
+
+        datePicker.addOnCancelListener {
+            editTextDate.isEnabled = true
         }
     }
 
@@ -60,7 +67,6 @@ class laporanRangkuman : AppCompatActivity() {
         rv_riwayat.setHasFixedSize(true)
 
         val refProduk = FirebaseDatabase.getInstance().getReference("Transaksi")
-        val terbanyak = FirebaseDatabase.getInstance().getReference("Transaksi").orderByChild("name")
 
         refProduk.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

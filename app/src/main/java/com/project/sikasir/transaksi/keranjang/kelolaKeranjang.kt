@@ -8,8 +8,12 @@ import android.view.View
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.project.sikasir.R
+import com.project.sikasir.produk.produk.classProduk
 import kotlinx.android.synthetic.main.kelolakeranjang.*
 import java.text.NumberFormat
 import java.util.*
@@ -28,7 +32,7 @@ class kelolaKeranjang : AppCompatActivity() {
         val diskon: String = intent.getStringExtra("Diskon").toString()
 
         tv_harga_keranjang.text = harga
-        tv_jumlah_keranjang.text = jumlahProduk
+        tv_jumlah_produk.text = jumlahProduk
         tv_namaitem.text = Nama_Produk
 
         if (subTotal == "null") {
@@ -87,16 +91,72 @@ class kelolaKeranjang : AppCompatActivity() {
         }
 
         plus.setOnClickListener {
-            setjumlahProduk(tv_jumlah_keranjang.text.toString().toInt() + 1)
-            subTotal(tv_jumlah_keranjang.text.toString().toInt() * harga.filter { it.isDigit() }.toInt())
+            val refKeranjang = FirebaseDatabase.getInstance().getReference("Keranjang")
+            refKeranjang.child(tv_namaitem.text.toString()).addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        val krnjg = snapshot.getValue(classKeranjang::class.java)
+                        if (krnjg != null) {
+                            //+1 jumlah_Produk
+                            krnjg.jumlah_Produk = (krnjg.jumlah_Produk?.toInt()?.plus(1)).toString()
+                            setjumlahProduk(tv_jumlah_produk.text.toString().toInt() + 1)
+
+                            //jumlah_Produk * harga
+                            val totalString =
+                                NumberFormat.getCurrencyInstance(Locale("in", "ID")).format((krnjg.harga!!.replace(".", "").replace("Rp ", "").toDouble() * krnjg.jumlah_Produk!!.toDouble()))
+                            krnjg.total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
+
+                            subTotal(tv_jumlah_produk.text.toString().toInt() * harga.filter { it.isDigit() }.toInt())
+                            refKeranjang.child(krnjg.nama_Produk!!).setValue(krnjg)
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {}
+            })
+
+
+            val refProduk = FirebaseDatabase.getInstance().getReference("Produk")
+            refProduk.child(tv_namaitem.text.toString()).addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        val prdk = snapshot.getValue(classProduk::class.java)
+                        if (prdk != null) {
+                            //kembalikan Stok
+                            prdk.stok = (prdk.stok?.toInt()?.minus(1)).toString()
+
+                            refProduk.child(prdk.nama_Produk!!).setValue(prdk)
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {}
+            })
         }
 
         minus.setOnClickListener {
-            if (tv_jumlah_keranjang.text.toString().toInt() <= 0) {
+            if (tv_jumlah_produk.text.toString().toInt() <= 0) {
                 hapusKeranjang()
             } else {
-                setjumlahProduk(tv_jumlah_keranjang.text.toString().toInt() - 1)
-                subTotal(tv_jumlah_keranjang.text.toString().toInt() * harga.filter { it.isDigit() }.toInt())
+                setjumlahProduk(tv_jumlah_produk.text.toString().toInt() - 1)
+                subTotal(tv_jumlah_produk.text.toString().toInt() * harga.filter { it.isDigit() }.toInt())
+
+                val refProduk = FirebaseDatabase.getInstance().getReference("Produk")
+                refProduk.child(tv_namaitem.text.toString()).addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()) {
+                            val prdk = snapshot.getValue(classProduk::class.java)
+                            if (prdk != null) {
+                                //kembalikan Stok
+                                prdk.stok = (prdk.stok?.toInt()?.plus(1)).toString()
+
+                                refProduk.child(prdk.nama_Produk!!).setValue(prdk)
+                            }
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {}
+                })
             }
         }
 
@@ -111,7 +171,7 @@ class kelolaKeranjang : AppCompatActivity() {
                     edDiskonRp.addTextChangedListener(object : TextWatcher {
                         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
                         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                            val jumlah = tv_jumlah_keranjang.text.toString().toInt()
+                            val jumlah = tv_jumlah_produk.text.toString().toInt()
                             val harga = tv_harga_keranjang.text.toString().filter { it.isDigit() }.toInt()
                             val diskon = edDiskonRp.text.toString().filter { it.isDigit() }
                             val stotal = tv_sub_total.text.toString().replace(",00", "").filter { it.isDigit() }.toInt()
@@ -135,7 +195,7 @@ class kelolaKeranjang : AppCompatActivity() {
                     edDiskonRp.addTextChangedListener(object : TextWatcher {
                         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
                         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                            val jumlah = tv_jumlah_keranjang.text.toString().toInt()
+                            val jumlah = tv_jumlah_produk.text.toString().toInt()
                             val harga = tv_harga_keranjang.text.toString().filter { it.isDigit() }.toInt()
                             val diskon = edDiskonRp.text.toString().filter { it.isDigit() }
                             val stotal = tv_sub_total.text.toString().replace(",00", "").filter { it.isDigit() }.toInt()
@@ -156,19 +216,38 @@ class kelolaKeranjang : AppCompatActivity() {
             }
         }
 
-        cl_hapus.setOnClickListener { hapusKeranjang() }
+        cl_hapus.setOnClickListener {
+            hapusKeranjang()
+
+            val refProduk = FirebaseDatabase.getInstance().getReference("Produk")
+            refProduk.child(tv_namaitem.text.toString()).addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        val prdk = snapshot.getValue(classProduk::class.java)
+                        if (prdk != null) {
+                            //kembalikan Stok
+                            prdk.stok = (prdk.stok?.toInt()?.plus(Integer.parseInt(jumlahProduk))).toString()
+
+                            refProduk.child(prdk.nama_Produk!!).setValue(prdk)
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {}
+            })
+        }
 
         imageView23.setOnClickListener { finish() }
 
         btn_simpan.setOnClickListener {
-            if (tv_jumlah_keranjang.text.toString().toInt() == 0) {
+            if (tv_jumlah_produk.text.toString().toInt() == 0) {
                 hapusKeranjang()
             } else {
                 Toast.makeText(this, "Keranjang berhasil diubah", Toast.LENGTH_SHORT).show()
                 updateData(
                     Nama_Produk,
                     harga,
-                    tv_jumlah_keranjang.text.toString(),
+                    tv_jumlah_produk.text.toString(),
                     edNamaDiskon.text.toString(),
                     tv_diskon_keranjang.text.toString(),
                     tv_total_keranjang.text.toString()
@@ -180,7 +259,7 @@ class kelolaKeranjang : AppCompatActivity() {
     }
 
     private fun setjumlahProduk(number: Int) {
-        tv_jumlah_keranjang.text = "$number"
+        tv_jumlah_produk.text = "$number"
     }
 
     private fun subTotal(hasil: Int) {
@@ -208,8 +287,8 @@ class kelolaKeranjang : AppCompatActivity() {
         val Nama_Produk: String = intent.getStringExtra("Nama_Produk").toString()
         val builder = AlertDialog.Builder(this)
         builder.setMessage("Yakin Untuk Menghapus Data?").setCancelable(false).setPositiveButton("Ya") { dialog, id ->
-            val reference = FirebaseDatabase.getInstance().reference.child("Keranjang").child(Nama_Produk)
-            reference.removeValue()
+            val refKeranjang = FirebaseDatabase.getInstance().reference.child("Keranjang").child(Nama_Produk)
+            refKeranjang.removeValue()
             Toast.makeText(this, "Data berhasil dihapus", Toast.LENGTH_SHORT).show()
             finish()
         }

@@ -39,6 +39,8 @@
             android:typeface="sans" />
     </FrameLayout>
 
+    <include layout="@layout/sheet_bottommenu" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -390,7 +392,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
                 android:background="@drawable/bg_nav_padrb"
-                android:elevation="3dp"
+                android:elevation="10dp"
                 android:orientation="vertical"
                 android:visibility="gone">
 
@@ -490,6 +492,4 @@
 
         </androidx.drawerlayout.widget.DrawerLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <include layout="@layout/sheet_bottommenu" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -9,53 +9,64 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.project.sikasir.R
-import com.project.sikasir.laporan.riwayat.classRiwayat
 import kotlinx.android.synthetic.main.laporan_ringkasan.*
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 class ringkasan : AppCompatActivity() {
-    val pList = ArrayList<classRiwayat>()
+    val pList = ArrayList<classRingkasan>()
+    val waktu = SimpleDateFormat("dd-MMM").format(Date())
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.laporan_ringkasan)
-        tgl()
-        getRingkasan()
-        tvA3toA5.setOnClickListener { finish() }
-    }
 
-    private fun tgl() {
+        editTextDate3.setText(waktu)
+
         editTextDate3.setOnClickListener {
             val datePicker = MaterialDatePicker.Builder.dateRangePicker().build()
             datePicker.show(supportFragmentManager, "DatePicker")
 
+            editTextDate3.isEnabled = false
+            Toast.makeText(this, "tunggu sebentar", Toast.LENGTH_SHORT).show()
+
             datePicker.addOnPositiveButtonClickListener {
+                val awal = datePicker.selection!!.first
+                val akhir = datePicker.selection!!.second
+
                 editTextDate3.setText(datePicker.headerText)
-                Toast.makeText(this, "${datePicker.headerText}", Toast.LENGTH_LONG).show()
+                getRingkasan("", "")
+                editTextDate3.isEnabled = true
+                Toast.makeText(this, datePicker.headerText, Toast.LENGTH_LONG).show()
             }
 
             datePicker.addOnNegativeButtonClickListener {
+                editTextDate3.isEnabled = true
             }
 
             datePicker.addOnCancelListener {
+                editTextDate3.isEnabled = true
             }
         }
+
+        tvA3toA5.setOnClickListener { finish() }
     }
 
-    private fun getRingkasan() {
-        val refProduk = FirebaseDatabase.getInstance().getReference("Transaksi")
-
+    private fun getRingkasan(awal: String, akhir: String) {
+        val refProduk = FirebaseDatabase.getInstance().getReference("Transaksi").orderByChild("tanggal")
         refProduk.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-
                 if (snapshot.exists()) {
                     pList.clear()
                     var totvar = 0
                     var diskonvar = 0
                     var modalvar = 0
                     for (snap in snapshot.children) {
-                        val t = snap.getValue(classRiwayat::class.java)
-
+                        val t = snapshot.getValue(classRingkasan::class.java)
+                        textView20.setOnClickListener {
+                            println(snapshot)
+                            println(t)
+                        }
                         if (snap.child("total").exists()) {
                             totvar += Integer.parseInt(snap.child("total").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
                         }

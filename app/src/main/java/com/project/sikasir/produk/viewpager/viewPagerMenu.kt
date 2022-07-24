@@ -19,9 +19,9 @@ class viewPagerMenu : AppCompatActivity() {
                 0 -> {
                     tab.text = "Kelola Produk"
                 }
-                1 -> {
+                /*1 -> {
                     tab.text = "Kelola Kategori"
-                }
+                }*/
             }
         }.attach()
 

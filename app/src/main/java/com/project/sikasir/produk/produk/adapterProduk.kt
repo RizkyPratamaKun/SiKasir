@@ -23,20 +23,23 @@ class adapterProduk(private val listProduk: ArrayList<classProduk>) :
 
         val currentitem = listProduk[position]
 
-        val Nama_Produk = currentitem.Nama_Produk
-        val Harga_Jual = currentitem.Harga_Jual
+        val Nama_Produk = currentitem.nama_Produk
+        val Harga_Jual = currentitem.harga_Jual
+        val Stok = currentitem.stok
 
         holder.Nama.text = Nama_Produk
         holder.Harga_Jual.text = Harga_Jual
+        holder.stok.text = Stok
 
         holder.itemView.setOnClickListener {
-            val namaProduk = listProduk[position].Nama_Produk
-            val hJual = listProduk[position].Harga_Jual
-            val kategori = listProduk[position].Kategori
-            val hModal = listProduk[position].Harga_Modal
-            val barcode = listProduk[position].Barcode
-            val merek = listProduk[position].Merek
-            val foto = listProduk[position].Foto
+            val namaProduk = listProduk[position].nama_Produk
+            val hJual = listProduk[position].harga_Jual
+            val kategori = listProduk[position].kategori
+            val hModal = listProduk[position].harga_Modal
+            val barcode = listProduk[position].barcode
+            val merek = listProduk[position].merek
+            val foto = listProduk[position].foto
+            val stok = listProduk[position].stok
 
             val intent = Intent(holder.itemView.context, kelolaProduk::class.java)
             intent.putExtra("Nama_Produk", namaProduk)
@@ -46,6 +49,7 @@ class adapterProduk(private val listProduk: ArrayList<classProduk>) :
             intent.putExtra("Barcode", barcode)
             intent.putExtra("Merek", merek)
             intent.putExtra("Foto", foto)
+            intent.putExtra("Stok", stok)
             intent.putExtra("Edit", "true")
 
             holder.itemView.context.startActivity(intent)
@@ -60,6 +64,7 @@ class adapterProduk(private val listProduk: ArrayList<classProduk>) :
 
         val Nama: TextView = itemView.findViewById(R.id.tv_listnama)
         val Harga_Jual: TextView = itemView.findViewById(R.id.tv_listharga)
+        val stok: TextView = itemView.findViewById(R.id.tv_stok)
 
     }
 

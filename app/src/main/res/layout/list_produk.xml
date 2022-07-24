@@ -20,6 +20,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/tv_stokJudul"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/amiko_bold"
+            android:text="Sisa Stok"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:typeface="monospace"
+            app:layout_constraintBottom_toTopOf="@+id/tv_listharga"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_stok"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/amiko"
+            android:text="Stok"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="12sp"
+            android:typeface="sans"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tv_stokJudul"
+            app:layout_constraintTop_toBottomOf="@+id/tv_listnama" />
+
         <ImageView
             android:id="@+id/iv_detail_pegawai"
             android:layout_width="25dp"
@@ -40,7 +72,7 @@
             android:text="Nama_Produk"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:typeface="monospace"
             app:layout_constraintBottom_toTopOf="@+id/tv_listharga"

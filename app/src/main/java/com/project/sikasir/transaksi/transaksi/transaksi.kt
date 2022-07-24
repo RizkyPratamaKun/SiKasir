@@ -59,12 +59,33 @@ class transaksi : AppCompatActivity() {
     lateinit var drawerLayout: DrawerLayout
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
+    private val produkListener = object : adapterTransaksi.ProdukListener {
+        override fun AddToCart(produk: classProduk) {
+            val refProduk = FirebaseDatabase.getInstance().getReference("Produk")
+            produk.nama_Produk?.let {
+                refProduk.child(it).addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()) {
+                            val prdk = snapshot.getValue(classProduk::class.java)
+                            if (prdk != null) {
+                                //stok - onClick
+                                prdk.stok = (prdk.stok?.toInt()?.minus(1)).toString()
+                                refProduk.child(prdk.nama_Produk!!).setValue(prdk)
+                                getProduk()
+                            }
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {}
+                })
+            }
+        }
+    }
     private val trasaksiListener = object : adapterTransaksi.TransaksiListener {
         override fun AddToCart(produk: classProduk) {
-
             val refKeranjang = FirebaseDatabase.getInstance().getReference("Keranjang")
 
-            produk.Nama_Produk?.let {
+            produk.nama_Produk?.let {
                 refKeranjang.child(it).addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (snapshot.exists()) {
@@ -79,24 +100,26 @@ class transaksi : AppCompatActivity() {
                                     .format((keranjang.harga!!.replace(".", "").replace("Rp ", "").toDouble() * keranjang.jumlah_Produk!!.toDouble()))
                                 keranjang.total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
 
-                                //harga_modal * qty
-                                val totalModal = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
-                                    .format((keranjang.harga_Modal!!.replace(".", "").replace("Rp ", "").toDouble() * keranjang.jumlah_Produk!!.toDouble()))
-                                keranjang.total_Modal = totalModal.substring(0, 2) + " " + totalModal.substring(2, totalModal.length)
+                                if (keranjang.harga_Modal.toString() == "Rp") {
+                                    //harga_modal * qty
+                                    val totalModal = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
+                                        .format((keranjang.harga_Modal!!.replace(".", "").replace("Rp ", "").toDouble() * keranjang.jumlah_Produk!!.toDouble()))
+                                    keranjang.total_Modal = totalModal.substring(0, 2) + " " + totalModal.substring(2, totalModal.length)
+                                }
 
-                                refKeranjang.child(produk.Nama_Produk!!).setValue(keranjang)
+                                refKeranjang.child(produk.nama_Produk!!).setValue(keranjang)
                             }
                         } else {
-                            refKeranjang.child(produk.Nama_Produk!!).setValue(
+                            refKeranjang.child(produk.nama_Produk!!).setValue(
                                 classKeranjang(
-                                    produk.Nama_Produk,
-                                    produk.Harga_Jual,
-                                    produk.Harga_Modal,
+                                    produk.nama_Produk,
+                                    produk.harga_Jual,
+                                    produk.harga_Modal,
                                     jumlah_Produk = "1",
                                     nama_Diskon = "",
                                     diskon = "0",
-                                    total_Modal = produk.Harga_Modal,
-                                    total = produk.Harga_Jual
+                                    total_Modal = produk.harga_Modal,
+                                    total = produk.harga_Jual
                                 )
                             )
                         }
@@ -229,12 +252,12 @@ class transaksi : AppCompatActivity() {
                 if (snapshot.exists()) {
                     for (i in snapshot.children) {
                         val prdk = i.getValue(classProduk::class.java)
-                        if (prdk!!.Nama_Produk == search) {
+                        if (prdk!!.nama_Produk == search) {
                             produkList.add(prdk)
                         }
                     }
                     produkAdapter.submitList(produkList)
-                    rv_transaksi.adapter = adapterTransaksi(produkList, trasaksiListener)
+                    rv_transaksi.adapter = adapterTransaksi(produkList, trasaksiListener, produkListener)
                 } else {
                     Toast.makeText(applicationContext, "Data does not exist", Toast.LENGTH_SHORT).show()
                 }
@@ -250,15 +273,18 @@ class transaksi : AppCompatActivity() {
         refKategori.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val list = ArrayList<String>()
-
-                for (kategori in snapshot.children) {
-                    kategori.getValue(classProduk::class.java)?.let {
-                        it.Kategori?.let { it1 ->
-                            list.add(it1)
+                if (snapshot.exists()) {
+                    for (kategori in snapshot.children) {
+                        kategori.getValue(classProduk::class.java)?.let {
+                            it.kategori?.let { it1 ->
+                                list.add(it1)
+                            }
                         }
                     }
+                    spinKategori.adapter = ArrayAdapter(this@transaksi, android.R.layout.simple_spinner_item, list)
+                } else {
+                    rv_spin.visibility = View.GONE
                 }
-                spinKategori.adapter = ArrayAdapter(this@transaksi, android.R.layout.simple_spinner_item, list)
             }
 
             override fun onCancelled(error: DatabaseError) {}
@@ -319,6 +345,8 @@ class transaksi : AppCompatActivity() {
                 } else {
                     cl_keranjang_kosong.visibility = View.VISIBLE
                     rv_keranjang.visibility = View.GONE
+                    tv_jmlBarang.visibility = View.GONE
+                    title_barang.visibility = View.GONE
                     btnTagih.setOnClickListener {
                         Toast.makeText(this@transaksi, "Isi keranjang terlebih dahulu", Toast.LENGTH_SHORT).show()
                     }
@@ -330,7 +358,7 @@ class transaksi : AppCompatActivity() {
     }
 
     private fun getProduk() {
-        rv_transaksi.layoutManager = GridLayoutManager(this, 2)
+        rv_transaksi.layoutManager = GridLayoutManager(this, 1)
         rv_transaksi.setHasFixedSize(true)
 
         val refProduk = FirebaseDatabase.getInstance().getReference("Produk")
@@ -341,14 +369,26 @@ class transaksi : AppCompatActivity() {
                     rv_transaksi.visibility = View.VISIBLE
                     cl_produk_kosong.visibility = View.GONE
                     produkList.clear()
-                    for (snapshot in snapshot.children) {
-                        val kat = snapshot.getValue(classProduk::class.java)
-                        produkList.add(kat!!)
+                    for (snapProd in snapshot.children) {
+                        val kat = snapProd.getValue(classProduk::class.java)
+                        val stok = snapProd.child("stok")
+
+                        if (stok.toString().isNotEmpty()) {
+                            if (stok.value.toString().toInt() >= 1) {
+                                println(snapProd.child("stok"))
+                                produkList.add(kat!!)
+                            } else {
+                                cl_produk_kosong.visibility = View.VISIBLE
+                                rv_transaksi.visibility = View.GONE
+                                rv_spin.visibility = View.GONE
+                            }
+                        }
                     }
-                    rv_transaksi.adapter = adapterTransaksi(produkList, trasaksiListener)
+                    rv_transaksi.adapter = adapterTransaksi(produkList, trasaksiListener, produkListener)
                 } else {
                     cl_produk_kosong.visibility = View.VISIBLE
                     rv_transaksi.visibility = View.GONE
+                    rv_spin.visibility = View.GONE
                 }
             }
 

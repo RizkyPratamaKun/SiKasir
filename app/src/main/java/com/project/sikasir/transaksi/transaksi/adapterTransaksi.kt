@@ -12,7 +12,8 @@ import com.project.sikasir.produk.produk.classProduk
  * Dibuat oleh RizkyPratama pada 21-Jun-22.
  */
 
-class adapterTransaksi(private val listTransaksi: ArrayList<classProduk>, private val transaksiListener: TransaksiListener) : RecyclerView.Adapter<adapterTransaksi.MyViewHolder>() {
+class adapterTransaksi(private val listTransaksi: ArrayList<classProduk>, private val transaksiListener: TransaksiListener, private val produkListener: ProdukListener) :
+        RecyclerView.Adapter<adapterTransaksi.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.list_produk, parent, false)
@@ -22,20 +23,21 @@ class adapterTransaksi(private val listTransaksi: ArrayList<classProduk>, privat
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentitem = listTransaksi[position]
 
-        val Nama_Produk = currentitem.Nama_Produk
-        val Harga_Jual = currentitem.Harga_Jual
-
-        holder.Nama.text = Nama_Produk
-        holder.Harga_Jual.text = Harga_Jual
+        holder.Nama.text = currentitem.nama_Produk
+        holder.Harga_Jual.text = currentitem.harga_Jual
+        holder.Stok.text = currentitem.stok
 
         holder.itemView.setOnClickListener {
             transaksiListener.AddToCart(currentitem)
+            produkListener.AddToCart(currentitem)
         }
     }
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val Nama: TextView = itemView.findViewById(R.id.tv_listnama)
         val Harga_Jual: TextView = itemView.findViewById(R.id.tv_listharga)
+        val Stok: TextView = itemView.findViewById(R.id.tv_stok)
+        val StokJ: TextView = itemView.findViewById(R.id.tv_stokJudul)
     }
 
     override fun getItemCount(): Int {
@@ -43,6 +45,10 @@ class adapterTransaksi(private val listTransaksi: ArrayList<classProduk>, privat
     }
 
     interface TransaksiListener {
+        fun AddToCart(produk: classProduk)
+    }
+
+    interface ProdukListener {
         fun AddToCart(produk: classProduk)
     }
 }

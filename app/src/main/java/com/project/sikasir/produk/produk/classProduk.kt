@@ -1,11 +1,12 @@
 package com.project.sikasir.produk.produk
 
 class classProduk {
-    var Nama_Produk: String? = null
-    var Harga_Jual: String? = null
-    var Kategori: String? = null
-    var Harga_Modal: String? = null
-    var Barcode: String? = null
-    var Merek: String? = null
-    var Foto: String? = null
+    var nama_Produk: String? = null
+    var harga_Jual: String? = null
+    var kategori: String? = null
+    var harga_Modal: String? = null
+    var barcode: String? = null
+    var merek: String? = null
+    var foto: String? = null
+    var stok: String? = null
 }
