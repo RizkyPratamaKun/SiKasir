@@ -18,8 +18,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.project.sikasir.R
 import com.project.sikasir.laporan.laporan
-import com.project.sikasir.laporan.riwayat.adapterRiwayat
-import com.project.sikasir.laporan.riwayat.classRiwayat
 import com.project.sikasir.menu.aboutMe
 import com.project.sikasir.menu.dashboard
 import com.project.sikasir.navPack.ClickListener
@@ -147,7 +145,6 @@ class riwayatTransaksi : AppCompatActivity() {
         navigation_rv.adapter = adapter
     }
 
-    //Back Button
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)

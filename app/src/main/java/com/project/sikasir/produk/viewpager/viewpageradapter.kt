@@ -21,7 +21,7 @@ class viewpageradapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     override fun createFragment(position: Int): Fragment {
         when (position) {
             0 -> return produk()
-            /*           1 -> return menuKategori()*/
+ /*           1 -> return menuKategori()*/
         }
         return produk()
     }

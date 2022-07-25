@@ -32,17 +32,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class dashboard : AppCompatActivity() {
-
-    //BottomSheetBehavior
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
-    //FIREBASE
     private var USERNAME_KEY = "username_key"
     private var username_key = ""
     private var username_key_new = ""
     private lateinit var reference: DatabaseReference
 
-    //NAVBAR
     lateinit var drawerLayout: DrawerLayout
     private lateinit var adapter: NavigationRVAdapter
 

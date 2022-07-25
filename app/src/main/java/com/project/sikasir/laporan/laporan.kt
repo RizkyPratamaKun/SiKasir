@@ -32,11 +32,9 @@ import com.project.sikasir.transaksi.transaksi.transaksi
 import kotlinx.android.synthetic.main.laporan_menu.*
 
 class laporan : AppCompatActivity() {
-    //RV
     lateinit var drawerLayout: DrawerLayout
     private lateinit var adapter: NavigationRVAdapter
 
-    //Firebase
     private var USERNAME_KEY = "username_key"
     private var username_key = ""
     private var username_key_new = ""
@@ -59,16 +57,21 @@ class laporan : AppCompatActivity() {
 
         //Set
         getUsernameLocal()
-        navigation_layout.visibility = View.VISIBLE
         getIdPegawai()
+        nav()
 
         //OnClick
         cvRangkuman.setOnClickListener { startActivity(Intent(applicationContext, laporanRangkuman::class.java)) }
         cvRingkasanPenjualan.setOnClickListener { startActivity(Intent(applicationContext, ringkasan::class.java)) }
         cvPenjualanPerKategori.setOnClickListener { startActivity(Intent(applicationContext, laporanKategori::class.java)) }
         LaporanPegawai.setOnClickListener { startActivity(Intent(applicationContext, laporanPegawai::class.java)) }
+        laporanProduk.setOnClickListener { startActivity(Intent(applicationContext, laporanProduk::class.java)) }
 
-        //START TOOLBAR
+
+    }
+
+    private fun nav() {
+        navigation_layout.visibility = View.VISIBLE
         drawerLayout = findViewById(R.id.drawer_layout)
         setSupportActionBar(activity_main_toolbar)
         navigation_rv.layoutManager = LinearLayoutManager(this)

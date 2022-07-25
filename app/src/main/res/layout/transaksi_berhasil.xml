@@ -143,6 +143,7 @@
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:typeface="serif"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toStartOf="@+id/tv_namapegawai"
                     app:layout_constraintTop_toTopOf="@+id/tv_ditangani" />
 
@@ -181,7 +182,7 @@
                     android:textSize="20sp"
                     android:typeface="serif"
                     app:layout_constraintStart_toStartOf="@+id/tv_ditangani"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_jabatan" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_ditangani" />
 
                 <TextView
                     android:id="@+id/textView46"

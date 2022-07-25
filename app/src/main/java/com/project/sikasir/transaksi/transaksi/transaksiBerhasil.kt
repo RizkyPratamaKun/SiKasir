@@ -20,6 +20,7 @@ import com.project.sikasir.transaksi.keranjang.adapterKeranjang
 import com.project.sikasir.transaksi.keranjang.classKeranjang
 import com.project.sikasir.transaksi.pembayaran.classPembayaran
 import kotlinx.android.synthetic.main.transaksi_berhasil.*
+import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
 
@@ -30,37 +31,42 @@ class transaksiBerhasil : AppCompatActivity() {
     val keranjangList = ArrayList<classKeranjang>()
 
     lateinit var currentDate: String
+    lateinit var email: String
     lateinit var nama: String
     lateinit var jabatan: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.transaksi_berhasil)
 
-        set()/*
+        set()
+        print()
+
+        cetak_struk.setOnClickListener { print() }
         button2.setOnClickListener {
+            FirebaseDatabase.getInstance().getReference("Keranjang").removeValue()
             startActivity(Intent(this, transaksi::class.java))
             finish()
-        }*/
+        }
         getKeranjang()
     }
 
     private fun set() {
-        val Diterima: String = this.intent.getStringExtra("Diterima").toString()
+        val format: NumberFormat = DecimalFormat("Rp#,###")
+        val Diterima: String = this.intent.getStringExtra("Diterima").toString().replace(",00", "").replace(".", "").replace("Rp ", "")
         val Total_Tagihan: String = this.intent.getStringExtra("Total_Tagihan").toString().replace(",00", "").replace(".", "").replace("Rp ", "")
-
-        currentDate = this.intent.getStringExtra("Tanggalan").toString()
-        nama = this.intent.getStringExtra("Pegawai").toString()
-        jabatan = this.intent.getStringExtra("Jabatan").toString()
-
         val kembalian: String = this.intent.getStringExtra("Kembalian").toString()
 
-        println(Diterima + " " + kembalian)
+        currentDate = this.intent.getStringExtra("Tanggalan").toString()
+        email = this.intent.getStringExtra("Pegawai").toString()
+        nama = this.intent.getStringExtra("NPegawai").toString()
+        jabatan = this.intent.getStringExtra("Jabatan").toString()
+
 
         tv_tgl.text = currentDate
         tv_jabatan.text = jabatan
         tv_namapegawai.text = nama
 
-        tv_diterima.text = Diterima
+        tv_diterima.text = format.format(Integer.parseInt(Diterima))
 
         if (Total_Tagihan == Diterima) {
             textView42.visibility = View.GONE
@@ -68,8 +74,74 @@ class transaksiBerhasil : AppCompatActivity() {
         } else {
             textView42.visibility = View.VISIBLE
             tv_kembalian.visibility = View.VISIBLE
-/*       tv_kembalian.text = */
+            tv_kembalian.text = format.format(Integer.parseInt(kembalian))
         }
+    }
+
+    private fun getKeranjang() {
+        rv_complete.layoutManager = GridLayoutManager(this, 1)
+        rv_complete.setHasFixedSize(true)
+
+        val refKeranjang = FirebaseDatabase.getInstance().getReference("Keranjang")
+
+        refKeranjang.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    rv_complete.visibility = View.VISIBLE
+                    cl_keranjang_kosong.visibility = View.GONE
+
+                    keranjangList.clear()
+
+                    var totalKeranjang = 0
+                    var modal = 0
+                    var diskon = 0
+                    val refTransaksi = FirebaseDatabase.getInstance().getReference("Transaksi")
+
+                    val cPembayaran = classPembayaran(ServerValue.TIMESTAMP, email, nama, jabatan)
+
+                    for (Keranjang in snapshot.children) {
+                        //DataKeranjang
+                        val k = Keranjang.getValue(classKeranjang::class.java)
+                        keranjangList.add(k!!)
+                        cPembayaran.produk.add(k)
+
+                        //Total Modal di Keranjang
+                        if (Keranjang.child("total_Modal").exists() && Keranjang.child("total_Modal").toString() == "Rp") {
+                            modal += Integer.parseInt(Keranjang.child("total_Modal").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
+                        }
+                        //Total Harga di Keranjang
+                        if (Keranjang.child("total").exists()) {
+                            totalKeranjang += Integer.parseInt(Keranjang.child("total").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
+                        }
+                        //Total Diskon di Keranjang
+                        if (Keranjang.child("diskon").exists()) {
+                            diskon += Integer.parseInt(Keranjang.child("diskon").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
+                        }
+                    }
+                    val nf = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
+
+                    val m = nf.format(modal)
+                    val mod = m.substring(0, 2) + " " + m.substring(2, m.length)
+                    val k = nf.format(totalKeranjang)
+                    val total = k.substring(0, 2) + " " + k.substring(2, k.length)
+                    val d = nf.format(diskon)
+                    val disk = d.substring(0, 2) + " " + d.substring(2, d.length)
+
+                    cPembayaran.diskon = disk
+                    cPembayaran.total = total
+                    cPembayaran.total_Modal = mod
+
+                    tv_totaltagihan.text = total.replace(",00", "")
+                    rv_complete.adapter = adapterKeranjang(keranjangList)
+
+                    //push dari class pembayaran ke firebase
+                    refTransaksi.push().setValue(cPembayaran)
+                    Toast.makeText(this@transaksiBerhasil, "Transaksi Berhasil", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
     }
 
     private fun print() {
@@ -112,7 +184,6 @@ class transaksiBerhasil : AppCompatActivity() {
             override fun disconnected() {
                 Toast.makeText(this@transaksiBerhasil, "Disconnected Printer", Toast.LENGTH_SHORT).show()
             }
-
         }
     }
 
@@ -203,70 +274,5 @@ class transaksiBerhasil : AppCompatActivity() {
                 .setNewLinesAfter(1)
                 .build()
         )
-    }
-
-    private fun getKeranjang() {
-        rv_complete.layoutManager = GridLayoutManager(this, 1)
-        rv_complete.setHasFixedSize(true)
-
-        val refKeranjang = FirebaseDatabase.getInstance().getReference("Keranjang")
-
-        refKeranjang.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    rv_complete.visibility = View.VISIBLE
-                    cl_keranjang_kosong.visibility = View.GONE
-
-                    keranjangList.clear()
-
-                    var totalKeranjang = 0
-                    var modal = 0
-                    var diskon = 0
-                    val refTransaksi = FirebaseDatabase.getInstance().getReference("Transaksi")
-
-                    val cPembayaran = classPembayaran(ServerValue.TIMESTAMP, nama, jabatan)
-
-                    for (Keranjang in snapshot.children) {
-                        //DataKeranjang
-                        val k = Keranjang.getValue(classKeranjang::class.java)
-                        keranjangList.add(k!!)
-                        cPembayaran.produk.add(k)
-
-                        //Total Modal di Keranjang
-                        if (Keranjang.child("total_Modal").exists() && Keranjang.child("total_Modal").toString() == "Rp") {
-                            modal += Integer.parseInt(Keranjang.child("total_Modal").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
-                        }
-                        //Total Harga di Keranjang
-                        if (Keranjang.child("total").exists()) {
-                            totalKeranjang += Integer.parseInt(Keranjang.child("total").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
-                        }
-                        //Total Diskon di Keranjang
-                        if (Keranjang.child("diskon").exists()) {
-                            diskon += Integer.parseInt(Keranjang.child("diskon").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
-                        }
-                    }
-
-                    val m = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(modal)
-                    val mod = m.substring(0, 2) + " " + m.substring(2, m.length)
-                    val k = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(totalKeranjang)
-                    val total = k.substring(0, 2) + " " + k.substring(2, k.length)
-                    val d = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(diskon)
-                    val disk = d.substring(0, 2) + " " + d.substring(2, d.length)
-
-                    tv_totaltagihan.text = total
-                    cPembayaran.diskon = disk
-                    cPembayaran.total = total
-                    cPembayaran.total_Modal = mod
-                    rv_complete.adapter = adapterKeranjang(keranjangList)
-
-                    //push dari class pembayaran ke firebase
-                    refTransaksi.push().setValue(cPembayaran)
-                    refKeranjang.removeValue()
-                    Toast.makeText(this@transaksiBerhasil, "Transaksi Berhasil", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {}
-        })
     }
 }

@@ -47,7 +47,7 @@ class transaksi : AppCompatActivity() {
     private var USERNAME_KEY = "username_key"
     private var username_key = ""
     private var username_key_new = ""
-
+    val Rp = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
     val keranjangList = ArrayList<classKeranjang>()
     val produkList = ArrayList<classProduk>()
 
@@ -96,14 +96,12 @@ class transaksi : AppCompatActivity() {
                                 keranjang.jumlah_Produk = (keranjang.jumlah_Produk?.toInt()?.plus(1)).toString()
 
                                 //harga_jual * qty
-                                val totalString = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
-                                    .format((keranjang.harga!!.replace(".", "").replace("Rp ", "").toDouble() * keranjang.jumlah_Produk!!.toDouble()))
+                                val totalString = Rp.format((keranjang.harga!!.replace(".", "").replace("Rp ", "").toDouble() * keranjang.jumlah_Produk!!.toDouble()))
                                 keranjang.total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
 
                                 if (keranjang.harga_Modal.toString() == "Rp") {
                                     //harga_modal * qty
-                                    val totalModal = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
-                                        .format((keranjang.harga_Modal!!.replace(".", "").replace("Rp ", "").toDouble() * keranjang.jumlah_Produk!!.toDouble()))
+                                    val totalModal = Rp.format((keranjang.harga_Modal!!.replace(".", "").replace("Rp ", "").toDouble() * keranjang.jumlah_Produk!!.toDouble()))
                                     keranjang.total_Modal = totalModal.substring(0, 2) + " " + totalModal.substring(2, totalModal.length)
                                 }
 
@@ -299,6 +297,8 @@ class transaksi : AppCompatActivity() {
         refKeranjang.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
+                    tv_jmlBarang.visibility = View.VISIBLE
+                    title_produk.visibility = View.VISIBLE
                     rv_keranjang.visibility = View.VISIBLE
                     cl_keranjang_kosong.visibility = View.GONE
                     keranjangList.clear()
@@ -308,23 +308,25 @@ class transaksi : AppCompatActivity() {
                     for (Keranjang in snapshot.children) {
                         //DataKeranjang
                         val keranjang = Keranjang.getValue(classKeranjang::class.java)
-                        keranjangList.add(keranjang!!)
+
                         //Total Harga di Keranjang
                         if (Keranjang.child("total").exists()) {
-                            totalKeranjang += Integer.parseInt(Keranjang.child("total").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
+                            totalKeranjang += Integer.parseInt(Keranjang.child("total").getValue(String::class.java)!!.replace(",00", "").filter { it.isDigit() })
                         }
                         //Total Diskon di Keranjang
                         if (Keranjang.child("diskon").exists()) {
-                            diskon += Integer.parseInt(Keranjang.child("diskon").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
+                            diskon += Integer.parseInt(Keranjang.child("diskon").getValue(String::class.java)!!.replace(",00", "").filter { it.isDigit() })
                         }
-                        //Total barang di keranjang
+                        //Total produk di keranjang
                         i += 1
+
+                        keranjangList.add(keranjang!!)
                     }
-                    val totalString = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(totalKeranjang)
+                    val totalString = Rp.format(totalKeranjang)
                     val total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
-                    val diskonString = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(diskon)
+                    val diskonString = Rp.format(diskon)
                     val disk = diskonString.substring(0, 2) + " " + diskonString.substring(2, diskonString.length)
-                    val subs = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(totalKeranjang + diskon)
+                    val subs = Rp.format(totalKeranjang + diskon)
                     val subst = subs.substring(0, 2) + " " + subs.substring(2, subs.length)
 
                     tv_sub_sheet.text = subst
@@ -346,7 +348,7 @@ class transaksi : AppCompatActivity() {
                     cl_keranjang_kosong.visibility = View.VISIBLE
                     rv_keranjang.visibility = View.GONE
                     tv_jmlBarang.visibility = View.GONE
-                    title_barang.visibility = View.GONE
+                    title_produk.visibility = View.GONE
                     btnTagih.setOnClickListener {
                         Toast.makeText(this@transaksi, "Isi keranjang terlebih dahulu", Toast.LENGTH_SHORT).show()
                     }
@@ -377,11 +379,10 @@ class transaksi : AppCompatActivity() {
                             if (stok.value.toString().toInt() >= 1) {
                                 println(snapProd.child("stok"))
                                 produkList.add(kat!!)
-                            } else {
-                                cl_produk_kosong.visibility = View.VISIBLE
-                                rv_transaksi.visibility = View.GONE
-                                rv_spin.visibility = View.GONE
                             }
+                        } else {
+                            cl_produk_kosong.visibility = View.VISIBLE
+                            rv_spin.visibility = View.GONE
                         }
                     }
                     rv_transaksi.adapter = adapterTransaksi(produkList, trasaksiListener, produkListener)

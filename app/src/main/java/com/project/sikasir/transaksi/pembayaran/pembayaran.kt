@@ -29,11 +29,13 @@ class pembayaran : AppCompatActivity() {
     private var username_key_new = ""
     var diterima = ""
     var kembalian = ""
+    val Rp = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
 
     val waktu = SimpleDateFormat("dd-MMM").format(Date())
 
     var emailPegawai = ""
     var jabatanPegawai = ""
+    var namaPegawai = ""
 
     val keranjangList = ArrayList<classKeranjang>()
 
@@ -109,6 +111,7 @@ class pembayaran : AppCompatActivity() {
         intent.putExtra("Total_Tagihan", total)
         intent.putExtra("Tanggalan", waktu)
         intent.putExtra("Pegawai", emailPegawai)
+        intent.putExtra("NPegawai", namaPegawai)
         intent.putExtra("Jabatan", jabatanPegawai)
         intent.putExtra("Kembalian", kembalian)
         startActivity(intent)
@@ -122,8 +125,8 @@ class pembayaran : AppCompatActivity() {
         refTransaksi.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 emailPegawai = dataSnapshot.child("Email_Pegawai").value.toString()
+                namaPegawai = dataSnapshot.child("Nama_Pegawai").value.toString()
                 jabatanPegawai = dataSnapshot.child("Nama_Jabatan").value.toString()
-                println(emailPegawai)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -157,14 +160,14 @@ class pembayaran : AppCompatActivity() {
                         if (Keranjang.child("diskon").exists()) {
                             diskon += Integer.parseInt(Keranjang.child("diskon").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
                         }
-                        //total barang di keranjang
+                        //total produk di keranjang
                         i += 1
                     }
-                    val totalString = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(totalKeranjang)
+                    val totalString = Rp.format(totalKeranjang)
                     val total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
-                    val diskonString = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(diskon)
+                    val diskonString = Rp.format(diskon)
                     val disk = diskonString.substring(0, 2) + " " + diskonString.substring(2, diskonString.length)
-                    val subs = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(totalKeranjang + diskon)
+                    val subs = Rp.format(totalKeranjang + diskon)
                     val subst = subs.substring(0, 2) + " " + subs.substring(2, subs.length)
 
                     tv_sub_sheet.text = subst

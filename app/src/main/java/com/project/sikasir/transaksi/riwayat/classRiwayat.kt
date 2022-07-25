@@ -1,7 +1,7 @@
-package com.project.sikasir.laporan.riwayat
+package com.project.sikasir.transaksi.riwayat
 
 data class classRiwayat(
-    var tanggal: Long? = null,
+    var tanggal: String? = null,
     var namaPegawai: String? = null,
     var jabatan: String? = null,
     var total: String? = null

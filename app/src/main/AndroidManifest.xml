@@ -21,7 +21,10 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:theme">
         <activity
-            android:name=".laporanProduk"
+            android:name=".detailRiwayat"
+            android:exported="false" />
+        <activity
+            android:name=".laporan.produk.laporanProduk"
             android:exported="false" />
         <activity
             android:name=".laporan.ringkasan.ringkasan"

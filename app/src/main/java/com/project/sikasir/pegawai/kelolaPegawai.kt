@@ -73,6 +73,7 @@ class kelolaPegawai : AppCompatActivity() {
         edHp.setText(tHP)
         edpin.setText(tPin)
 
+
         Picasso.get().load(tFoto).centerCrop().fit().into(iv_pegawai)
         selectphoto_button_register.visibility = View.GONE
 

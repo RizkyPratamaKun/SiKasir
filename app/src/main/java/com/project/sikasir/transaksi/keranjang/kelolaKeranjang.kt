@@ -19,6 +19,8 @@ import java.text.NumberFormat
 import java.util.*
 
 class kelolaKeranjang : AppCompatActivity() {
+    val Rp = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
+    val refProduk = FirebaseDatabase.getInstance().getReference("Produk")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.kelolakeranjang)
@@ -91,96 +93,18 @@ class kelolaKeranjang : AppCompatActivity() {
         }
 
         plus.setOnClickListener {
-            val refKeranjang = FirebaseDatabase.getInstance().getReference("Keranjang")
-            refKeranjang.child(tv_namaitem.text.toString()).addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()) {
-                        val krnjg = snapshot.getValue(classKeranjang::class.java)
-                        if (krnjg != null) {
-                            //+1 jumlah_Produk
-                            krnjg.jumlah_Produk = (krnjg.jumlah_Produk?.toInt()?.plus(1)).toString()
-                            tv_jumlah_produk.text = krnjg.jumlah_Produk
-
-                            //jumlah_Produk * harga
-                            val totalString =
-                                NumberFormat.getCurrencyInstance(Locale("in", "ID")).format((krnjg.harga!!.replace(".", "").replace("Rp ", "").toDouble() * krnjg.jumlah_Produk!!.toDouble()))
-                            krnjg.total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
-                            tv_sub_total.text = krnjg.total
-
-                            refKeranjang.child(krnjg.nama_Produk!!).setValue(krnjg)
-                        }
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {}
-            })
-
-
-            val refProduk = FirebaseDatabase.getInstance().getReference("Produk")
-            refProduk.child(tv_namaitem.text.toString()).addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()) {
-                        val prdk = snapshot.getValue(classProduk::class.java)
-                        if (prdk != null) {
-                            //kembalikan Stok
-                            prdk.stok = (prdk.stok?.toInt()?.minus(1)).toString()
-
-                            refProduk.child(prdk.nama_Produk!!).setValue(prdk)
-                        }
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {}
-            })
+            penambahan()
         }
 
         minus.setOnClickListener {
             if (tv_jumlah_produk.text.toString().toInt() <= 0) {
                 hapusKeranjang()
             } else {
-
-                val refKeranjang = FirebaseDatabase.getInstance().getReference("Keranjang")
-                refKeranjang.child(tv_namaitem.text.toString()).addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        if (snapshot.exists()) {
-                            val krnjg = snapshot.getValue(classKeranjang::class.java)
-                            if (krnjg != null) {
-                                //-1 jumlah_Produk
-                                krnjg.jumlah_Produk = (krnjg.jumlah_Produk?.toInt()?.minus(1)).toString()
-                                tv_jumlah_produk.text = krnjg.jumlah_Produk
-
-                                //jumlah_Produk * harga
-                                val totalString =
-                                    NumberFormat.getCurrencyInstance(Locale("in", "ID")).format((krnjg.harga!!.replace(".", "").replace("Rp ", "").toDouble() * krnjg.jumlah_Produk!!.toDouble()))
-                                krnjg.total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
-                                tv_sub_total.text = krnjg.total
-
-                                refKeranjang.child(krnjg.nama_Produk!!).setValue(krnjg)
-                            }
-                        }
-                    }
-
-                    override fun onCancelled(error: DatabaseError) {}
-                })
-
-                val refProduk = FirebaseDatabase.getInstance().getReference("Produk")
-                refProduk.child(tv_namaitem.text.toString()).addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        if (snapshot.exists()) {
-                            val prdk = snapshot.getValue(classProduk::class.java)
-                            if (prdk != null) {
-                                //kembalikan Stok
-                                prdk.stok = (prdk.stok?.toInt()?.plus(1)).toString()
-
-                                refProduk.child(prdk.nama_Produk!!).setValue(prdk)
-                            }
-                        }
-                    }
-
-                    override fun onCancelled(error: DatabaseError) {}
-                })
+                pengurangan()
             }
         }
+
+        cekStok()
 
         toggle.setOnCheckedChangeListener { _, checkedId ->
             val radio: RadioButton = findViewById(checkedId)
@@ -189,7 +113,6 @@ class kelolaKeranjang : AppCompatActivity() {
             when (radio) {
                 tog_persen -> {
                     edDiskonRp.setText("")
-
                     edDiskonRp.addTextChangedListener(object : TextWatcher {
                         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
                         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -199,8 +122,8 @@ class kelolaKeranjang : AppCompatActivity() {
                             val stotal = tv_sub_total.text.toString().replace(",00", "").filter { it.isDigit() }.toInt()
 
                             if (diskon.isNotEmpty()) {
-
-                                val diskonPersen = (jumlah * harga) - (Integer.parseInt(diskon) * Integer.parseInt(stotal.toString())) / 100 //(jumlah * harga) - (diskon * sub-total)/100
+                                //(jumlah * harga) - (diskon * sub-total)/100
+                                val diskonPersen = (jumlah * harga) - (Integer.parseInt(diskon) * Integer.parseInt(stotal.toString())) / 100
 
                                 totalKeranjang(diskonPersen)
                                 totalDiskon(Integer.parseInt(stotal.toString()) - diskonPersen)
@@ -240,8 +163,6 @@ class kelolaKeranjang : AppCompatActivity() {
 
         cl_hapus.setOnClickListener {
             hapusKeranjang()
-
-            val refProduk = FirebaseDatabase.getInstance().getReference("Produk")
             refProduk.child(tv_namaitem.text.toString()).addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
@@ -280,18 +201,114 @@ class kelolaKeranjang : AppCompatActivity() {
 
     }
 
-    private fun totalKeranjang(hasil: Int) {
-        val totalString = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(hasil)
-        val total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
+    private fun cekStok() {
+        refProduk.child(tv_namaitem.text.toString()).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val stok = snapshot.child("stok")
+                    if (stok.toString().isNotEmpty()) {
+                        if (stok.value.toString().toInt() < 1) {
+                            plus.isEnabled = false
+                            Toast.makeText(this@kelolaKeranjang, "Stok Produk Habis!", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
 
-        tv_total_keranjang.text = total
+            override fun onCancelled(error: DatabaseError) {}
+        })
     }
 
-    private fun totalDiskon(hasil: Int) {
-        val totalString = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(hasil)
-        val total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
+    private fun penambahan() {
+        val refKeranjang = FirebaseDatabase.getInstance().getReference("Keranjang")
+        refKeranjang.child(tv_namaitem.text.toString()).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val krnjg = snapshot.getValue(classKeranjang::class.java)
+                    if (krnjg != null) {
+                        //+1 jumlah_Produk
+                        krnjg.jumlah_Produk = (krnjg.jumlah_Produk?.toInt()?.plus(1)).toString()
+                        tv_jumlah_produk.text = krnjg.jumlah_Produk
 
-        tv_diskon_keranjang.text = total
+                        //jumlah_Produk * harga
+                        val totalString = Rp.format((krnjg.harga!!.filter { it.isDigit() }.toDouble() * krnjg.jumlah_Produk!!.toDouble()))
+                        krnjg.total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
+                        tv_sub_total.text = krnjg.total
+
+                        refKeranjang.child(krnjg.nama_Produk!!).setValue(krnjg)
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+
+        refProduk.child(tv_namaitem.text.toString()).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val prdk = snapshot.getValue(classProduk::class.java)
+                    val stok = snapshot.child("stok")
+
+                    if (stok.toString().isNotEmpty()) {
+                        if (stok.value.toString().toInt() < 2) {
+                            plus.isEnabled = false
+                            Toast.makeText(this@kelolaKeranjang, "Stok Produk Habis!", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    if (prdk != null) {
+                        //kembalikan Stok
+                        prdk.stok = (prdk.stok?.toInt()?.minus(1)).toString()
+
+                        refProduk.child(prdk.nama_Produk!!).setValue(prdk)
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+    }
+
+    private fun pengurangan() {
+        val refKeranjang = FirebaseDatabase.getInstance().getReference("Keranjang")
+        refKeranjang.child(tv_namaitem.text.toString()).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val krnjg = snapshot.getValue(classKeranjang::class.java)
+                    if (krnjg != null) {
+                        //-1 jumlah_Produk
+                        krnjg.jumlah_Produk = (krnjg.jumlah_Produk?.toInt()?.minus(1)).toString()
+                        tv_jumlah_produk.text = krnjg.jumlah_Produk
+
+                        //jumlah_Produk * harga
+                        val totalString = Rp.format((krnjg.harga!!.filter { it.isDigit() }.toDouble() * krnjg.jumlah_Produk!!.toDouble()))
+                        krnjg.total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
+                        tv_sub_total.text = krnjg.total
+
+                        refKeranjang.child(krnjg.nama_Produk!!).setValue(krnjg)
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+
+        refProduk.child(tv_namaitem.text.toString()).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val prdk = snapshot.getValue(classProduk::class.java)
+                    if (prdk != null) {
+                        //kembalikan Stok
+                        prdk.stok = (prdk.stok?.toInt()?.plus(1)).toString()
+
+                        refProduk.child(prdk.nama_Produk!!).setValue(prdk)
+                    }
+                    plus.isEnabled = true
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
     }
 
     private fun hapusKeranjang() {
@@ -322,5 +339,19 @@ class kelolaKeranjang : AppCompatActivity() {
         )
 
         reference.child(Nama_Produk).updateChildren(keranjang)
+    }
+
+    private fun totalKeranjang(hasil: Int) {
+        val totalString = Rp.format(hasil)
+        val total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
+
+        tv_total_keranjang.text = total
+    }
+
+    private fun totalDiskon(hasil: Int) {
+        val totalString = Rp.format(hasil)
+        val total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
+
+        tv_diskon_keranjang.text = total
     }
 }

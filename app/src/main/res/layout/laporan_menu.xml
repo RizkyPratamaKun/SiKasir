@@ -80,7 +80,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#FFFFFF"
+                android:background="#EAEAEA"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -98,6 +98,39 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/laporanProduk"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintEnd_toEndOf="@+id/cvRangkuman"
+                            app:layout_constraintStart_toStartOf="@+id/cvRangkuman"
+                            app:layout_constraintTop_toBottomOf="@+id/cvPenjualanPerMerk">
+
+                            <TextView
+                                android:id="@+id/tvLaporanProduk"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center|left"
+                                android:layout_marginLeft="16dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginBottom="16dp"
+                                android:fontFamily="@font/amiko_bold"
+                                android:text="Laporan Produk"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:id="@+id/ivLaporanProduk"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center|right"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginRight="16dp"
+                                android:layout_marginBottom="16dp"
+                                app:srcCompat="@drawable/ic_baseline_chevron_right_24" />
+                        </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/cvRangkuman"
@@ -206,12 +239,12 @@
                             android:id="@+id/LaporanPegawai"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="16dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@+id/cvRangkuman"
                             app:layout_constraintStart_toStartOf="@+id/cvRangkuman"
-                            app:layout_constraintTop_toBottomOf="@+id/cvPenjualanPerMerk">
+                            app:layout_constraintTop_toBottomOf="@+id/laporanProduk">
 
                             <TextView
                                 android:id="@+id/tvLaporanPegawai"
@@ -241,7 +274,7 @@
                             android:id="@+id/cvRingkasanPenjualan"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
+                            android:layout_marginTop="8dp"
                             app:layout_constraintEnd_toEndOf="@+id/cvRangkuman"
                             app:layout_constraintStart_toStartOf="@+id/cvRangkuman"
                             app:layout_constraintTop_toBottomOf="@+id/cvRangkuman">

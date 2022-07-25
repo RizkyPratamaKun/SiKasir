@@ -12,8 +12,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.project.sikasir.R
 import com.project.sikasir.laporan.laporan
-import com.project.sikasir.laporan.riwayat.adapterRiwayat
-import com.project.sikasir.laporan.riwayat.classRiwayat
+import com.project.sikasir.transaksi.riwayat.adapterRiwayat
+import com.project.sikasir.transaksi.riwayat.classRiwayat
 import com.project.sikasir.transaksi.riwayat.riwayatTransaksi
 import kotlinx.android.synthetic.main.laporan_rangkuman.*
 import java.text.NumberFormat

@@ -16,7 +16,8 @@ import java.util.*
 
 class ringkasan : AppCompatActivity() {
     val pList = ArrayList<classRingkasan>()
-    val waktu = SimpleDateFormat("dd-MMM").format(Date())
+    val waktu = SimpleDateFormat("dd-MM-yyyy").format(Date())
+    val Rp = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.laporan_ringkasan)
@@ -81,19 +82,19 @@ class ringkasan : AppCompatActivity() {
                     val tpenjualan = totvar - diskonvar
                     val tKeutungan = tpenjualan - modalvar
 
-                    val b = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(totvar)
+                    val b = Rp.format(totvar)
                     val total = b.substring(0, 2) + " " + b.substring(2, b.length)
 
-                    val a = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(diskonvar)
+                    val a = Rp.format(diskonvar)
                     val diskon = a.substring(0, 2) + " " + a.substring(2, a.length)
 
-                    val s = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(tpenjualan)
+                    val s = Rp.format(tpenjualan)
                     val totalpenjualan = s.substring(0, 2) + " " + s.substring(2, s.length)
 
-                    val c = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(modalvar)
+                    val c = Rp.format(modalvar)
                     val modal = c.substring(0, 2) + " " + c.substring(2, c.length)
 
-                    val d = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(tKeutungan)
+                    val d = Rp.format(tKeutungan)
                     val keuntungan = d.substring(0, 2) + " " + d.substring(2, d.length)
 
                     textView32.text = total

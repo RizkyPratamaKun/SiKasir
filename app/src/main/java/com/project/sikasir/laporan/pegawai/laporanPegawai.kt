@@ -14,6 +14,7 @@ import java.util.*
 
 class laporanPegawai : AppCompatActivity() {
     val pList = ArrayList<classLapPegawai>()
+    val Rp = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +57,7 @@ class laporanPegawai : AppCompatActivity() {
 
                         pList.add(t!!)
                     }
-                    val totalString = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(tot)
+                    val totalString = Rp.format(tot)
                     val total = totalString.substring(0, 2) + " "
 
                     tv_omset.text = total
