@@ -6,13 +6,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.project.sikasir.R
+import java.text.NumberFormat
+import java.util.*
 
 /**
  * Dibuat oleh RizkyPratama pada 08-May-22.
  */
-class adapterLaporanPegawai(private val listPegawai: ArrayList<classLapPegawai>) :
-        RecyclerView.Adapter<adapterLaporanPegawai.MyViewHolder>() {
-
+class adapterLaporanPegawai(private val listPegawai: ArrayList<classLapPegawai>) : RecyclerView.Adapter<adapterLaporanPegawai.MyViewHolder>() {
+    val Rp = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.list_pegawai_laporan, parent, false)
@@ -37,7 +38,8 @@ class adapterLaporanPegawai(private val listPegawai: ArrayList<classLapPegawai>)
 
         holder.Nama.text = currentitem.namaPegawai
         holder.Jabatan.text = currentitem.jabatan
-        holder.Omset.text = currentitem.omset
+        holder.Omset.text = Rp.format(currentitem.omset)
+        holder.Jumlah_Transaksi.text = currentitem.jumlahTransaksi.toString()
 
     }
 }

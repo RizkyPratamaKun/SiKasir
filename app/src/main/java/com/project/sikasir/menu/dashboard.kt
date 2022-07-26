@@ -38,20 +38,8 @@ class dashboard : AppCompatActivity() {
     private var username_key = ""
     private var username_key_new = ""
     private lateinit var reference: DatabaseReference
-
     lateinit var drawerLayout: DrawerLayout
     private lateinit var adapter: NavigationRVAdapter
-
-    private var items = arrayListOf(
-        NavigationItemModel(R.drawable.ic_baseline_home_24, "Beranda"),
-        NavigationItemModel(R.drawable.ic_baseline_camera_alt_24, "Kelola Produk"),
-        NavigationItemModel(R.drawable.ic_baseline_receipt_24, "Transaksi"),
-        NavigationItemModel(R.drawable.ic_baseline_receipt_long_24, "Riwayat Transaksi"),
-        NavigationItemModel(R.drawable.ic_baseline_people_24, "Pegawai"),
-        NavigationItemModel(R.drawable.ic_baseline_corporate_fare_24, "Laporan"),
-        NavigationItemModel(R.drawable.ic_baseline_settings_24, "Pengaturan"),
-        NavigationItemModel(R.drawable.ic_baseline_account_circle_24, "Tentang Saya")
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +48,6 @@ class dashboard : AppCompatActivity() {
         val sdf = SimpleDateFormat("dd-MM-yyyy")
         val currentDate = sdf.format(Date())
 
-        //Set
         tv_lihatsemua.visibility = View.GONE
         textView9.text = currentDate
 
@@ -84,16 +71,6 @@ class dashboard : AppCompatActivity() {
     }
 
     private fun navigationLayout() {
-        reference = FirebaseDatabase.getInstance().reference.child("Pegawai").child(username_key_new)
-        reference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                tv_namaakun.text = dataSnapshot.child("Nama_Pegawai").value.toString()
-                tv_nmjabatan.text = dataSnapshot.child("Nama_Jabatan").value.toString()
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-
         navigation_layout.visibility = View.VISIBLE
         drawerLayout = findViewById(R.id.drawer_layout)
         setSupportActionBar(activity_main_toolbar)
@@ -101,47 +78,9 @@ class dashboard : AppCompatActivity() {
         navigation_rv.setHasFixedSize(true)
         navigation_header_img.setImageResource(R.drawable.logoaida)
         tv_titleitems.text = "Beranda"
-        navigation_rv.addOnItemTouchListener(RecyclerTouchListener(this, object : ClickListener {
-            override fun onClick(view: View, position: Int) {
-                when (position) {
-                    0 -> {
-                        startActivity(Intent(this@dashboard, dashboard::class.java))
-                        finish()
-                    }
-                    1 -> {
-                        startActivity(Intent(this@dashboard, viewPagerMenu::class.java))
-                    }
-                    2 -> {
-                        startActivity(Intent(this@dashboard, transaksi::class.java))
-                        finish()
-                    }
-                    3 -> {
-                        startActivity(Intent(this@dashboard, riwayatTransaksi::class.java))
-                        finish()
-                    }
-                    4 -> {
-                        startActivity(Intent(this@dashboard, pegawai::class.java))
-                    }
-                    5 -> {
-                        startActivity(Intent(this@dashboard, laporan::class.java))
-                        finish()
-                    }
-                    6 -> {
-                        startActivity(Intent(this@dashboard, pengaturan::class.java))
-                        finish()
-                    }
-                    7 -> {
-                        startActivity(Intent(this@dashboard, aboutMe::class.java))
-                    }
-                }
-                if (position != 6 && position != 4) {
-                    updateAdapter(position)
-                }
-                Handler().postDelayed({
-                }, 200)
-            }
-        }))
+
         updateAdapter(0)
+
         val toggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle(this, drawerLayout, activity_main_toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             override fun onDrawerClosed(drawerView: View) {
                 // Triggered once the drawer closes
@@ -158,8 +97,7 @@ class dashboard : AppCompatActivity() {
                 // Triggered once the drawer opens
                 super.onDrawerOpened(drawerView)
                 try {
-                    val inputMethodManager =
-                        getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     inputMethodManager.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
                 } catch (e: Exception) {
                     e.stackTrace
@@ -176,9 +114,115 @@ class dashboard : AppCompatActivity() {
     }
 
     private fun updateAdapter(highlightItemPos: Int) {
-        adapter = NavigationRVAdapter(items, highlightItemPos)
-        navigation_rv.adapter = adapter
-        adapter.notifyDataSetChanged()
+        reference = FirebaseDatabase.getInstance().reference.child("Pegawai").child(username_key_new)
+        reference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                tv_namaakun.text = dataSnapshot.child("Nama_Pegawai").value.toString()
+                tv_nmjabatan.text = dataSnapshot.child("Nama_Jabatan").value.toString()
+
+                val hak = dataSnapshot.child("Hak_Akses").value.toString()
+                if (hak == "Pegawai") {
+                    cvPegawai.visibility = View.GONE
+                    cvLaporan.visibility = View.GONE
+                    val items = arrayListOf(
+                        NavigationItemModel(R.drawable.ic_baseline_home_24, "Beranda"),
+                        NavigationItemModel(R.drawable.ic_baseline_camera_alt_24, "Kelola Produk"),
+                        NavigationItemModel(R.drawable.ic_baseline_receipt_24, "Transaksi"),
+                        NavigationItemModel(R.drawable.ic_baseline_receipt_long_24, "Riwayat Transaksi"),
+                        NavigationItemModel(R.drawable.ic_baseline_settings_24, "Pengaturan")
+                    )
+                    adapter = NavigationRVAdapter(items, highlightItemPos)
+                    navigation_rv.adapter = adapter
+
+                    navigation_rv.addOnItemTouchListener(RecyclerTouchListener(this@dashboard, object : ClickListener {
+                        override fun onClick(view: View, position: Int) {
+                            when (position) {
+                                0 -> {
+                                    startActivity(Intent(this@dashboard, dashboard::class.java))
+                                    finish()
+                                }
+                                1 -> {
+                                    startActivity(Intent(this@dashboard, viewPagerMenu::class.java))
+                                }
+                                2 -> {
+                                    startActivity(Intent(this@dashboard, transaksi::class.java))
+                                    finish()
+                                }
+                                3 -> {
+                                    startActivity(Intent(this@dashboard, riwayatTransaksi::class.java))
+                                    finish()
+                                }
+                                4 -> {
+                                    startActivity(Intent(this@dashboard, pengaturan::class.java))
+                                    finish()
+                                }
+                            }
+                            if (position != 6 && position != 4) {
+                                updateAdapter(position)
+                            }
+                            Handler().postDelayed({}, 200)
+                        }
+                    }))
+                } else {
+                    val items = arrayListOf(
+                        NavigationItemModel(R.drawable.ic_baseline_home_24, "Beranda"),
+                        NavigationItemModel(R.drawable.ic_baseline_camera_alt_24, "Kelola Produk"),
+                        NavigationItemModel(R.drawable.ic_baseline_receipt_24, "Transaksi"),
+                        NavigationItemModel(R.drawable.ic_baseline_receipt_long_24, "Riwayat Transaksi"),
+
+                        NavigationItemModel(R.drawable.ic_baseline_people_24, "Pegawai"),
+                        NavigationItemModel(R.drawable.ic_baseline_corporate_fare_24, "Laporan"),
+
+                        NavigationItemModel(R.drawable.ic_baseline_settings_24, "Pengaturan"),
+                        NavigationItemModel(R.drawable.ic_baseline_account_circle_24, "Tentang Saya")
+                    )
+                    adapter = NavigationRVAdapter(items, highlightItemPos)
+                    navigation_rv.adapter = adapter
+
+                    navigation_rv.addOnItemTouchListener(RecyclerTouchListener(this@dashboard, object : ClickListener {
+                        override fun onClick(view: View, position: Int) {
+                            when (position) {
+                                0 -> {
+                                    startActivity(Intent(this@dashboard, dashboard::class.java))
+                                    finish()
+                                }
+                                1 -> {
+                                    startActivity(Intent(this@dashboard, viewPagerMenu::class.java))
+                                }
+                                2 -> {
+                                    startActivity(Intent(this@dashboard, transaksi::class.java))
+                                    finish()
+                                }
+                                3 -> {
+                                    startActivity(Intent(this@dashboard, riwayatTransaksi::class.java))
+                                    finish()
+                                }
+                                4 -> {
+                                    startActivity(Intent(this@dashboard, pegawai::class.java))
+                                }
+                                5 -> {
+                                    startActivity(Intent(this@dashboard, laporan::class.java))
+                                    finish()
+                                }
+                                6 -> {
+                                    startActivity(Intent(this@dashboard, pengaturan::class.java))
+                                    finish()
+                                }
+                                7 -> {
+                                    startActivity(Intent(this@dashboard, aboutMe::class.java))
+                                }
+                            }
+                            if (position != 6 && position != 4) {
+                                updateAdapter(position)
+                            }
+                            Handler().postDelayed({}, 200)
+                        }
+                    }))
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
     }
 
     override fun onBackPressed() {

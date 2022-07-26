@@ -21,7 +21,10 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:theme">
         <activity
-            android:name=".detailRiwayat"
+            android:name=".pembelianProduk"
+            android:exported="false" />
+        <activity
+            android:name=".transaksi.riwayat.detailRiwayat"
             android:exported="false" />
         <activity
             android:name=".laporan.produk.laporanProduk"

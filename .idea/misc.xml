@@ -74,7 +74,7 @@
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/laporan_kategori.xml" value="0.5" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/laporan_menu.xml" value="0.3546875" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/laporan_pegawai.xml" value="0.33" />
-        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/laporan_produk.xml" value="0.3410115172759139" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/laporan_produk.xml" value="0.25" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/laporan_rangkuman.xml" value="0.33" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/laporan_ringkasan.xml" value="0.33" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/layout_persistent_bottom_sheet.xml" value="0.33" />
@@ -87,11 +87,12 @@
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/list_produk.xml" value="0.67" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/list_produk_row.xml" value="0.3546875" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/list_riwayat.xml" value="0.5" />
-        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/list_riwayat_produk.xml" value="0.3546875" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/list_riwayat_produk.xml" value="0.75" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/list_transaksi.xml" value="0.5" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/navdrawer_row.xml" value="0.3546875" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/pegawai_kelola.xml" value="0.3546875" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/pegawai_menu.xml" value="0.3546875" />
+        <entry key="..\:/Project/SiKasir/app/src/main/res/layout/pembelian_produk.xml" value="0.3546875" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/pengaturan.xml" value="0.48263642806520196" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/pradashboard_login.xml" value="0.3546875" />
         <entry key="..\:/Project/SiKasir/app/src/main/res/layout/produk_dashboard.xml" value="0.3546875" />

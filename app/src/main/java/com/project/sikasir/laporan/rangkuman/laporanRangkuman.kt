@@ -31,9 +31,7 @@ class laporanRangkuman : AppCompatActivity() {
         tvA3toA3.setOnClickListener { startActivity(Intent(this, laporan::class.java)) }
         tvA3toA3.setOnClickListener { finish() }
         transaksi_detail.setOnClickListener { startActivity(Intent(this, riwayatTransaksi::class.java)) }
-        editTextDate.setOnClickListener {
-            tgl()
-        }
+        editTextDate.setOnClickListener { tgl() }
     }
 
     private fun tgl() {

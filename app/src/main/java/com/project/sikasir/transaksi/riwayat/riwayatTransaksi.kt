@@ -38,18 +38,6 @@ class riwayatTransaksi : AppCompatActivity() {
     private var USERNAME_KEY = "username_key"
     private var username_key = ""
     private var username_key_new = ""
-
-    private var items = arrayListOf(
-        NavigationItemModel(R.drawable.ic_baseline_home_24, "Beranda"),
-        NavigationItemModel(R.drawable.ic_baseline_camera_alt_24, "Kelola Produk"),
-        NavigationItemModel(R.drawable.ic_baseline_receipt_24, "Transaksi"),
-        NavigationItemModel(R.drawable.ic_baseline_receipt_long_24, "Riwayat Transaksi"),
-        NavigationItemModel(R.drawable.ic_baseline_people_24, "Pegawai"),
-        NavigationItemModel(R.drawable.ic_baseline_corporate_fare_24, "Laporan"),
-        NavigationItemModel(R.drawable.ic_baseline_settings_24, "Pengaturan"),
-        NavigationItemModel(R.drawable.ic_baseline_account_circle_24, "Tentang Saya")
-    )
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.transaksi_riwayat)
@@ -141,8 +129,43 @@ class riwayatTransaksi : AppCompatActivity() {
 
 
     private fun updateAdapter(highlightItemPos: Int) {
-        adapter = NavigationRVAdapter(items, highlightItemPos)
-        navigation_rv.adapter = adapter
+        val refPegawai = FirebaseDatabase.getInstance().reference.child("Pegawai").child(username_key_new)
+        refPegawai.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                tv_namaakun.text = dataSnapshot.child("Nama_Pegawai").value.toString()
+                tv_nmjabatan.text = dataSnapshot.child("Nama_Jabatan").value.toString()
+
+                val hak = dataSnapshot.child("Hak_Akses").value.toString()
+                if (hak == "Pegawai") {
+                    val items = arrayListOf(
+                        NavigationItemModel(R.drawable.ic_baseline_home_24, "Beranda"),
+                        NavigationItemModel(R.drawable.ic_baseline_camera_alt_24, "Kelola Produk"),
+                        NavigationItemModel(R.drawable.ic_baseline_receipt_24, "Transaksi"),
+                        NavigationItemModel(R.drawable.ic_baseline_receipt_long_24, "Riwayat Transaksi"),
+                        NavigationItemModel(R.drawable.ic_baseline_settings_24, "Pengaturan"),
+                    )
+                    adapter = NavigationRVAdapter(items, highlightItemPos)
+                    navigation_rv.adapter = adapter
+                } else {
+                    val items = arrayListOf(
+                        NavigationItemModel(R.drawable.ic_baseline_home_24, "Beranda"),
+                        NavigationItemModel(R.drawable.ic_baseline_camera_alt_24, "Kelola Produk"),
+                        NavigationItemModel(R.drawable.ic_baseline_receipt_24, "Transaksi"),
+                        NavigationItemModel(R.drawable.ic_baseline_receipt_long_24, "Riwayat Transaksi"),
+
+                        NavigationItemModel(R.drawable.ic_baseline_people_24, "Pegawai"),
+                        NavigationItemModel(R.drawable.ic_baseline_corporate_fare_24, "Laporan"),
+
+                        NavigationItemModel(R.drawable.ic_baseline_settings_24, "Pengaturan"),
+                        NavigationItemModel(R.drawable.ic_baseline_account_circle_24, "Tentang Saya")
+                    )
+                    adapter = NavigationRVAdapter(items, highlightItemPos)
+                    navigation_rv.adapter = adapter
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
     }
 
     override fun onBackPressed() {

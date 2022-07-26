@@ -5,22 +5,50 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/riwayat_tv_sisa"
-        android:layout_width="0dp"
+        android:id="@+id/riwayat_tv_sisa2"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:fontFamily="@font/amiko"
         android:lineSpacingExtra="10sp"
-        android:text="Sisa Barang"
+        android:text="Barang tersisa"
         android:textAlignment="viewEnd"
         android:textSize="12sp"
         android:typeface="monospace"
         app:layout_constraintBottom_toBottomOf="@+id/riwayat_tv_hargai"
-        app:layout_constraintEnd_toEndOf="@+id/riwayat_tv_terjual"
-        app:layout_constraintStart_toEndOf="@+id/riwayat_tv_hargai"
+        app:layout_constraintEnd_toEndOf="@+id/riwayat_tv_terjual2"
+        app:layout_constraintTop_toTopOf="@+id/riwayat_tv_hargai" />
+
+    <TextView
+        android:id="@+id/riwayat_tv_sisa"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="2dp"
+        android:fontFamily="@font/amiko"
+        android:lineSpacingExtra="10sp"
+        android:text="Sisa Barang"
+        android:textAlignment="viewEnd"
+        android:textColor="#00E676"
+        android:textSize="12sp"
+        android:typeface="monospace"
+        app:layout_constraintBottom_toBottomOf="@+id/riwayat_tv_hargai"
+        app:layout_constraintEnd_toStartOf="@+id/riwayat_tv_sisa2"
         app:layout_constraintTop_toTopOf="@+id/riwayat_tv_hargai" />
 
     <TextView
         android:id="@+id/riwayat_tv_terjual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="2dp"
+        android:fontFamily="@font/amiko_bold"
+        android:text="Terjual"
+        android:textColor="#00B0FF"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/riwayat_tv_sisa"
+        app:layout_constraintEnd_toStartOf="@+id/riwayat_tv_terjual2"
+        app:layout_constraintTop_toTopOf="@+id/riwayat_tv_nama" />
+
+    <TextView
+        android:id="@+id/riwayat_tv_terjual2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -57,7 +85,7 @@
 
     <TextView
         android:id="@+id/riwayat_tv_hargai"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/amiko"
@@ -68,8 +96,6 @@
         android:textSize="12sp"
         android:typeface="monospace"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/riwayat_tv_sisa"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/imageView20"
         app:layout_constraintStart_toStartOf="@+id/riwayat_tv_nama"
         app:layout_constraintTop_toBottomOf="@+id/riwayat_tv_nama" />

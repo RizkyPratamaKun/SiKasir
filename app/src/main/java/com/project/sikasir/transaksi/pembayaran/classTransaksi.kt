@@ -1,14 +1,12 @@
 package com.project.sikasir.transaksi.pembayaran
 
-import com.project.sikasir.transaksi.keranjang.classKeranjang
-
-data class classPembayaran(
-    var tanggal: MutableMap<String, String>,
+data class classTransaksi(
+    var tanggal: Long? = 0,
     var emailPegawai: String? = null,
     var namaPegawai: String? = null,
     var jabatan: String? = null,
     var total: String? = null,
     var diskon: String? = null,
     var total_Modal: String? = null,
-    var produk: ArrayList<classKeranjang> = ArrayList()
+    var detailTransaksi: String? = null
 )

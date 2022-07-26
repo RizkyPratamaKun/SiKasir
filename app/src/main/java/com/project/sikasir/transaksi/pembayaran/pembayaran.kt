@@ -31,7 +31,7 @@ class pembayaran : AppCompatActivity() {
     var kembalian = ""
     val Rp = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
 
-    val waktu = SimpleDateFormat("dd-MMM").format(Date())
+    val waktu = SimpleDateFormat("dd-MM-yyyy").format(Date())
 
     var emailPegawai = ""
     var jabatanPegawai = ""

@@ -12,10 +12,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.project.sikasir.R
 import com.project.sikasir.laporan.kategori.laporanKategori
 import com.project.sikasir.laporan.pegawai.laporanPegawai
+import com.project.sikasir.laporan.produk.laporanProduk
 import com.project.sikasir.laporan.rangkuman.laporanRangkuman
 import com.project.sikasir.laporan.ringkasan.ringkasan
 import com.project.sikasir.menu.aboutMe
@@ -38,18 +42,6 @@ class laporan : AppCompatActivity() {
     private var USERNAME_KEY = "username_key"
     private var username_key = ""
     private var username_key_new = ""
-    private lateinit var reference: DatabaseReference
-
-    private var items = arrayListOf(
-        NavigationItemModel(R.drawable.ic_baseline_home_24, "Beranda"),
-        NavigationItemModel(R.drawable.ic_baseline_camera_alt_24, "Kelola Produk"),
-        NavigationItemModel(R.drawable.ic_baseline_receipt_24, "Transaksi"),
-        NavigationItemModel(R.drawable.ic_baseline_receipt_long_24, "Riwayat Transaksi"),
-        NavigationItemModel(R.drawable.ic_baseline_people_24, "Pegawai"),
-        NavigationItemModel(R.drawable.ic_baseline_corporate_fare_24, "Laporan"),
-        NavigationItemModel(R.drawable.ic_baseline_settings_24, "Pengaturan"),
-        NavigationItemModel(R.drawable.ic_baseline_account_circle_24, "Tentang Saya")
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +49,6 @@ class laporan : AppCompatActivity() {
 
         //Set
         getUsernameLocal()
-        getIdPegawai()
         nav()
 
         //OnClick
@@ -65,8 +56,7 @@ class laporan : AppCompatActivity() {
         cvRingkasanPenjualan.setOnClickListener { startActivity(Intent(applicationContext, ringkasan::class.java)) }
         cvPenjualanPerKategori.setOnClickListener { startActivity(Intent(applicationContext, laporanKategori::class.java)) }
         LaporanPegawai.setOnClickListener { startActivity(Intent(applicationContext, laporanPegawai::class.java)) }
-        laporanProduk.setOnClickListener { startActivity(Intent(applicationContext, laporanProduk::class.java)) }
-
+        clLaporanProduk.setOnClickListener { startActivity(Intent(applicationContext, laporanProduk::class.java)) }
 
     }
 
@@ -157,23 +147,44 @@ class laporan : AppCompatActivity() {
         toggle.syncState()
     }
 
-    private fun getIdPegawai() {
-        reference = FirebaseDatabase.getInstance().reference.child("Pegawai").child(username_key_new)
-        reference.addValueEventListener(object : ValueEventListener {
+    private fun updateAdapter(highlightItemPos: Int) {
+        val refPegawai = FirebaseDatabase.getInstance().reference.child("Pegawai").child(username_key_new)
+        refPegawai.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 tv_namaakun.text = dataSnapshot.child("Nama_Pegawai").value.toString()
                 tv_nmjabatan.text = dataSnapshot.child("Nama_Jabatan").value.toString()
+
+                val hak = dataSnapshot.child("Hak_Akses").value.toString()
+                if (hak == "Pegawai") {
+                    val items = arrayListOf(
+                        NavigationItemModel(R.drawable.ic_baseline_home_24, "Beranda"),
+                        NavigationItemModel(R.drawable.ic_baseline_camera_alt_24, "Kelola Produk"),
+                        NavigationItemModel(R.drawable.ic_baseline_receipt_24, "Transaksi"),
+                        NavigationItemModel(R.drawable.ic_baseline_receipt_long_24, "Riwayat Transaksi"),
+                        NavigationItemModel(R.drawable.ic_baseline_settings_24, "Pengaturan"),
+                    )
+                    adapter = NavigationRVAdapter(items, highlightItemPos)
+                    navigation_rv.adapter = adapter
+                } else {
+                    val items = arrayListOf(
+                        NavigationItemModel(R.drawable.ic_baseline_home_24, "Beranda"),
+                        NavigationItemModel(R.drawable.ic_baseline_camera_alt_24, "Kelola Produk"),
+                        NavigationItemModel(R.drawable.ic_baseline_receipt_24, "Transaksi"),
+                        NavigationItemModel(R.drawable.ic_baseline_receipt_long_24, "Riwayat Transaksi"),
+
+                        NavigationItemModel(R.drawable.ic_baseline_people_24, "Pegawai"),
+                        NavigationItemModel(R.drawable.ic_baseline_corporate_fare_24, "Laporan"),
+
+                        NavigationItemModel(R.drawable.ic_baseline_settings_24, "Pengaturan"),
+                        NavigationItemModel(R.drawable.ic_baseline_account_circle_24, "Tentang Saya")
+                    )
+                    adapter = NavigationRVAdapter(items, highlightItemPos)
+                    navigation_rv.adapter = adapter
+                }
             }
 
-            override fun onCancelled(databaseError: DatabaseError) {
-
-            }
+            override fun onCancelled(databaseError: DatabaseError) {}
         })
-    }
-
-    private fun updateAdapter(highlightItemPos: Int) {
-        adapter = NavigationRVAdapter(items, highlightItemPos)
-        navigation_rv.adapter = adapter
     }
 
     fun getUsernameLocal() {

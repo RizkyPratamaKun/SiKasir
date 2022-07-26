@@ -1,20 +1,31 @@
 package com.project.sikasir.laporan.pegawai
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.project.sikasir.R
+import com.project.sikasir.listview.classPegawai
+import com.project.sikasir.transaksi.pembayaran.classTransaksi
 import kotlinx.android.synthetic.main.laporan_pegawai.*
+import kotlinx.android.synthetic.main.laporan_rangkuman.*
 import java.text.NumberFormat
 import java.util.*
 
 class laporanPegawai : AppCompatActivity() {
-    val pList = ArrayList<classLapPegawai>()
+    val classLapPegawai = ArrayList<classLapPegawai>()
     val Rp = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
+
+    private lateinit var ssTransaksi: DataSnapshot
+    private lateinit var ssPegawai: DataSnapshot
+
+    private var awal = -1L
+    private var akhir = -1L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,47 +33,61 @@ class laporanPegawai : AppCompatActivity() {
 
         tvA3toA4.setOnClickListener { finish() }
 
-        getPegawai()
-        iv_logo_laporan_pegawai.setOnClickListener {
+        getData()
+
+        editTextDate2.setOnClickListener {
+            tgl()
         }
     }
 
-    private fun getPegawai() {
+    private fun tgl() {
+        val datePicker = MaterialDatePicker.Builder.dateRangePicker().build()
+        datePicker.show(supportFragmentManager, "DatePicker")
+
+        editTextDate2.isEnabled = false
+        Toast.makeText(this, "tunggu sebentar", Toast.LENGTH_SHORT).show()
+
+        datePicker.addOnPositiveButtonClickListener {
+            awal = datePicker.selection!!.first
+            akhir = datePicker.selection!!.second
+
+            editTextDate2.setText(datePicker.headerText)
+            editTextDate2.isEnabled = true
+            //Toast.makeText(this, datePicker.headerText, Toast.LENGTH_LONG).show()
+            initAdapter()
+        }
+
+        datePicker.addOnNegativeButtonClickListener {
+            editTextDate.isEnabled = true
+        }
+
+        datePicker.addOnCancelListener {
+            editTextDate.isEnabled = true
+        }
+    }
+
+    private fun getData() {
         rv_peg.layoutManager = GridLayoutManager(this, 1)
         rv_peg.setHasFixedSize(true)
 
-        val refProduk = FirebaseDatabase.getInstance().getReference("Transaksi").orderByValue()
+        val refTransaksi = FirebaseDatabase.getInstance().getReference("Transaksi").orderByValue()
+        val refPegawai = FirebaseDatabase.getInstance().getReference("Pegawai")
 
-        refProduk.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
+        refPegawai.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshotPegawai: DataSnapshot) {
+                if (snapshotPegawai.exists()) {
 
-                if (snapshot.exists()) {
-                    var i = 0
-                    var tot = 0
-                    pList.clear()
-
-                    for (snap in snapshot.children) {
-                        val t = snap.getValue(classLapPegawai::class.java)
-                        //Total Entitas
-                        i += 1
-                        if (snap.child("total").exists()) {
-                            tot += Integer.parseInt(snap.child("total").getValue(String::class.java)!!.replace(",00", "").replace(".", "").replace("Rp ", ""))
+                    refTransaksi.addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(snapshotTransaksi: DataSnapshot) {
+                            if (snapshotTransaksi.exists()) {
+                                ssPegawai = snapshotPegawai
+                                ssTransaksi = snapshotTransaksi
+                                initAdapter()
+                            }
                         }
 
-                        println(snap.child("namaPegawai"))
-                        println(snap.child("namaPegawai"))
-                        println(snap.child("namaPegawai"))
-                        println(snap.child("namaPegawai"))
-                        println(snap.child("namaPegawai"))
-
-                        pList.add(t!!)
-                    }
-                    val totalString = Rp.format(tot)
-                    val total = totalString.substring(0, 2) + " "
-
-                    tv_omset.text = total
-                    tv_jmltransaksi.text = i.toString()
-                    rv_peg.adapter = adapterLaporanPegawai(pList)
+                        override fun onCancelled(error: DatabaseError) {}
+                    })
                 }
             }
 
@@ -70,4 +95,66 @@ class laporanPegawai : AppCompatActivity() {
         })
     }
 
+    private fun initAdapter() {
+        if (this::ssTransaksi.isInitialized && this::ssPegawai.isInitialized) {
+            var jumlahTransaksi = 0
+            var totalTransaksi = 0
+            classLapPegawai.clear()
+
+            if (awal == -1L && akhir == -1L) {
+                for (snapTransaksi in ssTransaksi.children) {
+                    val t = snapTransaksi.getValue(classTransaksi::class.java)
+
+                    jumlahTransaksi += 1
+                    totalTransaksi += t?.total?.replace(",00", "")?.filter { it.isDigit() }?.toInt()!!
+                }
+            } else {
+                for (snapTransaksi in ssTransaksi.children) {
+                    val t = snapTransaksi.getValue(classTransaksi::class.java)
+
+                    if (t?.tanggal!! >= awal && t.tanggal!! <= akhir) {
+                        jumlahTransaksi += 1
+                        totalTransaksi += t.total?.replace(",00", "")?.filter { it.isDigit() }?.toInt()!!
+                    }
+                }
+            }
+            val totalString = Rp.format(totalTransaksi)
+            val total = totalString.substring(0, 2) + " " + totalString.substring(2, totalString.length)
+            tv_omset.text = total
+            tv_jmltransaksi.text = jumlahTransaksi.toString()
+
+            for (snapPegawai in ssPegawai.children) {
+                val p = snapPegawai.getValue(classPegawai::class.java)
+                val lp = classLapPegawai(p?.Nama_Pegawai, p?.Nama_Jabatan)
+
+                if (awal == -1L && akhir == -1L) {
+                    for (snapTransaksi in ssTransaksi.children) {
+                        val t = snapTransaksi.getValue(classTransaksi::class.java)
+
+                        //jika orang sama tambah omset
+                        if (t?.emailPegawai.equals(p?.Email_Pegawai)) {
+                            lp.jumlahTransaksi = lp.jumlahTransaksi?.plus(1)
+                            lp.omset =
+                                t?.total?.replace(",00", "")?.filter { it.isDigit() }?.let {
+                                    lp.omset?.plus(it.toInt())
+                                }
+                        }
+                    }
+                } else {
+                    for (snapTransaksi in ssTransaksi.children) {
+                        val t = snapTransaksi.getValue(classTransaksi::class.java)
+                        if (t?.emailPegawai.equals(p?.Email_Pegawai) && t?.tanggal!! >= awal && t.tanggal!! <= akhir) {
+                            lp.jumlahTransaksi = lp.jumlahTransaksi?.plus(1)
+                            lp.omset =
+                                t.total?.replace(",00", "")?.filter { it.isDigit() }?.let {
+                                    lp.omset?.plus(it.toInt())
+                                }
+                        }
+                    }
+                }
+                classLapPegawai.add(lp)
+            }
+            rv_peg.adapter = adapterLaporanPegawai(classLapPegawai)
+        }
+    }
 }

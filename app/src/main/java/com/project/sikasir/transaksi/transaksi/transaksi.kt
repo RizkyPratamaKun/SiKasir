@@ -50,6 +50,7 @@ class transaksi : AppCompatActivity() {
     val Rp = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
     val keranjangList = ArrayList<classKeranjang>()
     val produkList = ArrayList<classProduk>()
+    private lateinit var adapter: NavigationRVAdapter
 
     private val produkAdapter: adapterSearchTransaksi by lazy {
         adapterSearchTransaksi(produkList)
@@ -135,7 +136,6 @@ class transaksi : AppCompatActivity() {
         setContentView(R.layout.transaksi_menu)
 
         getUsernameLocal()
-        getNamaPegawai()
         getKeranjang()
         getQR()
         getKategori()
@@ -217,18 +217,113 @@ class transaksi : AppCompatActivity() {
     }
 
     private fun updateAdapter(highlightItemPos: Int) {
-        val items = arrayListOf(
-            NavigationItemModel(R.drawable.ic_baseline_home_24, "Beranda"),
-            NavigationItemModel(R.drawable.ic_baseline_camera_alt_24, "Kelola Produk"),
-            NavigationItemModel(R.drawable.ic_baseline_receipt_24, "Transaksi"),
-            NavigationItemModel(R.drawable.ic_baseline_receipt_long_24, "Riwayat Transaksi"),
-            NavigationItemModel(R.drawable.ic_baseline_people_24, "Pegawai"),
-            NavigationItemModel(R.drawable.ic_baseline_corporate_fare_24, "Laporan"),
-            NavigationItemModel(R.drawable.ic_baseline_settings_24, "Pengaturan"),
-            NavigationItemModel(R.drawable.ic_baseline_account_circle_24, "Tentang Saya")
-        )
-        adapterRV = NavigationRVAdapter(items, highlightItemPos)
-        navigation_rv.adapter = adapterRV
+        refPegawai = FirebaseDatabase.getInstance().reference.child("Pegawai").child(username_key_new)
+        refPegawai.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                tv_namaakun.text = dataSnapshot.child("Nama_Pegawai").value.toString()
+                tv_nmjabatan.text = dataSnapshot.child("Nama_Jabatan").value.toString()
+
+                val hak = dataSnapshot.child("Hak_Akses").value.toString()
+                if (hak == "Pegawai") {
+                    val items = arrayListOf(
+                        NavigationItemModel(R.drawable.ic_baseline_home_24, "Beranda"),
+                        NavigationItemModel(R.drawable.ic_baseline_camera_alt_24, "Kelola Produk"),
+                        NavigationItemModel(R.drawable.ic_baseline_receipt_24, "Transaksi"),
+                        NavigationItemModel(R.drawable.ic_baseline_receipt_long_24, "Riwayat Transaksi"),
+                        NavigationItemModel(R.drawable.ic_baseline_settings_24, "Pengaturan"),
+                    )
+                    adapter = NavigationRVAdapter(items, highlightItemPos)
+                    navigation_rv.adapter = adapter
+                    navigation_rv.addOnItemTouchListener(RecyclerTouchListener(this@transaksi, object : ClickListener {
+                        override fun onClick(view: View, position: Int) {
+                            when (position) {
+                                0 -> {
+                                    startActivity(Intent(this@transaksi, dashboard::class.java))
+                                    finish()
+                                }
+                                1 -> {
+                                    startActivity(Intent(this@transaksi, viewPagerMenu::class.java))
+                                }
+                                2 -> {
+                                    startActivity(Intent(this@transaksi, transaksi::class.java))
+                                    finish()
+                                }
+                                3 -> {
+                                    startActivity(Intent(this@transaksi, riwayatTransaksi::class.java))
+                                    finish()
+                                }
+                                4 -> {
+                                    startActivity(Intent(this@transaksi, pengaturan::class.java))
+                                    finish()
+                                }
+                            }
+                            if (position != 6 && position != 4) {
+                                updateAdapter(position)
+                            }
+                            Handler().postDelayed({
+                            }, 200)
+                        }
+                    }))
+                } else {
+                    val items = arrayListOf(
+                        NavigationItemModel(R.drawable.ic_baseline_home_24, "Beranda"),
+                        NavigationItemModel(R.drawable.ic_baseline_camera_alt_24, "Kelola Produk"),
+                        NavigationItemModel(R.drawable.ic_baseline_receipt_24, "Transaksi"),
+                        NavigationItemModel(R.drawable.ic_baseline_receipt_long_24, "Riwayat Transaksi"),
+
+                        NavigationItemModel(R.drawable.ic_baseline_people_24, "Pegawai"),
+                        NavigationItemModel(R.drawable.ic_baseline_corporate_fare_24, "Laporan"),
+
+                        NavigationItemModel(R.drawable.ic_baseline_settings_24, "Pengaturan"),
+                        NavigationItemModel(R.drawable.ic_baseline_account_circle_24, "Tentang Saya")
+                    )
+                    adapter = NavigationRVAdapter(items, highlightItemPos)
+                    navigation_rv.adapter = adapter
+                    navigation_rv.addOnItemTouchListener(RecyclerTouchListener(this@transaksi, object : ClickListener {
+                        override fun onClick(view: View, position: Int) {
+                            when (position) {
+                                0 -> {
+                                    startActivity(Intent(this@transaksi, dashboard::class.java))
+                                    finish()
+                                }
+                                1 -> {
+                                    startActivity(Intent(this@transaksi, viewPagerMenu::class.java))
+                                }
+                                2 -> {
+                                    startActivity(Intent(this@transaksi, transaksi::class.java))
+                                    finish()
+                                }
+                                3 -> {
+                                    startActivity(Intent(this@transaksi, riwayatTransaksi::class.java))
+                                    finish()
+                                }
+                                4 -> {
+                                    startActivity(Intent(this@transaksi, pegawai::class.java))
+                                }
+                                5 -> {
+                                    startActivity(Intent(this@transaksi, laporan::class.java))
+                                    finish()
+                                }
+                                6 -> {
+                                    startActivity(Intent(this@transaksi, pengaturan::class.java))
+                                    finish()
+                                }
+                                7 -> {
+                                    startActivity(Intent(this@transaksi, aboutMe::class.java))
+                                }
+                            }
+                            if (position != 6 && position != 4) {
+                                updateAdapter(position)
+                            }
+                            Handler().postDelayed({
+                            }, 200)
+                        }
+                    }))
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
     }
 
     override fun onBackPressed() {
@@ -449,18 +544,6 @@ class transaksi : AppCompatActivity() {
         })
     }
 
-    private fun getNamaPegawai() {
-        refPegawai = FirebaseDatabase.getInstance().reference.child("Pegawai").child(username_key_new)
-        refPegawai.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                tv_namaakun.text = dataSnapshot.child("Nama_Pegawai").value.toString()
-                tv_nmjabatan.text = dataSnapshot.child("Nama_Jabatan").value.toString()
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }
-
     private fun navigation_rv() {
         navigation_layout.visibility = View.VISIBLE
         drawerLayout = findViewById(R.id.drawer_layout)
@@ -470,46 +553,6 @@ class transaksi : AppCompatActivity() {
         navigation_header_img.setImageResource(R.drawable.logoaida)
         tv_titleitems.text = "Transaksi"
 
-        navigation_rv.addOnItemTouchListener(RecyclerTouchListener(this, object : ClickListener {
-            override fun onClick(view: View, position: Int) {
-                when (position) {
-                    0 -> {
-                        startActivity(Intent(this@transaksi, dashboard::class.java))
-                        finish()
-                    }
-                    1 -> {
-                        startActivity(Intent(this@transaksi, viewPagerMenu::class.java))
-                    }
-                    2 -> {
-                        startActivity(Intent(this@transaksi, transaksi::class.java))
-                        finish()
-                    }
-                    3 -> {
-                        startActivity(Intent(this@transaksi, riwayatTransaksi::class.java))
-                        finish()
-                    }
-                    4 -> {
-                        startActivity(Intent(this@transaksi, pegawai::class.java))
-                    }
-                    5 -> {
-                        startActivity(Intent(this@transaksi, laporan::class.java))
-                        finish()
-                    }
-                    6 -> {
-                        startActivity(Intent(this@transaksi, pengaturan::class.java))
-                        finish()
-                    }
-                    7 -> {
-                        startActivity(Intent(this@transaksi, aboutMe::class.java))
-                    }
-                }
-                if (position != 6 && position != 4) {
-                    updateAdapter(position)
-                }
-                Handler().postDelayed({
-                }, 200)
-            }
-        }))
         updateAdapter(0)
 
         val toggle: ActionBarDrawerToggle =

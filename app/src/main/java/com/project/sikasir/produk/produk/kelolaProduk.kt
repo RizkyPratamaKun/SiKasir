@@ -17,6 +17,7 @@ import com.project.sikasir.R
 import com.project.sikasir.produk.scanBarcodeTambahProduk
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.produk_kelola.*
+import java.util.*
 
 
 class kelolaProduk : AppCompatActivity() {
@@ -24,6 +25,7 @@ class kelolaProduk : AppCompatActivity() {
     private lateinit var storage: StorageReference
     private var PHOTO_MAX: Int = 1
     private lateinit var photo_location: Uri
+    val kode = UUID.randomUUID().toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -159,7 +161,7 @@ class kelolaProduk : AppCompatActivity() {
                         if (stok.isEmpty()) {
                             edStok.error = "Stok Harus diisi"
                         } else {
-                            reference = FirebaseDatabase.getInstance().reference.child("Produk").child(namaProduk)
+                            reference = FirebaseDatabase.getInstance().reference.child("Produk").child(kode)
                             reference.addListenerForSingleValueEvent(object : ValueEventListener {
                                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                                     if (!dataSnapshot.exists()) {
@@ -167,6 +169,7 @@ class kelolaProduk : AppCompatActivity() {
                                         if (select_photo.alpha == 0f) {
                                             uploadPhoto()
                                         }
+                                        dataSnapshot.ref.child("kode_Produk").setValue(kode)
                                         dataSnapshot.ref.child("nama_Produk").setValue(namaProduk)
                                         dataSnapshot.ref.child("harga_Jual").setValue(hargaJual)
                                         dataSnapshot.ref.child("merek").setValue(merek)
