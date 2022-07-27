@@ -14,13 +14,9 @@ import com.project.sikasir.produk.produk.classProduk
 import com.project.sikasir.transaksi.pembayaran.classDetailTransaksi
 import com.project.sikasir.transaksi.pembayaran.classTransaksi
 import kotlinx.android.synthetic.main.laporan_produk.*
-import java.text.NumberFormat
-import java.util.*
 
 class laporanProduk : AppCompatActivity() {
     val classLapProduk = ArrayList<classLapProduk>()
-    val Rp = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
-
     private lateinit var ssTransaksi: DataSnapshot
     private lateinit var ssDetail: DataSnapshot
     private lateinit var ssProduk: DataSnapshot

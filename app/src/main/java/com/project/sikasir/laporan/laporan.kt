@@ -19,6 +19,7 @@ import com.google.firebase.database.ValueEventListener
 import com.project.sikasir.R
 import com.project.sikasir.laporan.kategori.laporanKategori
 import com.project.sikasir.laporan.pegawai.laporanPegawai
+import com.project.sikasir.laporan.pembelian.laporanPembelian
 import com.project.sikasir.laporan.produk.laporanProduk
 import com.project.sikasir.laporan.rangkuman.laporanRangkuman
 import com.project.sikasir.laporan.ringkasan.ringkasan
@@ -57,6 +58,7 @@ class laporan : AppCompatActivity() {
         cvPenjualanPerKategori.setOnClickListener { startActivity(Intent(applicationContext, laporanKategori::class.java)) }
         LaporanPegawai.setOnClickListener { startActivity(Intent(applicationContext, laporanPegawai::class.java)) }
         clLaporanProduk.setOnClickListener { startActivity(Intent(applicationContext, laporanProduk::class.java)) }
+        clLaporanPembelian.setOnClickListener { startActivity(Intent(applicationContext, laporanPembelian::class.java)) }
 
     }
 

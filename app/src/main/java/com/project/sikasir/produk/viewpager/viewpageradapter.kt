@@ -4,6 +4,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.project.sikasir.produk.pembelian.infoPembelian
+import com.project.sikasir.produk.pembelian.pembelian
 import com.project.sikasir.produk.produk.produk
 
 /**
@@ -15,13 +17,15 @@ class viewpageradapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
 
     override fun getItemCount(): Int {
         //2 jumlah tabs
-        return 1
+        return 3
     }
 
     override fun createFragment(position: Int): Fragment {
         when (position) {
             0 -> return produk()
- /*           1 -> return menuKategori()*/
+            1 -> return pembelian()
+            2 -> return infoPembelian()
+            /*           1 -> return menuKategori()*/
         }
         return produk()
     }

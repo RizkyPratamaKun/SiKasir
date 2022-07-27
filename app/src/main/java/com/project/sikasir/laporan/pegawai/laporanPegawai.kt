@@ -134,10 +134,7 @@ class laporanPegawai : AppCompatActivity() {
                         //jika orang sama tambah omset
                         if (t?.emailPegawai.equals(p?.Email_Pegawai)) {
                             lp.jumlahTransaksi = lp.jumlahTransaksi?.plus(1)
-                            lp.omset =
-                                t?.total?.replace(",00", "")?.filter { it.isDigit() }?.let {
-                                    lp.omset?.plus(it.toInt())
-                                }
+                            lp.omset = t?.total?.replace(",00", "")?.filter { it.isDigit() }?.let { lp.omset?.plus(it.toInt()) }
                         }
                     }
                 } else {

@@ -19,6 +19,12 @@ class viewPagerMenu : AppCompatActivity() {
                 0 -> {
                     tab.text = "Kelola Produk"
                 }
+                1 -> {
+                    tab.text = "Pembelian Produk"
+                }
+                2 -> {
+                    tab.text = "Informasi Pembelian"
+                }
                 /*1 -> {
                     tab.text = "Kelola Kategori"
                 }*/
